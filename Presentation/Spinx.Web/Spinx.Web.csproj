@@ -4020,7 +4020,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>56060</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/quiztest</IISUrl>
+          <IISUrl>http://localhost/spinxquiz</IISUrl>
           <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
           <IISAppRootUrl>http://localhost/eslcafe</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
