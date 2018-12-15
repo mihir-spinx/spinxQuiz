@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D2035389-BE34-46B0-934A-ECFBB27EF651}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Spinx.Data</RootNamespace>
+    <AssemblyName>Spinx.Data</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="HiQPdf, Version=10.17.0.0, Culture=neutral, PublicKeyToken=acd8b62594985b24, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\hiqpdf.10.17.0\lib\net40\HiQPdf.dll</HintPath>
+    </Reference>
+    <Reference Include="Omu.ValueInjecter, Version=3.1.1.0, Culture=neutral, PublicKeyToken=c7694541b0ac80e4, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ValueInjecter.3.1.1.5\lib\net40\Omu.ValueInjecter.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Linq.Dynamic, Version=1.0.6132.35681, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Linq.Dynamic.1.0.7\lib\net40\System.Linq.Dynamic.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Z.EntityFramework.Plus.EF6, Version=1.7.15.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Z.EntityFramework.Plus.EF6.1.7.15\lib\net45\Z.EntityFramework.Plus.EF6.dll</HintPath>
+    </Reference>
+    <Reference Include="Z.Expressions.Eval, Version=2.4.19.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Z.Expressions.Eval.2.4.19\lib\net45\Z.Expressions.Eval.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Configuration\AdminRolePermissions\AdminPermissionConfiguration.cs" />
+    <Compile Include="Configuration\AdminRolePermissions\AdminRoleConfiguration.cs" />
+    <Compile Include="Configuration\AdminUsers\AdminUserConfiguration.cs" />
+    <Compile Include="Configuration\ContactUsInquiries\ContactUsInquiryConfiguration.cs" />
+    <Compile Include="Configuration\Members\MemberConfiguration.cs" />
+    <Compile Include="Configuration\Members\MemberQuizAnswerConfiguration.cs" />
+    <Compile Include="Configuration\Members\MemberResultConfiguration.cs" />
+    <Compile Include="Configuration\Quizs\QuizAnswerConfiguration.cs" />
+    <Compile Include="Configuration\Quizs\QuizQuestionConfiguration.cs" />
+    <Compile Include="Configuration\Quizs\QuizConfiguration.cs" />
+    <Compile Include="Configuration\Quizs\QuizCategoryConfiguration.cs" />
+    <Compile Include="Configuration\EmailTemplates\EmailTemplateConfiguration.cs" />
+    <Compile Include="Configuration\Pages\PageConfiguration.cs" />
+    <Compile Include="Configuration\SeoPages\SeoPageConfiguration.cs" />
+    <Compile Include="Infrastructure\DatabaseFactory.cs" />
+    <Compile Include="Infrastructure\Disposable.cs" />
+    <Compile Include="Infrastructure\FormattedDbEntityValidationException.cs" />
+    <Compile Include="Infrastructure\IDatabaseFactory.cs" />
+    <Compile Include="Infrastructure\INestedSet.cs" />
+    <Compile Include="Infrastructure\IRepository.cs" />
+    <Compile Include="Infrastructure\IUnitOfWork.cs" />
+    <Compile Include="Infrastructure\NestedSet.cs" />
+    <Compile Include="Infrastructure\Repository.cs" />
+    <Compile Include="Infrastructure\UnitOfWork.cs" />
+    <Compile Include="Migrations\201812120944123_Init.cs" />
+    <Compile Include="Migrations\201812120944123_Init.Designer.cs">
+      <DependentUpon>201812120944123_Init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812131344534_UpdateMeberTable.cs" />
+    <Compile Include="Migrations\201812131344534_UpdateMeberTable.Designer.cs">
+      <DependentUpon>201812131344534_UpdateMeberTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812151755290_CreateMemberQuizAnswerAndMemberResultTable.cs" />
+    <Compile Include="Migrations\201812151755290_CreateMemberQuizAnswerAndMemberResultTable.Designer.cs">
+      <DependentUpon>201812151755290_CreateMemberQuizAnswerAndMemberResultTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Migrations\SeedData\AdminUsersSeed.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\AdminRolePermissions\AdminPermissionRepository.cs" />
+    <Compile Include="Repository\AdminRolePermissions\AdminRoleRepository.cs" />
+    <Compile Include="Repository\AdminUsers\AdminUserRepository.cs" />
+    <Compile Include="Repository\ContactUsInquiries\ContactUsInquiryRepository.cs" />
+    <Compile Include="Repository\EmailTemplates\EmailTemplateRepository.cs" />
+    <Compile Include="Repository\Member\MemberRepository.cs" />
+    <Compile Include="Repository\Pages\PageRepository.cs" />
+    <Compile Include="Repository\Quizs\QuizAnswerRepository.cs" />
+    <Compile Include="Repository\Quizs\QuizQuestionRepository.cs" />
+    <Compile Include="Repository\Quizs\QuizRepository.cs" />
+    <Compile Include="Repository\Quizs\QuizCategoryRepository.cs" />
+    <Compile Include="Repository\SeoPages\SeoPageRepository.cs" />
+    <Compile Include="SqlContext.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Spinx.Core\Spinx.Core.csproj">
+      <Project>{53E36D79-95A3-43DF-996A-26E6F89A0602}</Project>
+      <Name>Spinx.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Spinx.Domain\Spinx.Domain.csproj">
+      <Project>{0e2e40eb-e5f1-4c6b-83a2-0de498ed73b9}</Project>
+      <Name>Spinx.Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201812120944123_Init.resx">
+      <DependentUpon>201812120944123_Init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812131344534_UpdateMeberTable.resx">
+      <DependentUpon>201812131344534_UpdateMeberTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812151755290_CreateMemberQuizAnswerAndMemberResultTable.resx">
+      <DependentUpon>201812151755290_CreateMemberQuizAnswerAndMemberResultTable.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

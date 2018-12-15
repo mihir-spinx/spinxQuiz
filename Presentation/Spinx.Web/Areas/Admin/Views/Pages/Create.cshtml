@@ -1,0 +1,46 @@
+﻿<layout-header icon="cog" breadcrumb="['Content', 'Pages']">
+    <button-back url="admin/pages"></button-back>
+</layout-header>
+<section class="well" ng-controller="ctrlForm">
+    <form class="form-horizontal" autocomplete="off" novalidate>
+        <fieldset>
+            <legend>Page Information</legend>
+
+            <message message="form.message" type="form.messageType" model="form"></message>
+            <textbox name="title" maxlength="100" required model="form"></textbox>
+            <textbox-slug name="slug" maxlength="100" required model="form" from="title" click="generateSlug(form.entity.title)"></textbox-slug>
+            <ckeditor name="content" model="form"></ckeditor>
+            <status model="form"></status>
+            
+            <legend>SEO</legend>
+            <textbox name="metaTitle" maxlength="100" model="form">
+                <p class="note ng-binding full-linen">
+                    <strong> Note: </strong>
+                    Google will accept only 60 characters from this meta title.
+                </p>
+            </textbox>
+            <textbox-area name="metaDescription" maxlength="300" model="form">
+                <p class="note ng-binding full-linen">
+                    <strong> Note: </strong>
+                    Google will accept only 300 characters from this meta description.
+                </p>
+            </textbox-area>
+        </fieldset>
+        <form-actions>
+            <save click="form.submit()"></save>
+            <save-continue click="form.submitAndContinue()"></save-continue>
+        </form-actions>
+    </form>
+</section>
+@section scripts{
+    <script>
+        myApp.controller('ctrlForm', ['$scope', '$http', 'spinxForm', 'Slug', function($scope, $http, spinxForm, Slug) {
+            var apiUrl = 'api/admin/pages';
+            var url = 'admin/pages';
+            $scope.form = new spinxForm(url, apiUrl);
+            $scope.generateSlug = function(title) {
+                $scope.form.entity.slug = Slug.slugify(title);
+            };
+        }]);
+    </script>
+}

@@ -1,0 +1,9 @@
+﻿<th class="hasinput" style="vertical-align: middle;">
+    <input type="text"
+           class="form-control"
+           placeholder="{{ label || name | humanize }}"
+           ng-model="model.filters[name]"          
+           ng-blur="model.load(true)" 
+           enter-Key="model.load(true)" 
+           autocomplete="off">
+</th>

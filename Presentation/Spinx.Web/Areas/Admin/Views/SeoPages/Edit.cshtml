@@ -1,0 +1,60 @@
+﻿<layout-header icon="pencil-square-o" breadcrumb="['Content', 'SEO Pages']">
+    <button-back url="admin/seopages"></button-back>
+</layout-header>
+
+<section class="" ng-controller="ctrlForm">    
+    <div class="clearfix"></div>
+    <section class="well">
+        <form class="form-horizontal" autocomplete="off" novalidate>
+            <fieldset>
+                <legend>Basic Information</legend>
+                <message message="form.message" type="form.messageType" model="form"></message>
+                <textbox name="name" maxlength="100" required model="form"></textbox>
+
+                <legend> SEO </legend>
+                <textbox name="metaTitle" maxlength="100" model="form"></textbox>
+                <p class="note ng-binding full-line">
+                    <strong> Note: </strong>
+                    Google will accept only 60 characters from this meta title.
+                </p>
+                <textbox-area name="metaDescription" maxlength="300" model="form"></textbox-area>
+                <p class="note ng-binding full-line">
+                    <strong> Note: </strong>
+                    Google will accept only 300 characters from this meta description.
+                </p>
+                
+            </fieldset>
+            <form-actions>
+                <save click="form.submit()"></save>
+            </form-actions>
+        </form>
+    </section>
+</section>
+
+@section scripts{
+    <script>
+        var Id = @Url.RequestContext.RouteData.Values["Id"];       
+        myApp.controller('ctrlForm',
+            [
+                '$scope', '$http', 'spinxForm', function($scope, $http, spinxForm) {
+                    $scope.Id = Id;
+                    var apiUrl = 'api/admin/seopages/'+ Id ;
+                    var url = 'admin/seopages';
+                    $scope.form = new spinxForm(url, apiUrl, $scope.Id);
+                    var defaultEntity = $scope.form.entity;
+                    var loadEntity = function() {
+                        $http.get(apiUrl).then(function(resp) {
+                                $scope.form.entity = resp.data;
+                            },
+                            function(resp) {
+                                if (resp.status === 404) {
+                                    $scope.form.entity = defaultEntity;
+                                    $scope.form.entity.isActive = true;
+                                }
+                            });
+                    };
+                    loadEntity();                  
+                }
+            ]);
+    </script>
+}

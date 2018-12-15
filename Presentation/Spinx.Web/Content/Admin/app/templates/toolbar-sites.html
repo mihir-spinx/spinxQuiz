@@ -1,0 +1,10 @@
+﻿<div class="dt-toolbar" style="background-color: #dedede !important;margin: 0;padding: 20px 10px 10px;">
+    <label class="mgr-5">
+        <span class="paging-view-text" style="color: #878787;">Site &nbsp;</span>
+        <label class="select">
+            <select class="form-control input-sm" autocomplete="off" ng-model="model.filters.siteId" ng-change="change()">
+                <option ng-repeat="site in sites" ng-value="site.id" ng-bind="site.name"></option>
+            </select>
+        </label>
+    </label>
+</div>

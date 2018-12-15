@@ -1,0 +1,26 @@
+﻿<div class="form-group" ng-class="$ctrl.model.errors[$ctrl.name] ? 'has-error' : ''">
+    <label class="col-md-2 control-label">{{$ctrl.name | humanize}} <span class="text-danger" ng-show="$ctrl.required != undefined">*</span></label>
+    <div class="col-md-6">
+        <div class="input-group">
+            <input class="form-control"
+                   placeholder="{{$ctrl.name | humanize}}"
+                   type="{{$ctrl.type || 'text'}}"
+                   ng-attr-maxlength="{{$ctrl.maxlength || undefined}}"
+                   ng-model="$ctrl.model.entity[$ctrl.name]"
+                   data-date
+                   data-dateformat="mm/dd/yy">
+            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+        </div>
+        <i class="form-control-feedback glyphicon glyphicon-remove" ng-show="$ctrl.model.errors[$ctrl.name]"></i>
+        <small class="help-block" ng-show="$ctrl.model.errors[$ctrl.name]" ng-bind="$ctrl.model.errors[$ctrl.name]"></small>
+        <ng-transclude />
+    </div>
+</div>
+<script>
+    $('[data-date]').datepicker({
+        prevText: '<i class="fa fa-chevron-left"></i>',
+        nextText: '<i class="fa fa-chevron-right"></i>',
+        changeMonth: true,
+        changeYear: true
+    });
+</script>

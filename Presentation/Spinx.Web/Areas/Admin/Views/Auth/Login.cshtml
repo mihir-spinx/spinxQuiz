@@ -1,0 +1,44 @@
+﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/_AuthLayout.cshtml";
+}
+<form class="smart-form client-form" method="POST" data-ajax="true">
+    <header>Sign In</header>
+
+    <fieldset>
+
+        <div data-msg></div>
+
+        @Html.AntiForgeryToken()
+
+        <section>
+            <label for="Email" class="label">Email</label>
+            <label class="input">
+                <i class="icon-append fa fa-user"></i>
+                <input type="email" id="Email" name="Email" />
+            </label>
+        </section>
+
+        <section>
+            <label for="Password" class="label">Password</label>
+            <label class="input">
+                <i class="icon-append fa fa-lock"></i>
+                <input type="password" id="Password" name="Password" />
+            </label>
+            <div class="note">
+                <a href="@Url.Action("ForgotPassword")">Forgot your password?</a>
+            </div>
+        </section>
+
+        <section>
+            <label class="checkbox">
+                <input type="checkbox" name="Remember" value="true">
+                <i></i>Stay signed in
+            </label>
+        </section>
+
+    </fieldset>
+
+    <footer>
+        <button type="submit" class="btn btn-primary">Sign In</button>
+    </footer>
+</form>

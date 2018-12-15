@@ -1,0 +1,73 @@
+﻿<layout-header icon="cog" breadcrumb="['System', 'Permission', 'Admin Users']">
+    <button-add url="admin/adminusers/create">Admin User</button-add>
+</layout-header>
+
+<div ng-controller="ctrlList" ng-init="list.filters.sortColumn='createdAt';list.filters.sortType='desc'">
+    <grid>
+
+        <message message="list.message" type="list.messageType"></message>
+
+        <toolbar model="list"></toolbar>
+
+        <table class="table table-bordered table-striped dataTable">
+            <thead>
+            <tr>
+                <th></th>
+                <th th-search name="name" model="list"></th>
+                <th th-search name="email" model="list"></th>
+                <th th-search-select name="roleId" model="list" data="roles" label="role"></th>
+                <th th-search-status model="list"></th>
+                <th th-search-date name="lastLoginAt" model="list"></th>
+                <th th-search-date name="createdAt" model="list"></th>
+                <th></th>
+            </tr>
+            <tr>
+                <th th-sort-select-all model="list"></th>
+                <th th-sort width="200" name="name" model="list">Name</th>
+                <th th-sort name="email" model="list">Email</th>
+                <th th-sort width="200" align="center">Role</th>
+                <th th-sort-status model="list"></th>
+                <th th-sort-date name="lastLoginAt" model="list">Last Login</th>
+                <th th-sort-date name="createdAt" model="list">Created</th>
+                <th th-sort-action></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in list.data">
+                <td cell-checkbox-id model="list" item="item"></td>
+                <td cell gravatar="item.email"> &nbsp;{{ item.name }}</td>
+                <td>{{ item.email }}</td>
+                <td cell align="center">
+                    <span class="label label-info" ng-repeat="role in item.adminRoles">{{ role.name }}</span>
+                </td>
+                <td cell-status item="item"></td>
+                <td cell-date item="item.lastLoginAt"></td>
+                <td cell-date item="item.createdAt"></td>
+                <td cell align="center">
+                    <action-edit url="admin/adminusers/edit/{{ item.id }}" model="list" item="item"></action-edit>
+                    <action-delete click="list.deleteRow(item.id)" model="list" item="item"></action-delete>
+                </td>
+            </tr>
+
+            <tr row-no-records model="list"></tr>
+            </tbody>
+        </table>
+
+    </grid>
+</div>
+
+@section scripts {
+    <script>
+        myApp.controller("ctrlList", ["$scope", "$http", "spinxList", function ($scope, $http, spinxList) {
+
+            var searchApiUrl = 'api/admin/adminusers';
+            // $scope.list.actions = ['Active'];
+
+            $scope.list = new spinxList(searchApiUrl);
+
+            $http.get(window.virtualDir + "api/list/adminroles").then(function (resp) {
+                $scope.roles = resp.data;
+            });
+        }]);
+    </script>
+}

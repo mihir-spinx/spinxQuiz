@@ -1,0 +1,38 @@
+﻿<div class="dt-toolbar">
+    <div class="col-xs-12 col-sm-6"  >
+        <label class="mgr-5" ng-show="model.actions.length > 0">
+            <span class="paging-view-text">Actions&nbsp;</span>
+            <label class="select">
+                <select class="form-control input-sm" autocomplete="off" ng-model="model.action">
+                    <option value="">[Actions]</option>
+                    <option ng-repeat="item in model.actions" ng-value="item | lowercase">{{ item }}</option>
+                </select>
+            </label>
+            <button class="btn btn-primary btn-sm mgb-3" ng-click="model.fireAction()" ng-disabled="model.action == '' || model.ids.length == 0">Submit</button>
+        </label>
+    </div>
+    <div class="col-sm-6 col-xs-12 text-right">
+        <label class="mgr-5 mgt-5 mgb-15">
+            <span class="paging-view-text">
+                Results / <span class="text-primary">{{ model.paging.total }}</span> Items&nbsp;
+                View
+            </span>
+        </label>
+
+        <label class="mgr-5">
+            <select name="dt_basic_length" class="form-control input-sm mgt-1" ng-model="model.filters.size" ng-change="model.load()">
+                <option ng-repeat="option in model.pageSizes" ng-value="{{option}}">{{option}} Items</option>
+            </select>
+        </label>
+
+        <ul class="pagination pagination-sm mg-0 pagination-list">
+            <li ng-class="model.paging.page == 1 ? 'disabled' : ''">
+                <a href="javascript:;" ng-click="model.previousPage()"><i class="fa fa-chevron-left"></i></a>
+            </li>
+            <li class="pagination-info"><span>Page {{ model.paging.page }} of {{ model.paging.lastPage }}</span></li>
+            <li ng-class="model.paging.lastPage ==  model.paging.page ? 'disabled' : ''">
+                <a href="javascript:;" ng-click="model.nextPage()"><i class="fa fa-chevron-right"></i></a>
+            </li>
+        </ul>
+    </div>
+</div>

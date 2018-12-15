@@ -1,0 +1,70 @@
+﻿<layout-header icon="cog" breadcrumb="['System', 'Email Templates']">
+    <button-back url="admin/emailtemplates"></button-back>
+</layout-header>
+
+<section class="" ng-controller="ctrlForm">    
+
+    <div class="clearfix"></div>
+
+    <section class="well">
+        <form class="form-horizontal" autocomplete="off" novalidate>
+            <fieldset>
+                <legend>Basic Information</legend>
+
+                <message message="form.message" type="form.messageType" model="form"></message>
+
+                <textbox name="name" maxlength="100" required model="form"></textbox>
+
+                <textbox name="slug" maxlength="100" required model="form">
+                    <p class="note"><strong>Note: </strong>Please enter slug. Slug should be lowercase and should not have any empty space. Don't change in slug with requirement.</p>
+                </textbox>
+
+                <textbox name="subject" maxlength="100" required model="form"></textbox>
+
+                <ckeditor name="content" model="form"></ckeditor>
+
+            </fieldset>
+            
+            <form-actions>
+                <save click="form.submit()"></save>
+                <save-continue click="form.submitAndContinue()"></save-continue>
+            </form-actions>
+        </form>
+    </section>
+</section>
+
+@section scripts{
+    <script>
+        var Id = @Url.RequestContext.RouteData.Values["Id"];       
+
+        myApp.controller('ctrlForm',
+            [
+                '$scope', '$http', 'spinxForm', function($scope, $http, spinxForm) {
+
+                    $scope.Id = Id;
+
+                    var apiUrl = 'api/admin/emailtemplates/'+ Id ;
+                    var url = 'admin/emailtemplates';
+                    $scope.form = new spinxForm(url, apiUrl, $scope.Id);
+                    var defaultEntity = $scope.form.entity;
+                 
+
+                    var loadEntity = function() {
+                        $http.get(apiUrl).then(function(resp) {
+                                $scope.form.entity = resp.data;
+                            },
+                            function(resp) {
+                                if (resp.status === 404) {
+
+                                    $scope.form.entity = defaultEntity;
+
+                                    $scope.form.entity.isActive = true;
+                                }
+                            });
+                    };
+                    loadEntity();                  
+
+                }
+            ]);
+    </script>
+}

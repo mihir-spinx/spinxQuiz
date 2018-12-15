@@ -1,0 +1,42 @@
+﻿@using Spinx.Web.Infrastructure
+
+<script>
+    document.body.classList.add("cmn-static-page");
+</script>
+<!-- sitemap -->
+<section class="sitemap">
+    <div class="clearfix fix-wrap">
+        <h1>Sitemap</h1>
+        <div class="left-link" id="SitemapGrid">
+
+            <div class="box">
+                <h2>Resources</h2>
+                <ul>
+                    <li><a href="@Url.QuizzesUrl()">Quiz</a></li>
+                </ul>
+            </div>
+
+        </div>
+        <div class="right-banner">
+            <img src="~/Content/images/sitemap-image.jpg" alt="">
+        </div>
+    </div>
+</section>
+@section scripts
+{
+    <script src="Content/js/jquery.masonry.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            /*** For News Grid Item ***/
+            $(window).on('load', function () {
+                $('#SitemapGrid').masonry({
+                    itemSelector: '.box',
+                    gutter: 29,
+                    percentPosition: true,
+                    isAnimated: false,
+                    transitionDuration: 0
+                });
+            });
+        });
+    </script>
+}

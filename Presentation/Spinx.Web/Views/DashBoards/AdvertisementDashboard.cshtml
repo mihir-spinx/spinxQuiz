@@ -1,0 +1,125 @@
+﻿@using Spinx.Web.Core.Authentication;
+@using Spinx.Domain.Advertisements;
+
+@{
+    ViewBag.Title = "Advertisement Post Dashboard";
+}
+<script>
+    document.body.classList.add("cmn-static-page");
+</script>
+
+<!-- Job Board: Page Banner Title -->
+<section class="cmn-banner dashboard-title">
+    <div class="banner-title">
+        <h1><img src="content/images/person-icon.svg" alt="@UserAuth.User.Name" /> @UserAuth.User.Name</h1>
+    </div>
+</section>
+
+<!-- Job Board: Two column section  -->
+@Html.Partial("_nav")
+
+<section class="dashboard-wrap" ng-controller="ctrlList" ng-cloak>
+    <div class="clearfix fix-wrap">
+        <div class="jobs-filter">
+            <h3 ng-show="{{list.count > 0}}">You currently have <strong>2</strong> active ads</h3>
+            <div class="f-right"> <a href="advertisements/" class="btn-primary">Purchase a Banner</a> </div>
+        </div>
+        <div class="data-table">
+            <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                <thead>
+                    <tr>
+                        <th width="55">Code</th>
+                        <th>Type</th>
+                        <th width="210">Page</th>
+                        <th width="140">Expiration Date</th>
+                        <th width="115">Status</th>
+                        <th width="140">Edit</th>
+                    </tr>
+                </thead>
+                <tbody ng-show="rcount>0" ng-repeat="item in list">
+                    <tr>
+                        <td>{{item.code}} </td>
+                        <td>{{item.typeName}}</td>
+                        <td><a href="javascript:;">{{item.pagename}}</a> </td>
+                        <td>{{item.endDate  | date : 'MMM dd, yyyy'}}</td>
+                        <td>{{item.advertisementCurrentStatus}}</td>
+                        <td>
+                            <a href="javascript:;" ng-show="item.isBooked"   title="Available">Not Available</a>
+                            <a ng-href="postadvertisements/edit/{{item.code}}" ng-show="!item.isBooked && item.advertisementCurrentStatus === 'Pending'" title="Edit">Edit</a>
+                            <a ng-href="postadvertisements/reeditupdate/{{item.code}}" ng-show="!item.isBooked && item.child>0 && item.advertisementCurrentStatus === 'Live'" title="Edit">Edit</a>
+                            <a ng-href="postadvertisements/reedit/{{item.code}}" ng-show="!item.isBooked &&  item.child<=0 && item.advertisementCurrentStatus === 'Live'" title="Edit">Edit</a>                            
+                            <a ng-href="postadvertisements/renew/{{item.code}}" ng-show="!item.isBooked && (item.advertisementCurrentStatus === 'Expired')" title="Renew">Renew</a>
+                            <a ng-href="postadvertisements/{{item.code}}" ng-show="!item.isBooked && (item.advertisementCurrentStatus === 'Rejected')" title="Available">Available</a>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody ng-show="rcount<=0">
+                    <tr>
+                        <td style="text-align:center" colspan="6">
+                            No advertisements found.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+@section scripts{
+    <script>
+        myApp = angular.module('myApp', ["ngCookies"]);
+
+        var UserId = '@UserAuth.User.UserId';
+
+        myApp.controller("ctrlList",
+            ["$scope", "$http", function ($scope, $http) {
+                    var searchApiUrl = 'api/list/AdvertisementManagementsByUserList/?UserId=' + UserId;
+                    $scope.result = {};
+                    $scope.data = [];
+                    $scope.load = function () {
+                        $http.get(searchApiUrl, { params: $scope.filters }).then(function (resp) {
+                            $scope.result = resp.data;
+                            $scope.list = $scope.result.data;
+                            $scope.rcount = resp.data.data.length;
+                                 
+                            if (resp.data.data.length == 0) {
+                                $(".advertismentlist").hide();
+                                $("#no-records").show();
+                            }
+                            else {
+                                $(".advertismentlist").show();
+                                $("#no-records").hide();
+                            }
+                        });
+                    };
+                    $scope.load();
+                }
+            ]);
+  
+        $(document).ready(function () {
+                /*** For header style 2 ***/
+                $("#advertisement-dashboard").addClass("active");
+                filterLinks();
+            });
+
+        function filterLinks() {
+                var screen_width = $(window).width();
+                if (screen_width < 979) {
+                    $(".cmn-banner-links ul.cmn-list").hide();
+                    $('a.toggle-link').off('click');
+                    $('a.toggle-link').on('click', function () {
+                        $(this).toggleClass("open-filter");
+                        $(".cmn-banner-links ul.cmn-list").slideToggle(200);
+                    });
+                }
+                else {
+                    $('a.toggle-link').removeClass("open-filter");
+                    $(".cmn-banner-links ul.cmn-list").show();
+                }
+        };
+
+        $(window).resize(function () {
+                filterLinks();
+        });
+    </script>
+}

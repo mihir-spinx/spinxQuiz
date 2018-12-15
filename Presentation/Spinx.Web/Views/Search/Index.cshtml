@@ -1,0 +1,45 @@
+﻿
+<!DOCTYPE html>
+<script>
+    document.body.classList.add("cmn-static-page");
+</script>
+<section class="eslcafe-search">
+    <div class="clearfix fix-wrap">
+        <div class="left-content">
+            <div class="search-jobs">
+                <form method="get" action="">
+                    <div class="form-group">
+                        <input type="text" name="q" placeholder="Keyword…" value="@Html.Raw(Request.Unvalidated("q"))">
+                        <input type="submit" class="btn-green" value="Search">
+                    </div>
+                </form>
+            </div>
+            <div id='cse' style='width: 100%;'>Loading</div>
+            <script src='//www.google.com/jsapi' type='text/javascript'></script>
+            <script>
+                (function () {
+                    var cx = '017456918240061546096:8dfy3398wve';
+                    var gcse = document.createElement('script');
+                    gcse.type = 'text/javascript';
+                    gcse.async = true;
+                    gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+                    var s = document.getElementsByTagName('script')[0];
+                    s.parentNode.insertBefore(gcse, s);
+                })();
+            </script>
+            <gcse:searchresults-only></gcse:searchresults-only>
+        </div>
+    </div>
+</section>
+@section scripts{
+    <script type="text/javascript">
+         $(window).on("load",function () {
+             $('.gsc-search-box input.gsc-input').attr('placeholder', 'Search');
+             $('.gsc-above-wrapper-area').hide();
+             $('.gcsc-branding').hide();
+             $("#cse").hide();
+        });
+        
+    </script>
+
+}

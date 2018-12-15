@@ -1,0 +1,385 @@
+@media screen and (max-width:1169px) {
+.fix-wrap { padding: 0px 20px; }
+/*** Homepage Style here ***/
+.hp-sponsored .fix-wrap {padding: 0;}
+.intro-blk { padding:80px 50px 80px 20px; max-width:660px}
+.intro-blk .caption { width:58%;}
+.featured-list, .hp-featured h2 { width:82%;}
+.featured-list ul li { width:31.2%;}
+.featured-list ul li a { padding:30px 20px;}
+.hp-sponsor-links .sponsor-links ul li { width:31.9%;}
+.cmn-add-view img { height:auto;}
+/*** Post A Job Login Style Start here ***/
+.post-inner-dtl{padding-left: 0px;}
+.post-job-item{max-width: 48%; margin-left: 4%;padding-left: 20px; padding-right: 20px;}
+.page404-banner{min-height: 500px;}
+.post-job-left{ max-width: 65%}
+.post-job-right{ max-width: 33%}
+.testimonial-main{padding:15px;}
+.post-title-payment, .post-job-payment-form{max-width: 70%;}
+.order-summary{ max-width: 28%}
+/*** Post A Job - Payment Style Start here ***/
+.post-job-payment-form{max-width: 695px;}
+/*** Post A job Payment Style Start here ***/
+.post-congln, .create-account-prt, .post-yes-prt, .whyregister{max-width: 49%;}
+/***Resume Board Access Start here ***/
+.resume-board-left{ max-width: 65%;}
+.resume-board-right{max-width:33%}
+/*** Job Board page Style here ***/
+.left-content { width:80.7%}
+/*** Grammer List page Style here ***/
+.grammer-list ul li { margin-right:20px; width:46%;}
+.cmn-banner-links .search-jobs { width:290px;}
+/*** Quizz Detail page Start here ***/
+.quiz-title { padding:0px; width:94%;}
+/*** Banner Sponsored Ad page Style here ***/
+.banner-sponsored-ad .left-content { width: 72%; }
+/***quizzes-list start here**/
+.left-column .box h2 img.icon-left, .right-column .box h2 img.icon-left {left: -43px; }
+/*** Site map  page start here***/
+.sitemap .left-link {width: 58%; } 
+/***resources-list page start here**/
+.left-column .box,.resources-list-page .left-column .box {width: 41%; }  
+/*** Home News Section Style here ***/
+.hp-news ul li { margin: 0px 30px 40px 0px; width: 31.2%; }
+.checkoutLogin .testimonial-main { margin:10px 0px 20px 0px; }
+}
+
+@media screen and (max-width:1024px) { 
+/*** Homepage Style here ***/
+.nav-right { max-width:72%;}
+.featured-list, .hp-featured h2 { width: 81.4%; }
+/*** Sitemap Start here ***/
+.sitemap .right-banner {width: 38%; float: left; }
+/*** Job Board page Style here ***/
+.left-content { width:80%}
+.jobs-list ul li .job-title { width:80%;}
+/*** Grammer List page Style here ***/
+.with-search ul.cmn-list { max-width:68%;}
+.cmn-banner-links ul.cmn-list li { margin:0px 4px 0px 0px;}
+.cmn-banner-links ul.cmn-list li a { padding:11px 12px; }
+/*** Forum List page style here ***/
+.forum-wrap .search-jobs input[type="text"] { width:280px;}
+.forum-wrap .data-table { margin-bottom:0px; padding-bottom:20px; overflow-y:hidden; overflow-x:auto;}
+.forum-wrap .data-table table { width:900px;}
+.quizzes-list-page .left-content {width: 76%; }
+}
+
+@media screen and (max-width:979px) { 
+/*** Homepage Style here ***/
+.logo { max-width:230px;}
+.nav-right { max-width:68%;}
+.nav-brand > ul > li > a { padding:0px 10px;font-size: 16px;}
+li.nav-search .search-btn { margin:0px 8px 0px 10px;}
+.nav-brand > ul > li:hover > a::before, .nav-brand > ul > li.active > a::before { left:10px; right:10px; }
+.submenu-wrap { width:235px;}
+.featured-list, .hp-featured h2 { width: 76.6%; }
+.featured-list ul { display:flex; flex-wrap:wrap}
+.featured-list ul li { margin:0px 10px 19px 0px;}
+.featured-list ul li a { padding: 30px 15px; }
+.hp-sponsor-links .sponsor-links ul li { width: 31.5%; }
+/*** Sitemap Start here ***/
+.sitemap { padding:40px 0px;}
+.sitemap .left-link {width: 100%;}
+.sitemap .right-banner {width: 100%; float: left; }
+/*** Login Style Start here ***/
+.login-banner, .createaccount-banner{ min-height: initial;;}
+.cmn-form{ padding:60px 40px;}
+.job-payment{ max-width: 35% }
+.job-adds label{ width: 25%}
+.job-make-premium{ max-width: 30%}
+.job-adds{ margin:25px 0 }
+/*** Post A Job - Payment Style Start here ***/
+.cvv-expirationdate{ left:0; right: auto;padding: 20px;width: 300px;}
+.whatthis-txt {position: static;}
+.expiration-input-group {position: relative;}
+.post-title-payment, .post-job-payment-form{max-width: 63%;}
+.order-summary{ max-width: 35%}
+.previousstep-link{margin-left: 10px;}
+/***Resume Board Access Start here ***/
+.resume-box{padding:20px;}
+.resume-access-list .checkmark{font-size: 16px}
+.resume-access-list .custom-radio{ max-width: 65%}
+.resume-access-list .resume-payment{ max-width: 33% }
+.recruit-teachers ul li{padding-left: 40px}
+/*** Job Board page Style here ***/
+.left-content { width:74%}
+.cmn-banner-links { padding:10px 0px;}
+.cmn-banner-links .toggle-link { display:block; float:left; padding-right:25px;}
+.cmn-banner-links ul.cmn-list { display:none; width:100%; max-width:inherit;}
+.with-search ul.cmn-list { margin:15px 0px 0px; padding:15px 0px 0px; border-top:1px solid rgba(0,0,0,0.2);}
+.cmn-banner-links ul.cmn-list li { margin:0px; width:100%;}
+.cmn-banner-links ul.cmn-list li.active a::after, .cmn-banner-links ul.cmn-list li a:hover::after { content:normal;}
+.job-details { padding-left:58px;}
+.job-details h1 .job-bag-icon { left:-58px;	}
+/*** Grammar Lesson Listing Start here ***/
+.grammer-list ul li { width:47%; padding:10px 11px;}
+.grammer-list ul li a { font-size:14px;}
+.cmn-banner-links ul.cmn-list li a { padding:11px 18px; }
+/*** Resume Board page Style here ***/
+.warning-msg span { width: 94%; } 
+.resume-boards-wrap .search-jobs input[type="text"] { width:240px;}
+/*** Quizz Detail page Start here ***/
+.quiz-detail { padding-left:50px;}
+.quiz-detail h2 img { left:-48px;}
+.quiz-title { width:91%;}
+/*** Banner Sponsored Ad page Style here ***/
+.banner-sponsored-ad .sponsor-bar { width: 180px; }
+.left-column{width: 100%; float: left; } 
+.right-column {margin-left: 3%; }
+/***resources-list page start here**/
+.resources-list-page .left-content {width: 74%; } 
+.resources-list-page .left-column .box,.left-column .box  {width: 100%; }
+.resume-board-detail h1 img { left:-58px;}
+/*** Forum List page style here ***/
+.forum-wrap .jobs-filter .f-right { margin:15px 0px 0px; width:100%;}
+.dashboard-wrap .data-table { padding-bottom:25px; overflow-y:hidden; overflow-x:auto;}
+.dashboard-wrap .data-table table { width:980px;}
+.dashboard-wrap .resume-purchase-data table { width:100%;}
+.pager{ display:block; line-height:26px;}
+/*** Payment page start here***/
+.post-job-payment-form .cvv-group {width: 210px;    position: relative;}
+.quizzes-list-page .left-content {width: 73.8%; }
+.quizzes-list-page .left-column .box { padding: 20px 10px 40px 60px}
+/*** Home News Section Style here ***/
+.hp-news ul li { margin: 0px 30px 40px 0px; width: 47.9%; }
+.hp-news ul li:nth-child(3n) { margin-right: 30px; clear: left;}
+.hp-news ul li:nth-child(2n) { margin-right: 0px; clear: right; }
+}
+
+@media screen and (max-width:767px) {
+.web-view { display:none;}
+.mob-view { display:block;}
+/*** Header Style here ***/
+.hp-sponsored .fix-wrap {padding: 0px 20px;}
+.navbar-close, .cmn-static-page header { background:#FFFFFF; border-bottom:1px solid #D6D6D6;}
+.navbar-header { width:100%;}
+.logo, .header-fix .logo { margin:0px 0px 12px; max-width:200px;}
+.nav-right { max-width:100%;}
+.top-bar { display:none;}
+.navbar-toggle { display:block;}
+.nav-brand {display: none; padding:0px; margin:0px; height: calc(100% - 70px); position:fixed; top:70px; left:0px; right:0px; background:#FFFFFF; overflow:auto;}
+.nav-brand > ul#topbar li:first-child { border:none;}
+.nav-brand > ul > li { width:100%; text-align:left; border-top: 1px solid #D6D6D6;}
+.nav-brand > ul > li:last-child {border-bottom:1px solid #D6D6D6;}
+.nav-brand > ul > li > a { padding:15px 20px; line-height:21px; color:#2A2D34;font-size: 18px;}
+.nav-brand > ul > li > a:hover, .nav-brand ul li.active > a, .nav-brand ul li > a.open-subnav { background:#f3632f; color:#FFFFFF;}
+.nav-brand > ul > li > a:hover::before, .nav-brand > ul li.active > a::before { content:normal;}
+.nav-brand > ul > li.nav-search { padding:5px 20px; background:#f26330; border:none;}
+li.nav-search input[type="text"], .header-fix li.nav-search input[type="text"] { top:0px; padding:0px 25px 0px 0px; width: 100%; font-size: 16px; color: #FFF; background:#f26330; box-sizing: border-box; }
+li.nav-search input[type="text"]:focus, li.nav-search:hover input[type="text"], .header-fix li.nav-search input[type="text"]:focus, .header-fix li.nav-search:hover input[type="text"] { padding:0px 25px 0px 0px; width:100%; color:#FFF; background:#f3632f !important;}
+li.nav-search > form, li.nav-search .search-btn { height:40px;}
+li.nav-search .search-btn { margin:0px; float:right;}
+.header-fix li.nav-search .search-btn { background:url('../images/search.svg') no-repeat center center;}
+.header-fix .nav-search ::-webkit-input-placeholder { color: #FFFFFF;}
+.header-fix .nav-search ::-moz-placeholder { color: #FFFFFF;}
+.header-fix .nav-search :-ms-input-placeholder {color: #FFFFFF;}
+.header-fix .nav-search :-moz-placeholder { color: #FFFFFF;}
+.nav-brand > ul > li:hover > a::before, .nav-brand > ul > li.active a::before { content:normal; }
+.nav-brand > ul > li.parent > a::after { content:''; margin:auto; width:16px; height:16px; background:url('../images/plus-sign.png') no-repeat 0px 0px; position:absolute; right:20px; top:0px; bottom:0px; }
+.nav-brand > ul > li.parent.active > a:after, .nav-brand > ul > li.parent > a:hover:after {background:url('../images/plus-sign-white.png') no-repeat 0px 0px;}
+.nav-brand > ul > li.parent > a.open-subnav::after {background:url('../images/minus-sign.png') no-repeat 0px 0px;}
+.submenu-wrap { display:none; padding:0px; width:100%; position: relative; top: 100%; left: inherit; opacity: 1; visibility: visible; overflow:visible; transition:none; }
+.submenu-wrap ul { border:none; box-shadow:none;}
+li.has-submenu .submenu-nav { display:none; width:100%; position:relative; left:0px; visibility:visible; opacity:1; overflow:visible; transition:none;}
+li.has-submenu .submenu-nav ul {box-shadow:none;}
+li.has-submenu .submenu-nav ul li a { padding-left:25px; color:#000;}
+li.has-submenu .submenu-nav ul li a:hover { background:none;}
+li.has-submenu.open-second-subnav > a{ color:#FFF; background:#0061af;}
+li.has-submenu.open-second-subnav > a:after { width:14px; height:8px; background:url('../images/nav-arrow-down-white.png') no-repeat 0px 0px;}
+/*** Homepage Style here ***/
+.find-job { padding:50px;}
+.hp-banner .imgDiv { height: 500px; }
+.intro-blk { padding:50px 30px 50px 20px; max-width:97%; }
+.intro-blk .intro-img { width:180px; height:180px;}
+.intro-blk .caption { width:60%; }
+.sponsor-bar { clear:both; float:none; margin:auto; width:250px;}
+.featured-list { margin:0px 0px 15px; width:100%;}
+.hp-featured h2 { width:100%;}
+.featured-list ul li, .hp-sponsor-links .sponsor-links ul li { margin:0px 19px 19px 0px; width:48.2%;}
+.featured-list ul li:nth-child(3n), .hp-sponsor-links .sponsor-links ul li:nth-child(3n) { margin-right:19px; }
+.featured-list ul li:nth-child(2n), .hp-sponsor-links .sponsor-links ul li:nth-child(2n) { margin-right:0px; }
+.see-our-add h3{ clear:both; margin:20px auto; float:none; width:96%; max-width:inherit; text-align:center;}
+.see-our-add .dark-box { clear:both;float:none;max-width:inherit;}
+.see-our-add .dark-box { margin-bottom:10px;}
+.foot-links .f-col { width:50%;}
+.foot-links .f-col:nth-child(2n) { clear:right;}
+.foot-links .f-col:nth-child(2n+1) { clear:left;}
+.f-logo { margin:15px 0px; text-align:center;}
+.f-logo a { float:none;}
+.copyright .f-left { margin:0px 0px 15px;}
+.copyright .f-left, .copyright .f-right { width:100%; text-align:center;}
+.job-center-wrap .featured-list { margin:0px 0px 20px;}
+.job-center-wrap .sponsor-bar { margin:0px auto 40px;}
+/*** Login Style Start here ***/
+.cmn-form{ padding:40px 25px}
+.user-cont-info{margin-left: 25px;}
+/*** Post A Job Login Style Start here ***/
+.post-inner-dtl{padding-left: 0px;}
+.post-job-item{max-width: 100%; margin-top: 30px; min-height: inherit; margin-left: 0%; padding-left: 20px; padding-right: 20px;}
+.post-job-item:first-child{ margin-top: 0px; }
+.post-section{padding: 40px 0;}
+.post-job-left, .post-job-right{ max-width: 100%;}
+.testimonial-main{ max-width: 100%; margin-top: 40px;}
+.job-payment{max-width: 45%}
+.testimonial-main{margin-top: 40px;}
+/***Resume Board Access Start here ***/
+.resume-board-left, .resume-board-right{ max-width: 100%;}
+.resume-board-right{ margin-top: 40px }
+.resume-box{ min-height: initial; }
+/*** Job Board page Style here ***/
+.left-content { width:100%}
+.job-detail-wrap { padding:40px 0px;}
+.job-details { padding:0px;}
+.job-details h1, .author-desc { padding-left:58px;}
+.job-details h1 .job-bag-icon { left:0px;}
+/*** Banner page Style here ***/
+.banner-page .left-add {width: 75%;}
+.banner-page .right-add {width: 20%; } 
+/*** Resume Board page Style here ***/
+.resume-boards-wrap .sponsor-bar { padding:20px 0px 0px;}
+.warning-msg span { width: 93%; }
+/*** Post A Job - Payment Style Start here ***/
+.differentway{ margin-bottom: 20px }
+.post-job-payment-form .creditcard-number{width: 65%;}
+.zip-postal{ max-width: 50% }
+.payment-credit-card{ margin-top: 15px }
+.post-title-payment, .post-job-payment-form{max-width: 100%;}
+.order-summary{ max-width: 100%; margin-top: 20px}
+/*** Post A job Payment Style Start here ***/
+.post-section{min-height: inherit;}
+.post-section h1{padding-left: 50px;}
+.post-congln, .create-account-prt, .post-yes-prt, .whyregister{max-width: 100%;}
+.post-yes-prt{margin-top: 50px;}
+.whyregister{ margin-top: 30px; padding:25px;}
+.whyregister ul li{padding-left: 14px;}
+.post-congln-yes{margin-bottom: 40px;}
+.create-whyregister{padding-bottom: 20px;}
+/*** Grammar Lesson Listing Start here ***/
+.grammer-list ul { display:block; height:auto; }
+.grammer-list ul li { width:100%; margin:0px; padding:11px 15px;}
+.grammer-list ul li a { font-size:16px;}
+.resources-sub-list ul li { padding:0px; width:100%;}
+.resources-sub-list ul li .desc { max-width:inherit;}
+/*** Quizz Detail page Start here ***/
+.quiz-detail { padding:0px;}
+.quiz-detail h2 { padding-left:45px;}
+.quiz-detail h2 img { left:0px;}
+/*** Banner Sponsored Ad page Style here ***/
+.banner-sponsored-ad .left-content { width: 100%; }
+.data-table { margin-bottom:40px; overflow-y:hidden; overflow-x:auto;}
+.data-table table { width:680px;}
+/***quizzes-list start here**/
+.quizzes-list-page .left-content {width: 100%;    margin-bottom: 20px;}
+.right-column {margin-left: 0; float: right; } 
+/***sitemap page start here**/
+.sitemap .left-link .box {width: 46%; } 
+/***resources-list page start here**/
+.resources-list-page .left-content {width: 100%; } 
+.resume-board-detail h1 img { left:0px;}
+.resume-board-detail .author-desc .dwnld-icn { margin-top:15px; width:100%;}
+/***AdUpload page start here**/
+.ad-block {padding-left: 45px; }
+.pager a {width: 8%;display: inline-block;}
+/*** Search page start here ***/
+.eslcafe-search {padding-top: 0px;}
+/****payment page start here**/
+.post-job-payment-form .cvv-group {float: left;clear: both;position: relative;}
+/*** Home News Section Style here ***/
+.hp-news { padding: 30px 0px; }
+.hp-news ul li { margin: 0px 0px 40px 0px; width: 100%; }
+.hp-news ul li:nth-child(3n) { margin-right: 0px;}
+.hp-news ul li h3 { margin: 0px 0px 15px; }
+}
+
+@media screen and (max-width:599px) {
+/*** Homepage Style here ***/
+.find-job { padding: 40px 20px; }
+.find-job .btn-green{padding: 11px 14px;}
+.find-job input[type="text"] {font-size: 15px;padding-right: 120px;}
+.intro-blk .intro-img { width: 100px; height: 100px; }
+.intro-blk { padding: 50px 25px 30px 20px;}
+.intro-blk .caption { width: 70%; }
+.featured-list ul { display: block; margin:auto; flex-wrap: inherit; max-width:310px;}
+.featured-list ul li, .hp-sponsor-links .sponsor-links ul li { margin: 0px 0px 19px; width:100%; }
+.featured-list ul li:nth-child(3n), .hp-sponsor-links .sponsor-links ul li:nth-child(3n) {margin: 0px 0px 19px;}
+.featured-list ul li a { padding:30px;}
+.copyright .f-left span { display:block; margin:0px 0px 5px;}
+/*** Sitemap Start here ***/
+.sitemap .left-link .box {margin: 0 auto 30px; float: none; right: 0; width: 100%;}
+/*** Contact Style Start here ***/
+.user-cont-info{ margin-top: 40px; max-width: 100%; margin-left:0px; text-align: center;}
+.cont-user-pic{ margin-left: auto; margin-right: auto; display: table;float: none;}
+.cont-user-social{float:none}
+.oops-img{ margin-right: 4%; max-width: 36%;}
+.page404-info{ width:60%}
+.page404-banner{min-height: 400px;}
+/*** Post A Job Login Style Start here ***/
+.job-adds label{width: 100%; margin-bottom: 10px;}
+.job-make-premium{ max-width: 40%; }
+.max-premiumplan-list .postionplan-payment{ text-align: left; max-width:63%; }
+.max-premiumplan-list .job-available{width: 35%}
+/*** Post A Job - Payment Style Start here ***/
+.payment-logos{ float: left; margin-bottom: 20px; }
+.whatthis-txt{ float: right; padding-top: 3px;}
+.previousstep-link{ margin: auto; float: none; display: table; text-align: center; }
+.securelysubmit-btn{ margin-bottom: 20px; }
+.special-ins{ margin-top: 20px; }
+.expiration-date {float: left;}
+/***Forum Details Start here ***/
+.forum-dtl-table{overflow-x: auto;}
+input[type="submit"].forum-go-btn{margin-left: 0px;}
+.forum-dtl-table table{ width:599px; }
+.forum-btn-replies .f-right{ margin-top: 20px;}
+/*** Job Board page Style here ***/
+.jobs-filter h3 { margin:0px 0px 15px; width:100%;}
+.jobs-filter .f-right { width:100%;}
+.search-jobs .form-group { margin:0px 0px 15px;}
+.jobs-list ul li .job-title { width:100%; }
+.jobs-list ul li .job-post-time { margin:5px 0px 0px; width:100%; text-align:left;}
+.job-details h1 { font-size:32px; line-height:34px;}
+.cmn-banner-links .search-jobs .form-group { margin:0px;}
+/*** Quizz Detail page Start here ***/
+.quiz-title {width: 90%;}
+/*** Forum List page style here ***/
+.forum-wrap .search-jobs { width:100%;}
+.forum-wrap .search-jobs input[type="text"] { width:100%;}
+.dashboard-wrap .jobs-filter h3 { max-width:inherit;}
+.dashboard-wrap .jobs-filter .btn-primary { margin:0px;}
+.dashboard-wrap .resume-purchase-data table { width:600px;}
+}
+
+@media screen and (max-width:479px) { 
+/*** Homepage Style here ***/
+.find-job h1 { margin:0px 0px 20px; font-size:24px; line-height:26px;}
+.intro-blk { padding:30px 20px;}
+.intro-blk .caption { margin-top:18px; width:100%; }
+.foot-links .f-col { padding:0px; width:100%;}
+/*** Create Account Style Start here ***/	
+.createaccount-group a{ margin-left: 0px; margin-top: 25px; clear:both; }
+/*** Post A Job - Payment Style Start here ***/
+.cvv-expirationdate{ width: 300px; padding: 20px; bottom: 60px}
+/*** Banner page Style here ***/
+.banner-page .left-add,.banner-page .right-add {width: 100%;}
+.banner-page .right-add {text-align: center;}
+.warning-msg span { width: 90%; }
+.cmn-banner-links .search-jobs { width: 260px; }
+/*** Quizz Detail page Start here ***/
+.quiz-title {width: 88%;}
+.short-quiz .form-group.btn-action .btn-primary { padding:11px 20px; }
+}
+
+@media screen and (max-width:374px) { 
+/*** Homepage Style here ***/
+.find-job { padding:30px 20px; }
+.find-job h1 { font-size:22px; line-height:24px;}
+/*** Job Board page Style here ***/
+.search-jobs input[type="text"] { width:280px;}
+.jobs-filter .btn-primary { margin:0px;}
+.author-desc { padding-left:0px;}
+.warning-msg span { width: 88%; }
+.cmn-banner-links .search-jobs { width: 208px; }
+/*** Quizz Detail page Start here ***/
+.quiz-title {width: 85%;}
+.short-quiz .form-group.btn-action .btn-primary { margin:0px 0px 10px;}
+}

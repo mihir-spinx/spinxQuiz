@@ -1,0 +1,105 @@
+﻿@using Spinx.Web.Infrastructure
+@{
+    ViewBag.Title = "Login - Checkout";
+}
+<script>
+    document.body.classList.add("cmn-static-page");
+</script>
+
+<section class="post-section checkoutLogin">
+    <div class="fix-wrap clearfix" ng-controller="LoginController">
+        <h1><i class="posttitleicon person-icon"></i>Login / Continue as Guest</h1>
+        <div class="testimonial-main">
+            <p class="note"><strong>Note: </strong>If you have a credit balance from our old site, please click <a href="@Url.PostAJobMemberUrl()">here</a> to post your job</p>
+        </div>
+        <div class="post-inner-dtl">
+            <div class="post-job-item">
+                <h3>Returning Customer</h3>
+                <p>Already have an account? Please login here.</p>
+                <form method="post">
+                    <div class="alert alert-{{ messageType }} fade in" ng-show="message" ng-cloak>
+                        <i class="fa-fw fa fa-check"></i>
+                        <span ng-bind="message"></span>
+                    </div>
+                    <div class="form-group" ng-class="errors.email ? 'has-error' : ''">
+                        <div class="form-label">
+                            <input type="email" id="EmailAddress" ng-model="entity.email"/>
+                            <label for="EmailAddress">Email Address</label>
+                            <i class="email-icon"></i>
+                        </div>
+                        <small class="help-block" ng-show="errors.email" ng-bind="errors.email"></small>
+                    </div>
+                    <div class="form-group" ng-class="errors.password ? 'has-error' : ''">
+                        <div class="form-label">
+                            <input type="password" id="Password" ng-model="entity.password"/>
+                            <label for="Password">Password</label>
+                            <i class="password-icon"></i>
+                        </div>
+                        <small class="help-block" ng-show="errors.password" ng-bind="errors.password"></small>
+                    </div>
+                    <div class="form-group form-cmn-btn">
+                        <input type="submit" class="btn-green btn-login" value="Login" ng-class="loading ? 'submit-disabled' : ''" ng-disabled="loading" ng-click="submit()"/>
+                        <div id="divLoader" ng-show="loading">
+                            <img src="Content/images/ajax-loader.gif" class="ajax-loader" width="30" height="30" alt="loader icon"/>
+                        </div>
+                        <a href="forgot-password" class="f-right forgot-p-link">Forgot password?</a>
+                    </div>
+                </form>
+            </div>
+            <div class="post-job-item">
+                <h3>New Customer</h3>
+                <p>Don't have an account with Dave's ESL Cafe? <br/>Please checkout as a guest.</p>
+                <a href="@Url.PostAJobUrl()" class="btn-primary">Continue as Guest</a>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Login: Login Banner -->
+@section scripts{
+    <script type="text/javascript">
+      
+        $(document).ready(function (e) {
+            funInputPlaceholder();
+        });
+    </script>
+    <script>
+        myApp.controller("LoginController",
+            [
+                "$scope", "$http", "$rootScope", function ($scope, $http, $rootScope) {
+                    $scope.entity = {};
+                    $scope.submit = function () {
+                        $scope.message = null;
+                        $scope.messageType = null;
+                        $scope.loading = true;
+                        $scope.errors = {};
+                        $http({
+                            url: 'checkout-login?refUrl=@Url.RequestContext.HttpContext.Request.QueryString["refUrl"]',
+                            method: 'POST',
+                            data: angular.toJson($scope.entity)
+                        }).then(function (resp) {
+                            $scope.loading = false;
+                            $scope.errors = resp.data.errors;
+                            if (resp.data.success) {
+                                $scope.entity = {};
+                                $scope.message = resp.data.message;
+                                $scope.messageType = 'success';
+                                $('html, body').animate({
+                                    scrollTop: $("form").offset().top - 200
+                                }, 500);
+                                if (resp.data.isRedirect) {
+                                    setTimeout(function () { window.location.href = resp.data.redirect; }, 2000);
+                                    }
+                            }
+                            else {
+                                $scope.message = resp.data.message;
+                                $scope.messageType = 'error';
+                                $('html, body').animate({
+                                    scrollTop: $("form").offset().top - 200
+                                }, 500);
+                            }
+                        });
+                    }
+                }
+            ]);
+    </script>
+}

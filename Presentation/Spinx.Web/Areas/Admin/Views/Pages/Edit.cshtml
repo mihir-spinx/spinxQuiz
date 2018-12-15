@@ -1,0 +1,67 @@
+﻿<layout-header icon="cog" breadcrumb="['Content', 'Pages']">
+    <button-back url="admin/pages"></button-back>
+</layout-header>
+<section ng-controller="ctrlForm">
+    <section class="well">
+        <form class="form-horizontal" autocomplete="off" name="frm" novalidate>
+            <fieldset>
+                <legend>Page Information</legend>
+
+                <message message="form.message" type="form.messageType" model="form"></message>
+                <textbox name="title" maxlength="100" required model="form"></textbox>
+                <textbox-slug name="slug" maxlength="100" required model="form" from="title" click="generateSlug(form.entity.title)"></textbox-slug>
+                <ckeditor name="content" model="form"></ckeditor>
+                <status model="form"></status>
+                
+                <legend>SEO</legend>
+                <textbox name="metaTitle" maxlength="100" model="form">
+                    <p class="note ng-binding full-linen">
+                        <strong> Note: </strong>
+                        Google will accept only 60 characters from this meta title.
+                    </p>
+                </textbox>
+                <textbox-area name="metaDescription" maxlength="300" model="form">
+                    <p class="note ng-binding full-linen">
+                        <strong> Note: </strong>
+                        Google will accept only 300 characters from this meta description.
+                    </p>
+                </textbox-area>
+            </fieldset>
+            <form-actions>
+                <save click="form.submit()"></save>
+                <save-continue click="form.submitAndContinue()"></save-continue>
+            </form-actions>
+        </form>
+    </section>
+</section>
+@section scripts{
+    <script>
+        var Id = @Url.RequestContext.RouteData.Values["Id"];
+        var siblingId = 0;        
+        myApp.controller('ctrlForm',
+            [
+                '$scope', '$http', 'spinxMultiSiteEditForm', function($scope, $http, spinxMultiSiteEditForm) {
+                    $scope.Id = Id;
+                    var apiUrl = `api/admin/pages/${Id}`;
+                    var url = 'admin/pages';
+                    $scope.form = new spinxMultiSiteEditForm(apiUrl, url);
+                    $scope.form.afterSubmit = function() {
+                        $scope.frm.$setPristine();
+                    }
+                    $scope.defaultEntity = $scope.form.entity;
+                    var loadEntity = function() {
+                        $http.get($scope.form.apiUrl).then(function(resp) {
+                                $scope.form.entity = resp.data;
+                            },
+                            function(resp) {
+                                if (resp.status === 404) {
+                                    $scope.form.entity = $scope.defaultEntity;
+                                    $scope.form.entity.isActive = true;
+                                }
+                            });
+                    };
+                    loadEntity();
+                }
+            ]);
+    </script>
+}

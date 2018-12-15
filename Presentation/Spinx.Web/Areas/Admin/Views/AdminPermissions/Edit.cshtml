@@ -1,0 +1,63 @@
+﻿@model Spinx.Services.AdminRolePermissions.DTOs.AdminPermissionDto
+
+@Html.BkndHeader(new[] { "System", "Permission", "Admin Permissions" }, "cog", backUrl: Url.Action("Index"))
+
+<section class="well">
+    @using (Html.BkndBeginForm())
+    {
+        @Html.Hidden("Id", Model.Id)
+
+        <div class="form-group">
+            <label class="col-md-2 control-label">Parent Permission <span class='text-danger'>*</span></label>
+            <div class="col-md-6">
+                <div class="radio">
+                    <label>
+                        <input type="radio" class="radiobox style-0" id="noParent" name="IsParentSelected" value="false"
+                               @(Model.ParentId == 0 || Model.ParentId == null ? "checked" : "")>
+                        <span>No parent (this permission will be at the top level)</span>
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" class="radiobox style-0" id="parentSelect" name="IsParentSelected" value="true"
+                               @(Model.ParentId > 0 ? "checked" : "")
+                               @(Enumerable.Count(ViewBag.AdminPermissions) == 0 ? "disabled" : "") />
+                        <span>Select a parent permission</span>
+                    </label>
+                </div>
+                <div style="padding-top: 15px;">
+                    <select id="ParentId" name="ParentId" class="form-control" @(Model.ParentId == 0 || Model.ParentId == null ? "disabled" : "")>
+                        @foreach (var adminPermission in ViewBag.AdminPermissions)
+                        {
+                            <option value="@adminPermission.Id" data-name="@adminPermission.Name"
+                                    @(Model.ParentId == adminPermission.Id ? "selected" : "")
+                                    @(Model.Id == adminPermission.Id ? "disabled" : "")
+                                    @(Model.Left < adminPermission.Left && Model.Right > adminPermission.Left ? "disabled" : "")>
+                                @adminPermission.DisplayName
+                            </option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        @Html.BkndTextBox("Name", Model.Name, label: "System name", required: true, maxlength: 100, note: "<strong>Ex.:</strong> <code>system.permissions.users.create</code>")
+
+        @Html.BkndTextBox("DisplayName", Model.DisplayName, required: true, maxlength: 100)
+
+        @Html.BkndFormButtonSave()
+
+    }
+</section>
+
+@section scripts {
+    <script>
+        $('#parentSelect, #noParent').change(function () {
+            if ($('#parentSelect').is(':checked')) {
+                $('#ParentId').removeAttr('disabled');
+            } else {
+                $('#ParentId').attr('disabled', true);
+            }
+        });
+    </script>
+}

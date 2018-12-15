@@ -1,0 +1,68 @@
+﻿<section class="well" ng-controller="ctrlResumeAdd">
+
+    <div class="row" style="padding-bottom: 15px;">
+        <div class="col-md-12 text-right">
+            <a class="btn bg-color-blueLight txt-color-white" href="javascript:;" ng-click="backPostedResumes()">
+                <i class="fa fa-long-arrow-left"></i> Back to Resume List
+            </a>
+        </div>
+    </div>
+    <form class="form-horizontal" autocomplete="off" novalidate>
+
+        <fieldset>
+            <legend>Post A Resume Information</legend>
+            <message message="form.message" type="form.messageType" model="form"></message>
+            
+            <div class="form-group">
+                <label class="col-md-2 control-label">
+                    Post for
+                </label>
+                <div class="col-md-6">
+                    <select disabled class="form-control">
+                        <option ng-bind="form.entity['name'] + ' - ('+ form.entity['email'] +')' "></option>
+                    </select>
+                </div>
+            </div>
+
+            <textbox name="subject" maxlength="100" required model="form"></textbox>
+            <ckeditor required name="message" model="form"></ckeditor>
+
+            <div class="form-group" ng-class="form.errors['uploadResume'] ? 'has-error' : ''">
+                <label class="col-md-2 control-label">
+                    {{label || ('uploadResume' | humanize)}}
+                    <span class="text-danger" ng-show="required != undefined">*</span>
+                </label>
+
+                <div class="col-md-6">
+                    <div style="margin-bottom: 10px;">
+                        <input id="upload" type="file" class="ng-hide" nv-file-select="" uploader="uploader"/>
+                        <a href="javascript:;" class="btn btn-link" ng-click="clickUpload();">
+                            <i class="fa fa-file-o"></i> Browse Files
+                        </a>
+                        <a href="javascript:;" class="btn btn-link txt-color-red" ng-click="form.entity['uploadResume']= null;"
+                           ng-show="form.entity['uploadResume']">
+                            <i class="fa fa-trash-o"></i> Remove
+                        </a>
+                        <a class="btn btn-link txt-color-orangeDark" target="_blank" ng-href="{{ filepath }}"
+                           ng-show="form.entity['uploadResume']">
+                            <i class="fa fa-search"></i> Preview
+                        </a>
+                    </div>
+
+                    <input class="form-control"
+                           placeholder="{{'uploadResume' | humanize}}"
+                           type="{{type || 'text'}}"
+                           ng-attr-maxlength="{{maxlength || undefined}}"
+                           ng-model="form.entity['uploadResume']"
+                           readonly ng-hide>
+
+                    <small class="help-block" ng-show="form.errors['uploadResume']" ng-bind="form.errors['uploadResume']"></small>
+                </div>
+            </div>
+        </fieldset>
+        <form-actions>
+            <save click="form.submit()"></save>
+            <save-continue click="form.submitAndContinue()"></save-continue>
+        </form-actions>
+    </form>
+</section>

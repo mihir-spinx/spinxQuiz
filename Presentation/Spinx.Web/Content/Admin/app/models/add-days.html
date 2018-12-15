@@ -1,0 +1,23 @@
+﻿<div >
+    <div class="modal-header">
+        <legend> Add days </legend>
+        <button type="button" class="close" aria-hidden="true" ng-click="closeThisDialog()">
+            &times;
+        </button>
+    </div>
+
+    <section ng-controller="ctrlForm">
+        <form class="form-horizontal" name="frm" autocomplete="off" novalidate>
+            <fieldset>
+              
+                <message message="form.message" type="form.messageType" model="form"></message>
+                <textbox name="days" maxlength="100" required model="form"></textbox>
+
+            </fieldset>
+
+            <form-actions>
+                <save click="form.submit()"></save>
+            </form-actions> 
+        </form>
+    </section>
+</div>

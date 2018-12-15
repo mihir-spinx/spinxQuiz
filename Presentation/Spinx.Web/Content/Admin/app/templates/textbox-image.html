@@ -1,0 +1,47 @@
+﻿<div class="form-group" ng-class="$ctrl.model.errors[$ctrl.name] ? 'has-error' : ''">
+    <label class="col-md-2 control-label">{{$ctrl.name | humanize}} <span class="text-danger" ng-show="$ctrl.required != undefined">*</span></label>
+    <div class="col-md-6">
+        <!--<input class="form-control"
+           placeholder="{{$ctrl.name | humanize}}"
+           type="{{$ctrl.type || 'text'}}"
+           ng-attr-maxlength="{{$ctrl.maxlength || undefined}}"
+           ng-model="$ctrl.model.entity[$ctrl.name]"
+           readonly ng-hide>-->
+
+        <div>
+            <div class="note pull-right" ng-hide="$ctrl.noteWidth == null && $ctrl.noteHeight == null">
+                <strong>Note: </strong>
+                <span ng-show="$ctrl.noteWidth != null && $ctrl.noteHeight != null">
+                    Please upload image file with a max width of {{ $ctrl.noteWidth }}px and max height of {{ $ctrl.noteHeight }}px.
+                </span>
+                <span ng-show="$ctrl.noteWidth != null && $ctrl.noteHeight == null">
+                    Please upload image file with a max width of {{ $ctrl.noteWidth }}px.
+                </span>
+                <span ng-show="$ctrl.noteWidth == null && $ctrl.noteHeight != null">
+                    Please upload image file with a max height of {{ $ctrl.noteHeight }}px.
+                </span>
+            </div>
+            <a href="javascript:;" class="btn btn-link" ng-click="$ctrl.browseFiles()">
+                <i class="fa fa-file-image-o"></i> Browse Files
+            </a>
+            <a href="javascript:;" class="btn btn-link txt-color-red" ng-click="$ctrl.removeFile()" ng-show="$ctrl.model.entity[$ctrl.name]">
+                <i class="fa fa-trash-o"></i> Remove
+            </a>
+        </div>
+
+        <div class="div-img-preview" style="font-size: 100px; background: #fff;" ng-click="$ctrl.browseFiles()">
+            <div style="text-align: center;font-size: 18px;" ng-hide="$ctrl.model.entity[$ctrl.name]">
+                <i class="fa fa-file-image-o" ng-hide="$ctrl.model.entity[$ctrl.name]" style="font-size: 100px;margin-bottom: 15px;"></i>
+                <br>Click To Upload Image
+            </div>
+            <img style="max-height: 250px; max-width: 100%" alt="" ng-show="$ctrl.model.entity[$ctrl.name]" ng-src="{{ $ctrl.model.entity[$ctrl.name] }}" />
+        </div>
+        
+        <small class="help-block" ng-show="$ctrl.model.errors[$ctrl.name]" ng-bind="$ctrl.model.errors[$ctrl.name]"></small>
+
+    </div>
+</div>
+
+
+
+

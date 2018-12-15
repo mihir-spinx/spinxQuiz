@@ -1,0 +1,43 @@
+﻿@using Spinx.Web.Core.Authentication;
+@using Spinx.Web.Infrastructure;
+<div class="nav-right">
+    <div class="top-bar">
+        <ul class="cmn-list" id="topbar">
+            @if (UserAuth.IsLogedIn())
+            {
+                <li><a href="@Url.Action("PostAJobDashBoard", "DashBoards")">Dashboard</a></li>
+                <li><a href="@Url.Action("EditProfile", "Member")">Edit Profile</a></li>
+                <li><a href="@Url.Action("Logout", "Member")">Logout</a></li>
+            }
+            else
+            {
+                <li><a href="@Url.Action("Index", "Member")">Register</a></li>
+                <li><a href="@Url.Action("Login", "Member")">Login</a></li>
+            }
+            <li><a href="@Url.Action("Index", "Contact")">Contact Dave</a></li>
+        </ul>
+    </div>
+    <div class="nav-brand">
+        <ul class="cmn-list" id="nav">
+            <li class="parent resourcesmenu" id="liResource">
+                <a href="@Url.Content("quiz")">Resources</a>
+                <div class="submenu-wrap">
+                    <ul>
+                        <li><a href="quiz">Quiz</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-search">
+                <form action="#">
+                    <label for="q" class="dis-none">Search Keyword…</label>
+                    <input type="text" value=""
+                           id="q" name="q" onblur="if(this.value == '') this.value=this.defaultValue;"
+                           onfocus="if(this.value == this.defaultValue) this.value = '';"
+                           onkeypress="return SubmitOnEnter(this, event);" placeholder="Search..." />
+                    <a href="javascript:void(0);" class="search-btn" onclick="SiteSearch();"><span class="dis-none">Search icon</span></a>
+                    <!--<input type="submit" class="search_toggle" value="">-->
+                </form>
+            </li>
+        </ul>
+    </div>
+</div>

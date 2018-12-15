@@ -1,0 +1,21 @@
+﻿@Html.Partial("_Form")
+
+@section scripts{
+
+    <script>
+
+        myApp.controller('ctrlForm', ['$scope', '$http', 'spinxForm', function ($scope, $http, spinxForm) {
+
+            var apiUrl = 'api/admin/adminusers';
+            var url = 'admin/adminusers';
+            $scope.form = new spinxForm(url, apiUrl);
+
+            $http.get('api/list/adminroles').then(function (resp) {
+                $scope.roles = resp.data;
+            });
+
+        }]);
+
+    </script>
+
+}

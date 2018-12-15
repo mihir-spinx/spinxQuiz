@@ -1,0 +1,14 @@
+﻿@model Spinx.Domain.Pages.Page
+@{
+    ViewBag.Title = Model.MetaTitle;
+    ViewBag.MetaDescription = Model.MetaDescription;
+}
+@Html.Raw(Model.Content)
+<script>
+    document.body.classList.add("cmn-static-page");
+</script>
+
+@section scripts
+{
+
+}

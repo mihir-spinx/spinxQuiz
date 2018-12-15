@@ -1,0 +1,106 @@
+﻿@using Spinx.Domain.AdminRolePermissions
+@Html.BkndHeader(new[] { "System", "Permission", "Admin Roles" }, "cog", backUrl: Url.Action("Index"))
+
+<section class="well">
+    @using (Html.BkndBeginForm())
+    {
+        @Html.BkndTextBox("Name", required: true, maxlength: 100)
+
+        <div class="form-group">
+            <label class="col-md-2 control-label">Permissions <span class='text-danger'>*</span></label>
+            <div class="col-md-6" data-checkbox="Permissions">
+                <div class="tree-fix-boxed" style="height: 550px;">
+                    <div id="nestable-menu">
+                        <button type="button" class="btn btn-default" data-action="expand-all">
+                            Expand All
+                        </button>
+                        <button type="button" class="btn btn-default" data-action="collapse-all">
+                            Collapse All
+                        </button>
+                        <p class="note">Hold <code>Ctrl</code> key for select/unselect all children nodes.</p>
+                    </div>
+
+                    <div class="dd dd-role" id="nestable1">
+                        <ol class="dd-list">
+                            @BuildTree(ViewBag.AdminPermissions)
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @Html.BkndFormButtonSave()
+    }
+</section>
+
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $('#nestable-menu').on('click', function (e) {
+                var target = $(e.target), action = target.data('action');
+                if (action === 'expand-all') {
+                    $('.dd').nestable('expandAll');
+                }
+                if (action === 'collapse-all') {
+                    $('.dd').nestable('collapseAll');
+                }
+            });
+
+            $('#nestable1').nestable();
+
+            $('input.checkbox').click(function (e) {
+                if (e.ctrlKey) {
+                    if ($(this).is(':checked')) {
+                        $(this).parents('.dd3-content').eq(0).next('.dd-list').find('input:checkbox').prop("checked", true);
+                    } else {
+                        $(this).parents('.dd3-content').eq(0).next('.dd-list').find('input:checkbox').prop("checked", false);
+                    }
+                }
+            });
+
+        });
+
+    </script>
+}
+
+@helper BuildTree(IEnumerable<AdminPermission> adminPermissions)
+    {
+        foreach (var adminPermission in adminPermissions.OrderBy(o => o.Left))
+        {
+            @:<li class="dd-item dd3-item" data-id="@adminPermission.Id">
+                @:<div class="dd3-content">
+                    @:<div class="checkbox @(adminPermission.Children.Count == 0 ? "last" : "")">
+                        @:<label>
+                            @:<input type="checkbox" class="checkbox style-0" name="Permissions[]" value="@adminPermission.Id" />
+                            @:<span class="font-xs">@adminPermission.DisplayName</span>
+                            @:</label>
+                        @:</div>
+                    @:</div>
+                if (adminPermission.Children.Count == 0)
+                {
+                    @:</li>
+            }
+            else
+            {
+                @:<ol class="dd-list">
+                    @BuildTree(adminPermission.Children)
+                    @:</ol>
+                @:</li>
+            }
+        }
+}
+
+<style type="text/css">
+.dd3-item > button {margin-left: 10px;margin-top: 10px;}
+.dd3-content {padding-left: 10px;}
+.form-horizontal .checkbox {padding-top: 0;margin-left: 30px;}
+.form-horizontal .checkbox.last {margin-left: 10px;}
+.checkbox label, .radio label {display: block;min-height: 25px;}
+.dd3-content.last .checkbox {display: inline-block;}
+.has-error .tree-fix-boxed {border-color: #b94a48;}
+.has-error .tree-fix-boxed + .form-control-feedback {display: none;}
+</style>

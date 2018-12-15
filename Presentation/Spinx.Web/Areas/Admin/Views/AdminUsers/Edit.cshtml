@@ -1,0 +1,24 @@
+﻿@Html.Partial("_Form")
+
+@section scripts{
+    <script>
+        var id = @Url.RequestContext.RouteData.Values["id"];
+        
+        myApp.controller('ctrlForm', ['$scope', '$http', 'spinxForm', function ($scope, $http, spinxForm) {
+
+            var apiUrl = 'api/admin/adminusers/' + id;
+            var url = 'admin/adminusers';
+            $scope.form = new spinxForm(url, apiUrl, id);
+
+            $http.get('api/list/adminroles').then(function (resp) {
+                $scope.roles = resp.data;
+            });
+
+            if (id > 0) {
+                $http.get('api/admin/adminusers/' + id).then(function(resp) {
+                    $scope.form.entity = resp.data;
+                });
+            }
+        }]);
+    </script>
+}

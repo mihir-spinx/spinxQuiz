@@ -1,0 +1,84 @@
+﻿<!-- Login: Login Banner -->
+<section class="cmn-banner login-banner">
+    <div class="imgDiv web-view" style="background-image: url(Content/images/travel.jpg);"></div>
+    <div class="imgDiv mob-view" style="background-image: url(Content/images/travel.jpg);"></div>
+    <div class="fix-wrap" ng-controller="LoginController">
+        <div class="cmn-form">
+            <h1>Login to Find a Teacher</h1>
+            <p>If you are looking for a teacher and already have an account, please log in.</p>
+            <form method="post">
+                <div class="alert alert-{{ messageType }} fade in" ng-show="message" ng-cloak>
+                    <i class="fa-fw fa fa-check"></i>
+                    <span ng-bind="message"></span>
+                </div>
+                <div class="form-group" ng-class="errors.email ? 'has-error' : ''">
+                    <div class="form-label">
+                        <input type="email" id="EmailAddress"  ng-model="entity.email" />
+                        <label for="EmailAddress">Email Address</label>
+                        <i class="email-icon"></i>
+                    </div>
+                    <small class="help-block" ng-show="errors.email" ng-bind="errors.email"></small>
+                </div>
+                <div class="form-group" ng-class="errors.password ? 'has-error' : ''">
+                    <div class="form-label">
+                        <input type="password" id="Password" ng-model="entity.password" />
+                        <label for="Password">Password</label>
+                        <i class="password-icon"></i>
+                    </div>
+                    <small class="help-block" ng-show="errors.password" ng-bind="errors.password"></small>
+                </div>
+                <div class="form-group form-cmn-btn">
+                    <input type="submit" class="btn-green btn-login" value="Login" ng-class="loading ? 'submit-disabled' : ''" ng-disabled="loading" ng-click="submit()" />
+                    <div id="divLoader" ng-show="loading">
+                        <img src="Content/images/ajax-loader.gif" class="ajax-loader" width="30" height="30" alt="loader icon" />
+                    </div>
+                    <a href="forgot-password" class="f-right forgot-p-link">Forgot password?</a>
+                </div>
+                <div class="form-group create-account">
+                    <a href="create-account@(string.IsNullOrWhiteSpace(Request["refUrl"]) ? "" : "?refUrl="+Request["refUrl"])">Create an account</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+@section scripts{
+<script type="text/javascript">
+    $(document).ready(function(e) {
+        funInputPlaceholder();
+    });
+</script>
+<script>
+        myApp.controller("LoginController",
+            [
+                "$scope", "$http", "$rootScope", function ($scope, $http, $rootScope) {
+                    $scope.entity = {};
+                    $scope.submit = function () {
+                        $scope.message = null;
+                        $scope.messageType = null;
+                        $scope.loading = true;
+                        $scope.errors = {};
+                        $http({
+                            url: window.location.href,
+                            method: 'POST',
+                            data: angular.toJson($scope.entity)
+                        }).then(function (resp) {
+                            $scope.loading = false;
+                            $scope.errors = resp.data.errors;
+                            if (resp.data.success) {
+                                $scope.entity = {};
+                                if (resp.data.isRedirect) 
+                                    window.location.href = resp.data.redirect;
+                            }
+                            else {
+                                $scope.message = resp.data.message;
+                                $scope.messageType = 'error';
+                                $('html, body').animate({
+                                    scrollTop: $("form").offset().top - 200
+                                }, 500);
+                            }
+                        });
+                    }
+                }
+            ]);
+</script>
+}

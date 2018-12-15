@@ -1,0 +1,49 @@
+﻿<section ng-controller="ctrlquestionsList" ng-init="list.filters.sortColumn='sortorder';list.filters.sortType='asc';">
+
+    <div class="row" style="padding-bottom: 15px;">
+        <div class="col-md-12 text-right">
+            <a class="btn btn-primary" href="javascript:;" ng-click="addquestion()">
+                <i class="fa fa-plus"></i> Add question
+            </a>
+        </div>
+    </div>
+
+    <grid>
+        <message message="list.message" type="list.messageType"></message>
+
+        <toolbar model="list" paging="false"></toolbar>
+
+        <table class="table table-bordered table-striped dataTable table-hover">
+            <thead>
+                <tr>
+                    <th th-sort-select-all model="list"></th>
+                    <th th-sort width="30" align="center"></th>
+                    <th th-sort>Question</th>
+                    <th th-sort-status></th>
+                    <th th-sort-action></th>
+                </tr>
+            </thead>
+            <tbody ui-sortable="sortableOptions" ng-model="list.data">
+                <tr ng-repeat="item in list.data">
+                    <td cell-checkbox-id model="list" item="item"></td>
+                    <td class="text-center drag"><i class="glyphicon glyphicon-sort"></i></td>
+
+                    <td>
+                        {{ item.question }}
+                    </td>
+                    <td cell-status item="item"></td>
+                    <td cell align="center">
+                        <a href="javascript:;" class="mglr-2" ng-click="questionEdit(item.id)" title="Edit">
+                            <i class="glyphicon glyphicon-edit"></i>
+                        </a>
+                        <action-delete click="list.deleteRow(item.id)" model="list" item="item" title="Delete">
+                        </action-delete>
+                    </td>
+                </tr>
+
+                <tr row-no-records model="list"></tr>
+            </tbody>
+        </table>
+    </grid>
+
+</section>

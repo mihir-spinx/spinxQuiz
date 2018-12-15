@@ -1,0 +1,322 @@
+﻿<section> <!-- <section ng-controller="ctrlMemberDashboard" > -->
+
+    <section id="widget-grid">
+        <!-- row -->
+        <div class="row">
+            <!-- a blank row to get started -->
+            <div class="col-sm-6 col-lg-6">
+                <div class="panel panel-default">
+                    <div class="panel-body status">
+                        <div class="who clearfix">
+                            <h4>Account Detail</h4>
+                        </div>
+                        <!--<div class="who clearfix no-padding">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Created At</td>
+                                        <td>{{memberInfo.createdAt  | date : 'medium'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Last Login</td>
+                                        <td>{{memberInfo.lastLoginAt == null ? memberInfo.createdAt : memberInfo.lastLoginAt  | date : 'medium'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Created resource</td>
+                                        <td>{{memberInfo.createdSource == 1 ? 'Admin' : memberInfo.createdSource == 2 ? 'By Order' : 'Sign Up'  }}</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-lg-6">
+                <div class="panel panel-default">
+                    <div class="panel-body status">
+                        <div class="who clearfix">
+                            <h4>Site Statistics</h4>
+                        </div>
+                        <!--<div class="who clearfix">
+                            <div class="row">
+                                <a href="javascript:;" ng-click="tabChange($event, 'paymentTransactions')">
+                                    <div class="col-sm-4 col-md-4 text-center">
+                                        <h1>
+                                            {{memberInfo.totalPayments | currency : '$' }}
+                                        </h1>
+                                        <small>
+                                            <sup>
+                                                <span class="badge font-md">
+                                                    Total Payment
+                                                </span>
+                                            </sup>
+                                        </small>
+                                    </div>
+                                </a>
+                                <a href="javascript:;" ng-click="tabChange($event, 'postedJobs')">
+                                    <div class="col-sm-4 col-md-4 text-center">
+                                        <h1>
+                                            {{memberInfo.starndardCredits }}
+                                        </h1>
+                                        <small>
+                                            <sup>
+                                                <span class="badge bg-color-redLight font-md">
+                                                    Standard Credits
+                                                </span>
+                                            </sup>
+                                        </small>
+                                    </div>
+                                </a>
+                                <a href="javascript:;" ng-click="tabChange($event, 'postedJobs')">
+                                    <div class="col-sm-4 col-md-4 text-center">
+                                        <h1>
+                                            {{memberInfo.premiumCredits }}
+                                        </h1>
+                                        <small>
+                                            <sup>
+                                                <span class="badge bg-color-darken font-md">
+                                                    Premium Credits
+                                                </span>
+                                            </sup>
+                                        </small>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <!-- a blank row to get started -->
+            <div class="col-sm-6 col-lg-6">
+                <div class="panel panel-default">
+                    <div class="panel-body status">
+                        <div class="who clearfix">
+                            <h4>Jobs Statistics</h4>
+                        </div>
+                        <!--<div class="who clearfix">
+                            <div class="row">
+                                <a href="javascript:;" ng-click="tabChange($event, 'postedJobs','FilterPostedJobs',3)">
+                                    <div class="col-sm-4 col-md-4 text-center">
+                                        <h1>
+                                            {{memberInfo.approvedJobs }}
+                                        </h1>
+                                        <small>
+                                            <sup>
+                                                <span class="badge font-md bg-color-greenLight">
+                                                    Live Jobs
+                                                </span>
+                                            </sup>
+                                        </small>
+                                    </div>
+                                </a>
+                                <a href="javascript:;" ng-click="tabChange($event, 'postedJobs','FilterPostedJobs',1)">
+                                    <div class="col-sm-4 col-md-4 text-center">
+                                        <h1>
+                                            {{memberInfo.pendingJobs }}
+                                        </h1>
+                                        <small>
+                                            <sup>
+                                                <span class="badge bg-color-teal font-md">
+                                                    Pending Jobs
+                                                </span>
+                                            </sup>
+                                        </small>
+                                    </div>
+                                </a>
+                                <a href="javascript:;" ng-click="tabChange($event, 'postedJobs','FilterPremiumJobs',2)">
+                                    <div class="col-sm-4 col-md-4 text-center">
+                                        <h1>
+                                            {{memberInfo.premiumJobs }}
+                                        </h1>
+                                        <small>
+                                            <sup>
+                                                <span class="badge bg-color-orange font-md">
+                                                    Premium Jobs
+                                                </span>
+                                            </sup>
+                                        </small>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>-->
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-body status">
+                        <div class="who clearfix">
+                            <h4>Resume Statistics</h4>
+                        </div>
+                        <!--<div class="who clearfix">
+                            <div class="row">
+                                <a href="javascript:;" ng-click="tabChange($event, 'resumeAccessPurchased')">
+                                    <div class="col-sm-4 col-md-4 text-center">
+                                        <h1>
+                                            {{memberInfo.purchasedResumesAccess }}
+                                        </h1>
+                                        <small>
+                                            <sup>
+                                                <span class="badge font-md bg-color-greenLight">
+                                                    Purchased Resume Access
+                                                </span>
+                                            </sup>
+                                        </small>
+                                    </div>
+                                </a>
+                                <a href="javascript:;" ng-click="tabChange($event, 'postedResumes','FilterResumes',2)">
+                                    <div class="col-sm-4 col-md-4 text-center">
+                                        <h1>
+                                            {{memberInfo.approvedResumes }}
+                                        </h1>
+                                        <small>
+                                            <sup>
+                                                <span class="badge bg-color-teal font-md">
+                                                    Live Resumes
+                                                </span>
+                                            </sup>
+                                        </small>
+                                    </div>
+                                </a>
+                                <a href="javascript:;" ng-click="tabChange($event, 'postedResumes','FilterResumes',1)">
+                                    <div class="col-sm-4 col-md-4 text-center">
+                                        <h1>
+                                            {{memberInfo.pendingResumes }}
+                                        </h1>
+                                        <small>
+                                            <sup>
+                                                <span class="badge bg-color-orange font-md">
+                                                    Pending Resumes
+                                                </span>
+                                            </sup>
+                                        </small>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-6">
+                <div class="panel panel-default">
+                    <div class="panel-body status">
+                        <div class="who clearfix">
+                            <h4>Advertisement Statistics</h4>
+                        </div>
+                        <!--<div class="who clearfix">
+                            <div class="row">
+                                <a href="javascript:;" ng-click="tabChange($event, 'banners/LinkAdsPurchased','FilterAdvertisement',1)">
+                                    <div class="col-sm-4 col-md-4 text-center">
+                                        <h1>
+                                            {{memberInfo.approvedAdvertisements }}
+                                        </h1>
+                                        <small>
+                                            <sup>
+                                                <span class="badge font-md bg-color-greenLight">
+                                                    Running Ads
+                                                </span>
+                                            </sup>
+                                        </small>
+                                    </div>
+                                </a>
+                                <a href="javascript:;" ng-click="tabChange($event, 'banners/LinkAdsPurchased','FilterAdvertisement',0)">
+                                    <div class="col-sm-4 col-md-4 text-center">
+                                        <h1>
+                                            {{memberInfo.pendingAdvertisements }}
+                                        </h1>
+                                        <small>
+                                            <sup>
+                                                <span class="badge bg-color-teal font-md">
+                                                    Pending Ads
+                                                </span>
+                                            </sup>
+                                        </small>
+                                    </div>
+                                </a>
+                                <a href="javascript:;" ng-click="tabChange($event, 'banners/LinkAdsPurchased','FilterAdvertisement',3)">
+                                    <div class="col-sm-4 col-md-4 text-center">
+                                        <h1>
+                                            {{memberInfo.expiredAdvertisements }}
+                                        </h1>
+                                        <small>
+                                            <sup>
+                                                <span class="badge bg-color-orange font-md">
+                                                    Expired Ads
+                                                </span>
+                                            </sup>
+                                        </small>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>-->
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-body status">
+                        <div class="who clearfix">
+                            <h4>Payment Statistics </h4>
+                        </div>
+                        <!--<div class="who clearfix">
+                            <div class="row">
+                                <a href="javascript:;" ng-click="tabChange($event, 'paymentTransactions','FilterPayment',2)">
+                                    <div class="col-sm-4 col-md-4 text-center">
+                                        <h1>
+                                            {{memberInfo.advertisementPayment | currency : '$' }}
+                                        </h1>
+                                        <small>
+                                            <sup>
+                                                <span class="badge font-md">
+                                                    Advertisements
+                                                </span>
+                                            </sup>
+                                        </small>
+                                    </div>
+                                </a>
+                                <a href="javascript:;" ng-click="tabChange($event, 'paymentTransactions','FilterPayment',1)">
+                                    <div class="col-sm-4 col-md-4 text-center">
+                                        <h1>
+                                            {{memberInfo.jobPayment | currency : '$' }}
+                                        </h1>
+                                        <small>
+                                            <sup>
+                                                <span class="badge bg-color-redLight font-md">
+                                                    Job Posts
+                                                </span>
+                                            </sup>
+                                        </small>
+                                    </div>
+                                </a>
+                                <a href="javascript:;" ng-click="tabChange($event, 'paymentTransactions','FilterPayment',3)">
+                                    <div class="col-sm-4 col-md-4 text-center">
+                                        <h1>
+                                            {{memberInfo.resumeAccessPayment | currency : '$' }}
+                                        </h1>
+                                        <small>
+                                            <sup>
+                                                <span class="badge bg-color-darken font-md">
+                                                    Resume Access
+                                                </span>
+                                            </sup>
+                                        </small>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--</div>
+    </div>-->
+</section>

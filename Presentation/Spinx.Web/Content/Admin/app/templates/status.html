@@ -1,0 +1,11 @@
+﻿<div class="form-group">
+    <label class="col-md-2 control-label">Status <span class="text-danger">*</span></label>
+    <div class="col-md-6">
+        <select class="form-control" 
+                ng-init="$ctrl.model.entity.isActive = $ctrl.model.entity.isActive || true"
+                ng-model="$ctrl.model.entity.isActive">
+            <option ng-value="true">Active</option>
+            <option ng-value="false">Inactive</option>
+        </select>
+    </div>
+</div>

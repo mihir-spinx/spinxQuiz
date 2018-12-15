@@ -1,0 +1,88 @@
+﻿<section ng-controller="ctrlQuestionEdit">
+
+    <div class="row" style="padding-bottom: 15px;">
+        <div class="col-md-12 text-right">
+            <a class="btn bg-color-blueLight txt-color-white" href="javascript:;" ng-click="backQuestions()">
+                <i class="fa fa-long-arrow-left"></i> Back to List
+            </a>
+        </div>
+    </div>
+
+    <form class="form-horizontal" name="frm" autocomplete="off" novalidate>
+        <fieldset>
+            <legend> Question </legend>
+            <message message="form.message" type="form.messageType" model="form"></message>
+            <textbox name="question" maxlength="250" required model="form"></textbox>
+            <status model="form"></status>
+        </fieldset>
+
+        <form-actions>
+            <save click="form.submit()"></save>
+        </form-actions>
+    </form>
+
+</section>
+
+<section ng-controller="ctrlanswersList" ng-init="list.filters.sortColumn='sortorder';list.filters.sortType='asc';">
+
+    <div class="row" style="padding-bottom: 15px;">
+        <div class="col-md-12 text-right">
+            <a class="btn btn-primary" href="javascript:;" ng-click="addNewAnswer()">
+                <i class="fa fa-plus"></i> Add Answer
+            </a>
+        </div>
+    </div>
+
+    <grid>
+        <message message="list.message" type="list.messageType"></message>
+
+        <table class="table table-bordered table-striped dataTable table-hover">
+            <thead>
+                <tr>
+                    <th th-sort width="30" align="center"></th>
+                    <th th-sort>Answer</th>
+                    <th>Is Correct?</th>
+                    <th th-sort-action></th>
+                </tr>
+            </thead>
+            <tbody ui-sortable="sortableOptions" ng-model="list.data">
+                <tr id="BlankAnswerRow" style="display:none;">
+                    <td></td>
+                    <td>
+                        <input id="NewAnswer" placeholder=" Answer" type="text" ng-model="item.answer" ng-required style="min-width: 530px;height:  30px;padding: 0 5px 0px 10px;" />
+                        <small id="NewAnswerError"  style="display: none;float: right;color: red;padding-top: 7px;padding-right: 50px;">'Answer' should not be empty.</small>
+                    </td>
+                    <td align="center">&nbsp;</td>
+                    <td cell align="center" style="width:200px;" cell align="center">
+                        <input type="submit" ng-click="saveNewAnswer()" class="btn btn-default" value="Save" />
+                        <input type="submit" onsubmit="return false;" ng-click="cancelAdd()" class="btn btn-default" value="Cancel" />
+                    </td>
+                </tr>
+                <tr ng-repeat="item in list.data">
+                    <td class="text-center drag"><i class="glyphicon glyphicon-sort"></i></td>
+                    <td>
+                        <span ng-hide="item.editMode">{{item.answer}}</span>
+                        <input id="ans{{item.id}}" placeholder=" Answer" type="text" ng-show="item.editMode" ng-model="item.answer" ng-required style="min-width: 530px;height:  30px;padding: 0 5px 0px 10px;"/>
+                        <small id="ansError{{item.id}}" style="display: none;float: right; color: red;padding-top: 7px;padding-right: 50px;">'Answer' should not be empty.</small>
+                    </td>
+                    <td style="width: 80px;" align="center">
+                        <i ng-show="item.isCorrectAnswer" class="glyphicon glyphicon-ok"></i>
+                        <a href="javascript:;" ng-show="!item.isCorrectAnswer" ng-click="list.action='markanaswer';list.ids[0]=item.id;list.ids[1]=item.quizQuestionId;list.fireAction()">Mark as Answer</a>
+                    </td>
+                    <td  style="width:200px;" cell align="center">
+                        <input type="submit" ng-hide="editMode" ng-click="editMode = true; editAns(item)" class="btn btn-default" value="Edit" />
+                        <input type="submit" ng-show="editMode" ng-click="editMode = false; saveAnswer(item)" class="btn btn-default" value="Save" />
+                        <input type="submit" ng-show="editMode" ng-click="editMode = false; cancel(item)" class="btn btn-default" value="Cancel"  />
+                        <!--<a href="javascript:;" class="mglr-2" ng-click="editanswer(item.id)">
+                            <i class="glyphicon glyphicon-edit"></i>
+                        </a>-->
+                        <action-delete click="list.deleteRow(item.id)" model="list" item="item"></action-delete>
+                    </td>
+                </tr>
+
+                <tr row-no-records model="list"></tr>
+            </tbody>
+        </table>
+    </grid>
+
+</section>

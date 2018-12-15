@@ -1,0 +1,43 @@
+{
+  "name": "Spinx",
+  "authors": [
+    "Keyur Ajmera <keyur.ajmera@spinxdigital.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "v1.6.9",
+    "angular-cookies": "v1.6.10",
+    "angular-gravatar": "0.4.2",
+    "angular-local-storage": "v0.7.1",
+    "angular-sanitize": "v1.6.10",
+    "angular-slugify": "v1.0.1",
+    "angular-ui-select": "v0.19.8",
+    "checklist-model": "angular-checklist-model#1.0.0",
+    "components-font-awesome": "5.0.6",
+    "crypto-js": "3.1.9",
+    "jQuery": "3.3.1",
+    "select2-bootstrap-theme": "0.1.0-beta.9",
+    "selectize": "v0.12.4",
+    "angular-ui-mask": "1.8.7",
+    "angular-ckeditor": "v1.0.3",
+    "angular-file-upload": "v2.3.4",
+    "angular-ui-sortable": "v0.19.0",
+    "angular-block-ui": "v0.2.2",
+    "vc-angular-recaptcha": "angular-recaptcha#v1.0.3",
+    "ng-dialog": "v1.4.0"
+  },
+  "resolutions": {
+    "angular": ">= 1.3.6",
+    "ckeditor": "standard/4.9.2",
+    "angular-cookies": "v1.6.10",
+    "angular-sanitize": "v1.6.10"
+  }
+}

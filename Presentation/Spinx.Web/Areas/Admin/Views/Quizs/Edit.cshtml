@@ -1,0 +1,23 @@
+﻿<layout-header icon="book" breadcrumb="['Resources','Quizzes']">
+    <button-back url="admin/quizs"></button-back>
+</layout-header>
+<section ng-controller="quizQuestionsEditController">
+    <section class="well">
+        <div class="tabs-left">
+            <ul class="nav nav-tabs tabs-left" id="demo-pill-nav">
+                <li ng-class="parentObj.tab == item ? 'active' : ''" ng-repeat="item in parentObj.tabs" ng-click="tabChange($event, item)"><a href="javascript:;"> {{ item | humanize }} </a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" ng-include="parentObj.template">
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </section>
+</section>
+@section scripts{
+    <script>
+        var Id = @Url.RequestContext.RouteData.Values["Id"];
+    </script>
+<script src="~/Content/Admin/app/QuizQuestions/controllers.js"></script>
+}

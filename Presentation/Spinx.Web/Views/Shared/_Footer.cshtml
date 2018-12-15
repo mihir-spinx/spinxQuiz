@@ -1,0 +1,32 @@
+﻿@using Spinx.Web.Infrastructure
+<footer>
+    <div class="foot-img" style="background-image:url(Content/images/footer-bg.jpg);"></div>
+
+    <section class="foot-links">
+        <div class="clearfix fix-wrap">
+
+            <div class="f-col no-pad">
+                <h3>Resources</h3>
+                <ul class="cmn-list">
+                    <li><a href="@Url.Action("Index", "Quizzes")">Quiz</a></li>
+                </ul>
+            </div>
+            <br/> <br/>
+
+            <div class="f-logo">
+                <a href="@Url.RootUrl()"><img src="Content/images/footer-logo.png" width="160" height="50" alt="ESL Cafe" /></a>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="copyright">
+        <div class="clearfix fix-wrap">
+
+            <div class="f-left"><span>&copy; @DateTime.Now.Year ESL Cafe All rights reserved.</span> | <a href="@Url.PrivacyUrl("privacy")">Privacy Policy</a> | <a href="@Url.TermsUrl("terms")">Terms of Service</a> | <a href="@Url.Action("Index", "SiteMap")">Sitemap</a></div>
+            <div class="f-right">Design by <a href="https://www.spinxdigital.com/" target="_blank">SPINX Digital</a></div>
+
+        </div>
+    </section>
+
+</footer>

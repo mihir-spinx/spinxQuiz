@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html lang="en" id="extr-page">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>@ViewBag.Title ESL: Admin</title>
+
+    <!-- Styles -->
+    @Styles.Render("~/Content/Admin/css/bundle")
+
+    <!-- #FAVICONS -->
+    <link rel="shortcut icon" href="@Url.Content("~/favicon.ico")" type="image/x-icon">
+    <link rel="icon" href="@Url.Content("~/favicon.ico")" type="image/x-icon">
+
+    <!-- #GOOGLE FONT -->
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700">
+
+    <!-- Scripts -->
+    <script>
+        var virtualDir = '@Url.Content("~/")';
+    </script>
+
+    @RenderSection("head", required: false)
+</head>
+<body class="animated fadeInDown">
+    <header id="header">
+        <div id="logo-group">
+            <span id="logo"> <a href="@Url.Action("Login", "Auth")"><img src="@Url.Content("~/Content/Admin/img/logo.png")" alt=""></a> </span>
+        </div>
+    </header>
+
+    <div id="main" role="main">
+        <div id="content" class="container">
+            <div class="row row-centered">
+                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4 col-centered">
+                    <div class="well no-padding">
+                        @RenderBody()
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    @Scripts.Render("~/Content/Admin/js/bundles")
+
+    <script type="text/javascript">
+    runAllForms();
+    </script>
+
+    @RenderSection("scripts", required: false)
+
+    <!--[if IE 8]>
+        <h1>Your browser is out of date, please update your browser by going to www.microsoft.com/download</h1>
+    <![endif]-->
+</body>
+</html>

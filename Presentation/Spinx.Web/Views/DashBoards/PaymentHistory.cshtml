@@ -1,0 +1,115 @@
+﻿@{
+    ViewBag.Title = "Payment History";   
+}
+<section class="cmn-banner dashboard-title">
+    <div class="banner-title">
+        <h1><img src="Content/images/person-icon.svg" alt="" /> @ViewBag.Member.Name</h1>
+    </div>
+</section>
+@Html.Partial("_nav")
+<script>
+    document.body.classList.add("cmn-static-page");
+</script>
+
+<section class="dashboard-wrap" ng-controller="ctrlList" ng-cloak>
+    <div class="clearfix fix-wrap">
+        <div class="data-table">
+            <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                <thead>
+                    <tr>
+                        <th width="150">Date</th>
+                        <th width="120">Invoice #</th>
+                        <th>Type</th>
+                        <th width="200">Payment Amount</th>
+                        <th width="110">Invoice</th>
+                    </tr>
+                </thead>
+                <tr ng-repeat="item in list">
+                    <td> {{item.createdAt  | date : 'MMM dd, yyyy'}} </td>
+                    <td> {{("00000"+item.id).slice(-6)}} </td>
+                    <td> {{item.shortDescription}} </td>
+                    <td> ${{item.payment}} USD </td>
+                    <td> <a href="dashboards/invoice/{{item.id}}" target="_blank">Invoice</a> </td>
+                </tr>
+                <tr ng-show="list.length <= 0">
+                    <td style="text-align:center" colspan="5">
+                        No payment history found.
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!-- Paginition section here -->
+        <div class="well">
+            <div paging
+                 class="paginition"
+                 page="paging.page"
+                 page-size="paging.size"
+                 total="paging.total"
+                 show-prev-next="true"
+                 scroll-top="true"
+                 hide-if-empty="true"
+                 paging-action="goToPage(page)">
+            </div>
+        </div>         
+    </div>
+</section>
+
+@section scripts {
+<script src="~/Content/app/paging.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#paymenthistory").addClass("active");
+		
+		filterLinks();
+	});
+
+	function filterLinks(){
+		var screen_width = $( window ).width();
+		if(screen_width < 979) {
+			$(".cmn-banner-links ul.cmn-list").hide();
+			$('a.toggle-link').off('click');
+			$('a.toggle-link').on('click',function(){
+				$(this).toggleClass("open-filter");
+				$(".cmn-banner-links ul.cmn-list").slideToggle(200);
+			});
+		}
+		else
+		{
+			$('a.toggle-link').removeClass("open-filter");
+			$(".cmn-banner-links ul.cmn-list").show();
+		}
+	};
+
+	$(window).resize(function(){
+		filterLinks();
+        });
+        myApp = angular.module('myApp', ["ngCookies", "bw.paging"]);
+
+        myApp.controller("ctrlList", ["$scope", "$http", function ($scope, $http) {
+            var searchApiUrl = 'DashBoards/GetPaymentHistory';            
+            $scope.virtualDir = virtualDir;
+            $scope.result = {};
+            $scope.paging = {};
+            $scope.filters = {};
+            $scope.filters.page = 1;
+            $scope.filters.size = 20;
+            $scope.filters.sortColumn = 'id';            
+            $scope.filters.sortType = 'desc';
+            $scope.data = [];
+           
+            $scope.load = function () {
+                $http.post(searchApiUrl, $scope.filters).then(function (resp) {
+                    $scope.result = resp.data;
+                    $scope.paging = $scope.result.paging;
+                    $scope.list = $scope.result.data;
+                });
+            };
+            $scope.load();
+
+            $scope.goToPage = function (page) {
+                $scope.filters.page = page;
+                $scope.load();
+            };
+        }]);
+</script>
+}

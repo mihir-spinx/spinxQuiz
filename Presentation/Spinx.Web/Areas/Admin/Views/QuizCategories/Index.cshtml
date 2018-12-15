@@ -1,0 +1,55 @@
+﻿<layout-header icon="book" breadcrumb="['Resources','Quizzes','Categories']">
+    <button-add url="admin/quizcategories/create">Quiz Category</button-add>
+</layout-header>
+
+<div ng-controller="ctrlList" ng-init="list.filters.sortColumn='name';list.filters.sortType='asc';">
+    <grid>
+        <message message="list.message" type="list.messageType"></message>
+        <toolbar model="list"></toolbar>
+        <table class="table table-bordered table-striped dataTable table-hover">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th th-search name="name" model="list"></th>
+                    <th></th>
+                    <th th-search-status model="list"></th>
+                    <th></th>
+                </tr>
+                <tr>
+                    <th th-sort-select-all model="list"></th>
+                    <th th-sort name="name" model="list">Name</th>
+                    <th width="100" align="center" th-sort model="list">No of Quiz</th>
+                    <th th-sort-status model="list"></th>
+                    <th th-sort-action></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in list.data">
+                    <td cell-checkbox-id model="list" item="item"></td>
+                    <td>{{ item.name }}</td>
+                    <td align="center">{{item.quizCount}}</td>
+                    <td cell-status item="item"></td>
+                    <td cell align="center">
+                        <action-edit url="admin/quizcategories/edit/{{ item.id }}" model="list" 
+                                     item="item" title="Edit"></action-edit>
+                        <action-delete click="list.deleteRow(item.id)" model="list" item="item" title="Delete">
+                        </action-delete>
+                    </td>
+                </tr>
+                <tr row-no-records model="list"></tr>
+            </tbody>
+        </table>
+    </grid>
+</div>
+@section scripts {
+    <script>
+        myApp.controller("ctrlList",
+            [
+                "$scope", "$http", "spinxList", function ($scope, $http, spinxList) {
+                    var searchApiUrl = 'api/admin/quizcategories';
+                    $scope.list = new spinxList(searchApiUrl);
+                    $scope.list.actions = ['Delete','Active','Inactive'];
+                }
+            ]);
+    </script>
+}

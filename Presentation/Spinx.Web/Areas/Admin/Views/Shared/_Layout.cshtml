@@ -1,0 +1,218 @@
+﻿@using Spinx.Core.Extensions
+@using Spinx.Web.Core.Extensions
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <base href="@Url.Content("~/")">
+    <title>@ViewBag.Title ESL Cafe: Admin</title>
+
+    <!-- Styles -->
+    @Styles.Render("~/Content/Admin/css/bundle")
+
+    <!-- #FAVICONS -->
+    <link rel="shortcut icon" href="@Url.Content("~/favicon.ico")" type="image/x-icon">
+    <link rel="icon" href="@Url.Content("~/favicon.ico")" type="image/x-icon">
+
+    <!-- #GOOGLE FONT -->
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700">
+    <link href="~/bower_components/ng-dialog/css/ngDialog.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/app/css/ngDialog-theme-default.css" rel="stylesheet" />
+    <!-- Scripts -->
+
+    <script>
+        var virtualDir = '@Url.Content("~/")';
+        var currentUrl = '@Request.Url.AbsolutePath';
+        var controller = '@ViewContext.RouteData.Values["controller"].ToString()';
+        var action = '@ViewContext.RouteData.Values["action"].ToString()';
+    </script>
+
+    <script type="text/javascript" src="@Url.Content("~/ckfinder/ckfinder.js")"></script>
+    @RenderSection("head", required: false)
+</head>
+<body class="menu-on-top">
+    <header id="header">
+        <div id="logo-group">
+            <span id="logo"> <a href="@Url.Action("Login", "Auth")"><img src="@Url.Content("~/Content/Admin/img/logo.png")" alt=""></a> </span>
+        </div>
+
+        <div class="pull-right">
+            <!-- collapse menu button -->
+            <div id="hide-menu" class="btn-header pull-right">
+                <span> <a href="javascript:void(0);" data-action="toggleMenu" title="Collapse Menu"><i class="fa fa-reorder"></i></a> </span>
+            </div>
+            <!-- end collapse menu -->
+            <!-- #MOBILE -->
+            <!-- Top menu profile link : this shows only when top menu is active -->
+            <ul id="mobile-profile-img" class="header-dropdown-list hidden-xs padding-5">
+                <li class="">
+                    <a href="javascript:;" class="dropdown-toggle no-margin userdropdown" data-toggle="dropdown">
+                        <strong>@Context.GetAdminUser().Name</strong>
+                        <img src="@Gravatar.Get(Context.GetAdminUser().Email)" alt="" class="online" />
+                    </a>
+                    <ul class="dropdown-menu pull-right">
+                        <li>
+                            <a href="@Url.Action("Logout", "Auth")" class="padding-10 padding-top-5 padding-bottom-5" data-action="userLogout" data-logout-msg="You can improve your security further after logging out by closing this opened browser"><i class="fa fa-sign-out fa-lg"></i> <strong>Logout</strong></a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+        </div>
+        <!-- end pulled right: nav area -->
+
+    </header>
+    <!-- END HEADER -->
+    <!-- #NAVIGATION -->
+    <!-- Left panel : Navigation area -->
+    <!-- Note: This width of the aside area can be adjusted through LESS variables -->
+    <aside id="left-panel">
+
+        <div class="login-info">
+            <span>
+                <!-- User image size is adjusted inside CSS, it should stay as is -->
+
+                <a href="javascript:void(0);" id="show-shortcut">
+                    <img src="@Gravatar.Get(Context.GetAdminUser().Email)" alt="me" class="online">
+                    <span>@Context.GetAdminUser().Name</span>
+                </a>
+            </span>
+        </div>
+
+        <!-- NAVIGATION : This navigation is also responsive-->
+        <nav>
+            <ul>
+                @if (Context.GetAdminUser().HasPermission("Home"))
+                {
+                    <li class="@Html.IsSelected("Home")">
+                        <a href="@Url.Action("Index", "Home")" title="Dashboard"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Dashboard</span></a>
+                    </li>
+                }
+                @if (Context.GetAdminUser().HasPermission("Content"))
+                {
+                    <li>
+                        <a href="javascript:;"><i class="fa fa-lg fa-fw fa-pencil-square-o"></i> 
+                            <span class="menu-item-parent">Content</span></a>
+                        <ul>
+                            @Html.BkndMenuItem("Pages")
+                            @Html.BkndMenuItem("SeoPages", label: "SEO Pages")
+                        </ul>
+                    </li>
+                }
+
+                <li>
+                    <a href="javascript:;"><i class="fa fa fa-book"></i> <span class="menu-item-parent">Resources</span></a>
+                    <ul>
+                        <li>
+                            <a href="javascript:;">Quizzes</a>
+                            <ul>
+                                @Html.BkndMenuItem("QuizCategories", label: "Categories")
+                                @Html.BkndMenuItem("Quizs", label: "Quizzes")
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="javascript:;"><i class="fa fa-lg fa-fw fa-user"></i> <span class="menu-item-parent">Customers</span></a>
+                    <ul>
+                        @Html.BkndMenuItem("Members", label: "Members")
+                        @Html.BkndMenuItem("ContactUsInquiries", label: "Contact Us Inquiries")
+                    </ul>
+                </li>
+
+                @if (Context.GetAdminUser().HasPermission("system"))
+                {
+                    <li>
+                        <a href="javascript:;"><i class="fa fa-lg fa-fw fa-cog"></i> <span class="menu-item-parent">System</span></a>
+                        <ul>
+                            @if (Context.GetAdminUser().HasPermission("account"))
+                            {
+                                <li>
+                                    <a href="javascript:;">My Account</a>
+                                    <ul>
+                                        @Html.BkndMenuItem("Account", "EditProfile", label: "Edit Profile", permission: "Account.EditProfile")
+                                        @Html.BkndMenuItem("Account", "ChangePassword", label: "Change Password", permission: "Account.ChangePassword")
+                                    </ul>
+                                </li>
+                            }
+                            @*@if (Context.GetAdminUser().HasPermission("permission"))
+                                {
+                                    <li>
+                                        <a href="javascript:;">Permission</a>
+                                        <ul>
+                                            @Html.BkndMenuItem("AdminUsers")
+                                            @Html.BkndMenuItem("AdminRoles")
+                                            @Html.BkndMenuItem("AdminPermissions")
+                                        </ul>
+                                    </li>
+                                }*@
+                            @Html.BkndMenuItem("EmailTemplates")
+                            @*@if (Context.GetAdminUser().HasPermission("clearcache"))
+                                {
+                                    <li><hr class="menu-item" /></li>
+                                    @Html.BkndMenuItem("ClearCache")
+                                }*@
+                        </ul>
+                    </li>
+                }
+            </ul>
+        </nav>
+        <span class="minifyme" data-action="minifyMenu">
+            <i class="fa fa-arrow-circle-left hit"></i>
+        </span>
+    </aside>
+    <!-- END NAVIGATION -->
+    <!-- MAIN PANEL -->
+    <div id="main" role="main" ng-cloak>
+        <!-- MAIN CONTENT -->
+        <div id="content">
+            @RenderBody()
+        </div>
+        <!-- END MAIN CONTENT -->
+    </div>
+    <!-- END MAIN PANEL -->
+    <!-- PAGE FOOTER -->
+    <div class="page-footer text-center">
+        <span class="txt-color-white">Spinx Admin <span class="hidden-xs"> - Web Application Framework</span> &copy; <span ng-bind="year"></span></span>
+    </div>
+    <!-- END PAGE FOOTER -->
+    <!-- Scripts -->
+    @Scripts.Render("~/Content/Admin/js/bundles")
+
+    <script src="~/bower_components/angular/angular.min.js"></script>
+    <script src="~/bower_components/angular-cookies/angular-cookies.min.js"></script>
+    <script src="~/bower_components/angular-local-storage/dist/angular-local-storage.min.js"></script>
+    <script src="~/bower_components/checklist-model/checklist-model.js"></script>
+    <script src="~/bower_components/angular-gravatar/build/angular-gravatar.min.js"></script>
+    <script src="~/bower_components/crypto-js/crypto-js.js"></script>
+    <script src="~/bower_components/angular-slugify/angular-slugify.js"></script>
+    <script src="~/bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+    <script src="~/bower_components/angular-ui-select/dist/select.min.js"></script>
+    <script src="~/bower_components/angular-ui-mask/dist/mask.min.js"></script>
+    <script src="~/bower_components/angular-ui-sortable/sortable.min.js"></script>
+    <script src="~/bower_components/angular-file-upload/dist/angular-file-upload.min.js"></script>
+    <script src="~/bower_components/ng-dialog/js/ngDialog.js"></script>
+    <script src="~/bower_components/angular-sanitize/angular-sanitize.js"></script>
+
+    <!-- ckeditor -->
+    <script src="@Url.Content("~/Content/Admin/js/myplugin/ckeditor/ckeditor.js")"></script>
+    <script src="~/bower_components/angular-ckeditor/angular-ckeditor.min.js"></script>
+
+    <!-- angular-block-ui -->
+    <link rel="stylesheet" href="~/bower_components/angular-block-ui/dist/angular-block-ui.min.css" />
+    <script src="~/bower_components/angular-block-ui/dist/angular-block-ui.min.js"></script>
+
+    <script src="~/Content/Admin/app/app.js"></script>
+    <script type="text/javascript">
+        runAllForms();
+    </script>
+
+    @RenderSection("scripts", required: false)
+    <!--[if IE 8]>
+        <h1>Your browser is out of date, please update your browser by going to www.microsoft.com/download</h1>
+    <![endif]-->
+</body>
+</html>

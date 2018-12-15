@@ -1,0 +1,40 @@
+﻿<layout-header icon="cog" breadcrumb="['System', 'Permission', 'Admin Users']">
+    <button-back url="admin/adminusers"></button-back>
+</layout-header>
+
+<section class="well" ng-controller="ctrlForm">
+    <form class="form-horizontal" autocomplete="off" novalidate>
+
+        <message message="form.message" type="form.messageType" model="form"></message>
+
+        <textbox name="name" maxlength="100" required model="form"></textbox>
+
+        <textbox name="email" maxlength="100" required model="form"></textbox>
+
+        <textbox type="password" name="password" maxlength="20" required model="form"></textbox>
+
+        <div class="form-group" ng-class="form.errors.roles ? 'has-error' : ''">
+            <label class="col-md-2 control-label">Roles <span class="text-danger">*</span></label>
+
+            <div class="col-md-6">
+                <div class="tree-fix-boxed" ng-hide="roles.length == 0">
+                    <div class="checkbox" ng-repeat="item in roles">
+                        <label>
+                            <input type="checkbox" class="checkbox style-0" checklist-model="form.entity.roles" checklist-value="item.id">
+                            <span ng-bind="item.name"></span>
+                        </label>
+                    </div>
+                </div>
+                <small class="help-block" ng-show="form.errors.roles" ng-bind="form.errors.roles"></small>
+            </div>
+        </div>
+
+        <status model="form"></status>
+
+        <form-actions>
+            <save click="form.submit()"></save>
+            <save-continue click="form.submitAndContinue()"></save-continue>
+        </form-actions>
+
+    </form>
+</section>

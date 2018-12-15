@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E1F3AE56-E487-4E0F-9BBD-708F384F9AD7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Spinx.Api</RootNamespace>
+    <AssemblyName>Spinx.Api</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="HiQPdf.Free, Version=10.17.0.0, Culture=neutral, PublicKeyToken=acd8b62594985b24, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\hiqpdf.free.10.17.0\lib\net40\HiQPdf.Free.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.5.2.4\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Http, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Core.5.2.4\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Net.Http" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Admin\SeoPagesController.cs" />
+    <Compile Include="Admin\QuizAnswersController.cs" />
+    <Compile Include="Admin\QuizAnswerSequenceController.cs" />
+    <Compile Include="Admin\MembersController.cs" />
+    <Compile Include="Admin\AdminUsersController.cs" />
+    <Compile Include="Admin\ContactUsInquiriesController.cs" />
+    <Compile Include="Admin\QuizQuestionsSequenceController.cs" />
+    <Compile Include="Admin\QuizQuestionsController.cs" />
+    <Compile Include="Admin\QuizsController.cs" />
+    <Compile Include="Admin\QuizCategorysController.cs" />
+    <Compile Include="Admin\EmailTemplatesController.cs" />
+    <Compile Include="Admin\PagesController.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Infrastructure\BaseApiController.cs" />
+    <Compile Include="List\AdminRolesController.cs" />
+    <Compile Include="Admin\MyAccessController.cs" />
+    <Compile Include="List\MembersListController.cs" />
+    <Compile Include="List\QuizCategoriesFrontListController.cs" />
+    <Compile Include="List\QuizCategoriesListController.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Libraries\Spinx.Core\Spinx.Core.csproj">
+      <Project>{53E36D79-95A3-43DF-996A-26E6F89A0602}</Project>
+      <Name>Spinx.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Spinx.Data\Spinx.Data.csproj">
+      <Project>{d2035389-be34-46b0-934a-ecfbb27ef651}</Project>
+      <Name>Spinx.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Spinx.Domain\Spinx.Domain.csproj">
+      <Project>{0E2E40EB-E5F1-4C6B-83A2-0DE498ED73B9}</Project>
+      <Name>Spinx.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Spinx.Services\Spinx.Services.csproj">
+      <Project>{453EBF9F-F0A7-40F9-9006-ECCCBE6D2C64}</Project>
+      <Name>Spinx.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Spinx.Web.Core\Spinx.Web.Core.csproj">
+      <Project>{DBAE52A4-3AAB-48DE-BCFC-5F2BC80308A8}</Project>
+      <Name>Spinx.Web.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

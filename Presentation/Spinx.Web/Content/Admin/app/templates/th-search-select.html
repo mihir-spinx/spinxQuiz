@@ -1,0 +1,9 @@
+﻿<th class="hasinput" style="vertical-align: middle;">
+    <select class="form-control" 
+            autocomplete="off" 
+            ng-model="model.filters[name]"
+            ng-change="model.load(true)">
+        <option value="" selected>[{{ label | humanize }}]</option>
+        <option ng-value="item.id" ng-repeat="item in data" ng-bind="item.name"></option>
+    </select>
+</th>

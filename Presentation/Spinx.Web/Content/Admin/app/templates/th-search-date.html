@@ -1,0 +1,12 @@
+﻿<th class="hasinput">
+    <div class="input-group mgb-5">
+        <input type="text" ng-model="model.filters['from' + name]" placeholder="From date" ng-change="model.load(true)"
+               class="form-control datepicker" data-dateformat="mm/dd/yy">
+        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+    </div>
+    <div class="input-group">
+        <input type="text" ng-model="model.filters['to' + name]" placeholder="To date" ng-change="model.load(true)"
+               class="form-control datepicker" data-dateformat="mm/dd/yy">
+        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+    </div>
+</th>

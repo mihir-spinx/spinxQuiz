@@ -1,0 +1,124 @@
+﻿@using Spinx.Web.Infrastructure
+
+<section class="cmn-banner hp-banner" ng-controller="ctrlList">
+    <div class="imgDiv" id="imgBlk"></div>
+    <div class="fix-wrap">
+        <div class="find-job">
+            <form id="frmsearch" action="@Url.JobBoardUrl(UrlHelperExtensions.InternationalUrl)" method="post">
+                <h1>Find ESL &amp; EFL teaching opportunities available around the world</h1>
+                <div id="divFrmGroup" class="form-group">
+                    <label for="search" class="dis-none">Find jobs</label>
+                    <input id="search" autocomplete="off" type="text" name="search" ng-model="search" placeholder="Try Searching &quot;Teach in Korea&quot;" />
+                    <input type="submit" class="btn-green" value="Find a Job" />
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- Home: Welcome Intro -->
+<section class="hp-intro" style="background-image: url(Content/images/dave-bg3.jpg);">
+    <div class="intro-blk">
+        <div class="intro-img"><img src="Content/images/dave.png" width="191" alt="Dave" /></div>
+        <div class="caption">
+            <h2>Welcome to the one and only Dave's ESL Cafe!</h2>
+            <p>My name is Dave Sperling, and not everyone knows this, but I'm a real guy and the founder of this website. I launched Dave's ESL Cafe in 1995 and since then it has evolved to become the #1 online gathering place for ESL + EFL teachers and students from around the world.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- Home: Featured Resources  -->
+<section class="hp-featured">
+    <div class="clearfix fix-wrap">
+        <h2>Featured Resources</h2>
+        <div class="featured-list">
+            <ul class="cmn-list">
+                <li>
+                    <a href="#">
+                        <div class="fetured-icn"><img src="Content/images/advice.svg" alt="advise" /></div>
+                        <h3>Ask for Advice</h3>
+                        <p>Get answers to your questions from our ESL Cafe community.</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.JobBoardUrl(UrlHelperExtensions.InternationalUrl)">
+                        <div class="fetured-icn"><img src="Content/images/job.svg" alt="job" /></div>
+                        <h3>Find a Job</h3>
+                        <p>Search our job boards to find an open ESL/EFL position.</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.PostAResumeUrl()">
+                        <div class="fetured-icn"><img src="Content/images/resume.svg" alt="resume" /></div>
+                        <h3>Post a Resume</h3>
+                        <p>Post your resume to be recruited for a job.</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.PostAJobUrlWithGuest()">
+                        <div class="fetured-icn"><img src="Content/images/postjob.svg" alt="postjob" /></div>
+                        <h3>Post a Job</h3>
+                        <p>Recruit candidates for your ESL/EFL job.</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.ResumeBoardUrl()">
+                        <div class="fetured-icn"><img src="Content/images/findteacher.svg" alt="findteacher" /></div>
+                        <h3>Find a Teacher</h3>
+                        <p>Search resumes to find a teacher for your job.</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Content("resources/grammar-lessons/")">
+                        <div class="fetured-icn"><img src="Content/images/learn.svg" alt="learn" /></div>
+                        <h3>Learn</h3>
+                        <p>Learn about grammer, idioms, slang, and more.</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+@section scripts{
+
+    <script>
+        function getRandomArbitrary(min, max) {
+            return Math.floor(Math.random() * (max - min) + min);
+        }
+
+        function changeImg(imgNumber) {
+            var myImages = ["home-hero-1.jpg", "home-hero-2.jpg", "home-hero-3.jpg"];
+            var imgDiv = document.getElementById("imgBlk");
+            var imgShown = imgDiv.style.backgroundImage;
+            var newImgNumber = getRandomArbitrary(0, myImages.length);
+            imgDiv.style.backgroundImage = 'url(Content/images/' + myImages[newImgNumber] + ')';
+        }
+
+        window.onload = changeImg;
+
+        $(document).ready(function () {
+
+            $("#search").focus(function () {
+                $('#search-list').show();
+            });
+
+            $(document).click(function (event) {
+                if ($(event.target).closest('#divFrmGroup').length == 0)
+                    $('#search-list').hide();
+            });
+        });
+
+        myApp.controller("ctrlList",
+            [
+                "$scope", function ($scope) {
+                    $scope.funGoToJobBoard = function (url) {
+                        $('#frmsearch').attr('action', url);
+                        $('#frmsearch').submit();
+                    }
+                }
+            ]);
+
+    </script>
+}

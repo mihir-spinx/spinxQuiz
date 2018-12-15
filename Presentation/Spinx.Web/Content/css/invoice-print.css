@@ -1,0 +1,37 @@
+@import url("fonts.css");
+
+body { margin:0px; padding:0px; font-family: 'Proximanova-Regular'; font-size:12px; line-height:18px; color:#2A2D34;}
+* { box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; -o-box-sizing:border-box;}
+section {page-break-before: always;}
+h1 {page-break-before: always;}
+h3 { margin:0px 0px 10px; font-size:16px; line-height:18px; font-weight:400;}
+h3 strong, strong {font-family: 'Proximanova-Extra-Bold'; font-weight:400;}
+a { color:#0B89D3; text-decoration:underline;}
+
+.invoice-wrap { display:block; margin:auto; padding:40px; width:100%; max-width:675px; overflow:hidden;}
+header { display:block; padding:40px 35px; width:100%; min-height:138px; overflow:hidden; position:relative; color:#FFFFFF; background:#2A2D34; border-radius:16px; -webkit-border-radius:16px; -moz-border-radius:16px; -o-border-radius:16px;}
+header .head-bg { display:block; position:absolute; top:0px; bottom:0px; left:0px; right:0px; z-index:0;}
+header * { position:relative; z-index:9;}
+header .logo { display:block; float:left;}
+header .logo img { display:block; margin:0px 0px 11px;}
+header p { margin:0px; font-size:12px; line-height:16px; color:#FFFFFF;}
+.invoice-no { display:block; margin:8px 0px 0px; float:right; text-align:right;}
+footer { display:block; width:100%;}
+footer > h3 { padding:12px 0px; margin:0px 0px 35px; text-align:center; border-bottom:1px solid #DEE7E9;}
+footer ul, footer ul li { display:block; margin:0px; padding:0px; list-style:none; overflow:hidden;}
+footer ul li { display:block; padding-right:15px; float:left; width:37%;}
+footer ul li:last-child { padding:0px; width:25%;}
+footer ul li p { margin:0px;}
+.invoice-body { padding:40px 0px; width:100%; min-height:480px; overflow:hidden;}
+.client-add { display:block; float:left; width:100%; max-width:260px;}	
+.client-add a { color:#2A2D34;}
+.billing-table { display:block; float:right; width:100%; max-width:300px;}
+.billing-table .bill-row { padding:22px 0px; border-bottom:1px solid #DEE7E9; overflow:hidden;}
+.billing-table .bill-row:first-child { padding-top:0px;}
+.billing-table .bill-row:last-child { border:none;}
+.billing-table .bill-row p { margin:0px;}
+.billing-table .bill-row h3 { margin:0px 0px 5px; font-size:14px; line-height:16px;}
+.bill-row .desc { display:block; float:left; max-width:150px;}
+.bill-row .amount { display:block; float:right; max-width:150px; font-size:14px; line-height:16px; text-align:right;}
+.card-row .amount { max-width:inherit;}
+.card-row .amount img { display:block; margin-left:15px; float:right;}

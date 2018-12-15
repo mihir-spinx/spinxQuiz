@@ -1,0 +1,71 @@
+﻿<layout-header icon="book" breadcrumb="['Resources','Quizzes']">
+    <button-back url="admin/quizs"></button-back>
+</layout-header>
+
+<section class="well" ng-controller="ctrlForm">
+    <form class="form-horizontal" autocomplete="off" novalidate>
+        <fieldset>
+            <legend> Quiz Information </legend>
+            <message message="form.message" type="form.messageType" model="form"></message>
+            <selectbox label="Category" name="quizCategoryId" model="form" data="quizcategories" required></selectbox>
+            <textbox name="title" maxlength="250" required model="form"></textbox>
+            <textbox-area name="shortDescription" label="Special Instruction" required maxlength="400" model="form"></textbox-area>
+            <status model="form"></status>
+            <legend>SEO</legend>
+            <textbox name="metaTitle" maxlength="100" model="form">
+                <p class="note ng-binding full-linen">
+                    <strong> Note: </strong>
+                    Google will accept only 60 characters from this meta title.
+                </p>
+            </textbox>
+            <textbox-area name="metaDescription" maxlength="300" model="form"><p class="note ng-binding full-linen">
+    <strong> Note: </strong>
+    Google will accept only 300 characters from this meta description.
+</p></textbox-area>
+        </fieldset>
+        <form-actions>
+            <save click="form.submit()"></save>
+        </form-actions>
+    </form>
+</section>
+@section scripts{
+    <script>
+        myApp.controller('ctrlForm',
+            [
+                '$scope', '$http', 'spinxForm', 'Slug', function ($scope, $http, spinxForm, Slug) {
+                    var apiUrl = 'api/list/quizs';
+                    var url = 'admin/quizs';
+                    $scope.form = new spinxForm(url, apiUrl);
+
+                    spinxForm.prototype.submit = function () {
+                        this.loading = true;
+                        $http({
+                            url: this.apiUrl,
+                            method: this.method,
+                            data: angular.toJson(this.entity)
+                        }).then(function (resp) {
+                            this.loading = false;
+                            this.message = resp.data.message;
+                            this.messageType = resp.data.messageType;
+                            this.errors = resp.data.errors;
+                            if (resp.data.success) {
+                                window.location.href = "admin/quizs/edit/" + resp.data.id;
+                            }
+
+                        }.bind(this),
+                            function (error) {
+                                this.loading = false;
+                            }.bind(this));
+                    }
+
+                    $http.get("api/list/quizcategorieslist/").then(
+                        function (resp) {
+                            $scope.quizcategories = resp.data;
+                        });
+                    $scope.generateSlug = function (title) {
+                        $scope.form.entity.slug = Slug.slugify(title);
+                    };
+                }
+            ]);
+    </script>
+}

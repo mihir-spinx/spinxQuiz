@@ -1,0 +1,53 @@
+﻿<section ng-controller="ctrlPaymentTransaction">  
+
+    <div ng-init="list.filters.sortColumn='id';list.filters.sortType='desc';">
+
+        <grid>
+            <message message="list.message" type="list.messageType"></message>
+            <toolbar model="list" paging="false"></toolbar>
+
+            <table class="table table-bordered table-striped dataTable table-hover">
+                <thead>
+                    <tr>
+        <th th-search name="Invoice" model="list"> </th>
+        <th th-search-date name="createdAt" model="list" label="Payment Date "></th>
+        <th th-search name="shortDescription" model="list" label="details"></th>
+        <th class="hasinput" style="vertical-align: middle;">
+            <select class="form-control" autocomplete="off" 
+                    ng-init="list.filters['paymentType']=parentObj.filterPayment;"
+                    ng-model="list.filters['paymentType']" ng-change="list.load(true)">
+                <option value="" selected>[{{ 'Payment Type' | humanize }}]</option>
+                <option ng-repeat="item in paymentTypeData" ng-value="item.key" ng-bind="item.value| humanize"></option>
+            </select>
+        </th>
+
+        <th th-search name="payment" model="list" label="amount"></th>
+            <th></th>
+        </tr>
+                    <tr>
+                        <th th-sort name="id" model="list" width="100"> Invoice# </th>
+                        <th th-sort name="createdAt" model="list" width="150"> Payment Date </th>
+                        <th th-sort name="shortDescription" model="list"> Details </th>
+                        <th th-sort name="paymentType" model="list" width="300"> Payment Type </th>
+                        <th th-sort name="payment" model="list" width="100"> Payment Amount </th>
+                        <th align="center" model="list" width="100"> Invoice </th>
+                    </tr>
+                </thead>
+                <tbody ng-model="list.data">
+                
+                <tr ng-repeat="item in list.data">
+                    <td cell align="center"> {{("00000"+item.id).slice(-6)}} </td>
+                    <td cell align="center"> {{item.createdAt | date : 'MM/dd/yyyy'}} </td>
+                    <td> {{item.shortDescription}} </td>
+                    <td cell> {{item.paymentType}} </td>
+                    <td cell align="right"> {{item.payment | currency : '$'}} </td>
+                    <td cell align="center"> <a href="admin/members/invoice/{{item.id}}" target="_blank"
+                                                title="Download"> Invoice </a> </td>
+                </tr>
+
+                <tr row-no-records model="list"></tr>
+                </tbody>
+            </table>
+        </grid>
+    </div>
+</section>

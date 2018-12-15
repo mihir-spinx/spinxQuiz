@@ -1,0 +1,102 @@
+﻿<layout-header icon="user" breadcrumb="['Customers', 'Members']">
+    <button-add url="admin/members/create">Member</button-add>
+</layout-header>
+
+<div ng-controller="ctrlList" ng-init="list.filters.sortColumn='createdAt';list.filters.sortType='desc'">
+    <grid>
+        <message message="list.message" type="list.messageType"></message>
+        <toolbar model="list"></toolbar>
+            <table class="table table-bordered table-striped dataTable table-hover">
+                <thead>
+                    @*<tr>
+                       <th></th>
+                        <th colspan="3" cell align="center"> <b> Member Detail </b> </th>
+                        <th colspan="7" cell align="center"> <b> Job Detail </b> </th>
+                        <th colspan="6" cell align="center"> <b> Advertisement Detail </b> </th>
+                        <th colspan="3" cell align="center"> <b> Resume Access Detail </b> </th>
+                        <th colspan="4" cell align="center"> <b> Resume Detail </b> </th>
+                    </tr>*@
+
+                    <tr>
+                        <th></th>
+                        <th class='hasinput' style='vertical-align: middle;'>
+                            <input type='text' class='form-control' placeholder='Name' name='name'   ng-model="list.filters['name']"
+                                   model="list" ng-blur="list.load(true)" enter-Key="list.load(true)"  style="margin-bottom: 5px;">
+                            <input type='text' class='form-control' placeholder='Email' name='email' model="list" 
+                                   ng-model="list.filters['email']" ng-blur="list.load(true)" enter-Key="list.load(true)" >
+                        </th>
+
+                        <th name="createdSource" model="list"></th>
+                        <th th-search-date name="createdAt" model="list"></th>
+
+                        <th name="starndardCredits" model="list"></th>
+                        <th name="premiumCredits" model="list"></th>
+                        <th name="jobPayment" model="list"></th>
+                        <th name="totalJobPosts" model="list"></th>
+                        <th name="approvedJobs" model="list"></th>
+                        <th name="pendingJobs" model="list"></th>
+                        <th name="rejectedJobs" model="list"></th>
+                    </tr>
+
+                    <tr>
+                        <th th-sort-action width="25"></th>
+                        <th th-sort name="name" model="list"> Member </th>
+                        <th th-sort width="70" name="createdSource" model="list"> Created Source</th>
+                        <th th-sort-date width="130" name="createdAt" model="list"> Created At</th>
+
+                        <th th-sort width="70" align="center" name="starndardCredits" model="list"> Starndard Credits </th>
+                        <th th-sort width="70" align="center" name="premiumCredits" model="list"> Premium Credits </th>
+                        <th th-sort width="70" align="center" name="jobPayment" model="list"> Payment by Jobs </th>
+                        <th th-sort width="70" align="center" name="totalJobPosts" model="list"> Total Job Post</th>
+                        <th th-sort width="70" align="center" name="approvedJobs" model="list"> Approved Jobs </th>
+                        <th th-sort width="70" align="center" name="pendingJobs" model="list"> Pending Jobs </th>
+                        <th th-sort width="70" align="center" name="rejectedJobs" model="list"> Rejected Jobs </th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr ng-repeat="item in list.data">
+                        <td cell align="center">
+                            <action-edit url="admin/members/edit/{{ item.id }}" model="list" item="item" title="Edit">
+                            </action-edit>
+                        </td>
+
+                        <td>
+                            {{ item.name }} <br />
+                            {{ item.email }}
+                        </td>
+
+                        <td cell align="right">
+                            {{ item.createdSource }}
+                        </td>
+
+                        <td cell-date item="item.createdAt"></td>
+
+                        <td cell align="center">{{ item.starndardCredits == 0 ? '-' : item.starndardCredits }}</td>
+                        <td cell align="center">{{ item.premiumCredits == 0 ? '-' : item.premiumCredits }}</td>
+                        <td cell align="right">{{ item.jobPayment == 0.00 ? '- ' : (item.jobPayment | currency : '$') }}</td>
+                        <td cell align="center">{{ item.totalJobPosts == 0 ? '-' : item.totalJobPosts }}</td>
+                        <td cell align="center">{{ item.approvedJobs == 0 ? '-' : item.approvedJobs }}</td>
+                        <td cell align="center">{{ item.pendingJobs == 0 ? '-' : item.pendingJobs }}</td>
+                        <td cell align="center">{{ item.rejectedJobs == 0 ? '-' : item.rejectedJobs }}</td>
+                    </tr>
+
+                    <tr row-no-records model="list"></tr>
+                </tbody>
+            </table>
+    </grid>
+</div>
+
+@section scripts {
+    <script>
+        myApp.controller("ctrlList", ["$scope", "$http", "spinxList", function ($scope, $http, spinxList) {
+            var searchApiUrl = 'api/admin/members';
+            $scope.list = new spinxList(searchApiUrl);
+            $scope.list.actions = [];
+
+            $scope.filterSite = function () {
+                $scope.list.load();
+            };
+        }]);
+    </script>
+}

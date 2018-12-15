@@ -1,0 +1,17 @@
+﻿<div class="form-group" ng-class="$ctrl.model.errors[$ctrl.name] ? 'has-error' : ''">
+    <label class="col-md-2 control-label">{{$ctrl.name | humanize}} <span class="text-danger" ng-show="$ctrl.required != undefined">*</span></label>
+    <div class="col-md-6">
+        <input class="form-control"
+               placeholder="{{$ctrl.name | humanize}}"
+               type="{{$ctrl.type || 'text'}}"
+               ng-attr-maxlength="{{$ctrl.maxlength || undefined}}"
+               ng-model="$ctrl.model.entity[$ctrl.name]">
+        <i class="form-control-feedback glyphicon glyphicon-remove" ng-show="$ctrl.model.errors[$ctrl.name]"></i>
+        <small class="help-block" ng-show="$ctrl.model.errors[$ctrl.name]" ng-bind="$ctrl.model.errors[$ctrl.name]"></small>
+        <p class="note">
+            <strong> Note: </strong>
+            Please enter page url slug. Slug should be lowercase and should not have any empty space.<br />
+            Click here to <a href="javascript:;" ng-click="$ctrl.click()">Generate Slug</a> from {{ $ctrl.from }}.
+        </p>
+    </div>
+</div>

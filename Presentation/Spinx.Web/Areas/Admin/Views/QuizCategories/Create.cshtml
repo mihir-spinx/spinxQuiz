@@ -1,0 +1,27 @@
+﻿<layout-header icon="book" breadcrumb="['Resources','Quizzes','Categories']">
+    <button-back url="admin/quizcategories"></button-back>
+</layout-header>
+
+<section class="well" ng-controller="ctrlForm">
+    <form class="form-horizontal" autocomplete="off" novalidate>
+        <fieldset>
+            <legend>Basic Information</legend>
+            <message message="form.message" type="form.messageType" model="form"></message>
+            <textbox name="name" maxlength="100" required model="form"></textbox>
+            <textbox-image name="categoryIcon" model="form" note-width="27" note-height="32" required></textbox-image>
+        </fieldset>       
+        <form-actions>
+            <save click="form.submit()"></save>
+        </form-actions>
+    </form>
+</section>
+
+@section scripts{
+    <script>
+        myApp.controller('ctrlForm', ['$scope', '$http', 'spinxForm', function ($scope, $http, spinxForm) {
+            var apiUrl = 'api/admin/quizcategories';
+            var url = 'admin/quizcategories';
+            $scope.form = new spinxForm(url, apiUrl);           
+        }]);
+    </script>
+}

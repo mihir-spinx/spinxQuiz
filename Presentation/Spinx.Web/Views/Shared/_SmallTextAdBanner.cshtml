@@ -1,0 +1,11 @@
+﻿@using Spinx.Domain.Advertisements
+@if ((Model as IEnumerable<AdvertisementManagement>).Where(a => a.IsActive &&  a.AdvertisementStatus == ((int)AdvertisementStatus.Approved) && a.EndDate >= DateTime.Now).Count() > 0)
+{
+    var advertisementManagement = (Model as IEnumerable<AdvertisementManagement>).Where(a => a.AdvertisementStatus == ((int)AdvertisementStatus.Approved) && a.EndDate >= DateTime.Now).FirstOrDefault();
+    <li><a href="@advertisementManagement.AdvertisementUrl" target="_blank">@advertisementManagement.AdvertisementSmallText</a></li>
+
+}
+else
+{
+    @Html.Partial("_SmallTextAdBanner_notFound")
+}

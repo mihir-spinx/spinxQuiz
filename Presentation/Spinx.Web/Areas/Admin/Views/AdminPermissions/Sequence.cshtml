@@ -1,0 +1,86 @@
+﻿@using Spinx.Domain.AdminRolePermissions
+@Html.BkndHeader(new[] { "System", "Permission", "Admin Permissions" }, "cog", backUrl: Url.Action("Index"))
+
+<div class="jarviswidget well">
+    <div>
+        <div class="widget-body">
+
+            <div id="nestable-menu">
+                <button type="button" class="btn btn-default" data-action="expand-all">
+                    Expand All
+                </button>
+                <button type="button" class="btn btn-default" data-action="collapse-all">
+                    Collapse All
+                </button>
+            </div>
+
+            <div class="dd" id="nestable1">
+                <ol class="dd-list">
+                    @BuildTree(ViewBag.AdminPermissions)
+                </ol>
+            </div>
+
+            <div class="clearfix"></div>
+
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $('#nestable-menu').on('click', function (e) {
+                var target = $(e.target), action = target.data('action');
+                if (action === 'expand-all') {
+                    $('.dd').nestable('expandAll');
+                }
+                if (action === 'collapse-all') {
+                    $('.dd').nestable('collapseAll');
+                }
+            });
+
+            $('#nestable1').nestable();
+
+            $('#nestable1').on('change', function () {
+                var data = window.JSON.stringify($('.dd').nestable('serialize'));
+
+                $.ajax({
+                    url: '@Url.Action("Sequence")',
+                    type: 'POST',
+                    data: 'data=' + data,
+                    dataType: 'json'
+                });
+
+            });
+
+        });
+
+    </script>
+}
+
+@helper BuildTree(IEnumerable<AdminPermission> adminPermissions)
+    {
+        foreach (var adminPermission in adminPermissions.OrderBy(o => o.Left))
+        {
+            @:<li class="dd-item dd3-item" data-id="@adminPermission.Id">
+                @:<div class="dd-handle dd3-handle">Drag</div>
+                @:<div class="dd3-content">
+                    @adminPermission.DisplayName
+                    @:- [@adminPermission.Name]
+                    @:</div>
+                if (adminPermission.Children.Count == 0)
+                {
+                    @:</li>
+            }
+            else
+            {
+                @:<ol class="dd-list">
+                    @BuildTree(adminPermission.Children)
+                    @:</ol>
+                @:</li>
+            }
+        }
+}

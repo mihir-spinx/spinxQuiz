@@ -1,0 +1,5 @@
+﻿<div class="alert alert-{{ $ctrl.type | messageType }} fade in" ng-show="$ctrl.message">
+    <a data-dismiss="alert" class="close">×</a>
+    <i class="fa-fw fa fa-{{ $ctrl.type | messageIcon }}"></i>
+    <span ng-bind="$ctrl.message"></span>
+</div>

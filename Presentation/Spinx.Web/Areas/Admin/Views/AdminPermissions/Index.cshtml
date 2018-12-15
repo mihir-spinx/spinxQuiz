@@ -1,0 +1,37 @@
+﻿@Html.BkndHeader(new[] { "System", "Permission", "Admin Permissions" }, "cog", addBtnText: "Permission", addBtnUrl: Url.Action("Create"), sequenceUrl: Url.Action("Sequence"))
+
+@using (Html.BkndBeginList())
+{
+    @Html.BkndToolBar(new[] { "Delete" })
+
+    <table class="table table-bordered table-striped dataTable" data-main-table="true">
+        <thead>
+        <tr>
+            @Html.BkndThSearchIdColumn()
+            @Html.BkndThSearchTextbox("DisplayName")
+            @Html.BkndThSearchTextbox("Name")
+            @Html.BkndThSearchBlankColumn()
+        </tr>
+        <tr>
+            @Html.BkndThHeaderCheckbox()
+            @Html.BkndThHeader("Display Name")
+            @Html.BkndThHeader("System Name")
+            @Html.BkndThHeaderActionColumn()
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script id="tplData" type="text/x-handlebars-template">
+        {{#Data}}
+        <tr>
+            @Html.BkndTdCheckboxId()
+            <td>{{{ dash Depth }}} {{ DisplayName }}</td>
+            @Html.BkndTd("Name")
+            @Html.BkndTdAction(Url.Action("Edit"))
+        </tr>
+        {{else}}
+        @Html.BkndTrNoRecords()
+        {{/Data}}
+    </script>
+}

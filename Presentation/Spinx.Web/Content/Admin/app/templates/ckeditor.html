@@ -1,0 +1,8 @@
+﻿<div class="form-group" ng-class="$ctrl.model.errors[$ctrl.name] ? 'has-error' : ''">
+    <label class="col-md-2 control-label">{{$ctrl.name | humanize}} <span class="text-danger" ng-show="$ctrl.required != undefined">*</span></label>
+    <div class="col-md-10">
+        <div ckeditor="options" ng-model="$ctrl.model.entity[$ctrl.name]"></div>
+        <small class="help-block" ng-show="$ctrl.model.errors[$ctrl.name]" ng-bind="$ctrl.model.errors[$ctrl.name]"></small>
+        <ng-transclude />
+    </div>
+</div>

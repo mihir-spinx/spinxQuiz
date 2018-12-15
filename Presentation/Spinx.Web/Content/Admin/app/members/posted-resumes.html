@@ -1,0 +1,95 @@
+﻿<div ng-controller="ctrlPostedResume" ng-init="list.filters.sortColumn='createdAt';list.filters.sortType='desc';">
+
+    <div class="row" style="padding-bottom: 15px;">
+        <div class="col-md-12 text-right">
+            <a class="btn btn-primary" href="javascript:;" ng-click="addResume()">
+                <i class="fa fa-plus"></i> Add Resume
+            </a>
+        </div>
+    </div>
+
+    <grid>
+        <message message="list.message" type="list.messageType"></message>
+        <toolbar model="list"></toolbar>
+
+        <table class="table table-bordered table-striped dataTable table-hover">
+            <thead>
+                <tr>
+                    <th th-search name="Subject" model="list"></th>
+                    <th th-search-date name="createdAt" model="list"></th>
+
+                    <!--<th class="hasinput" style="vertical-align: middle;">
+                        <select class="form-control" autocomplete="off" ng-model="list.filters.isActive" 
+                                ng-change="list.load(true)">
+                            <option value="">[Resume]</option>
+                            <option value="1">Active</option>
+                            <option value="0">Inactive</option>
+                        </select>
+                    </th>-->
+                    <th></th>
+                    <!--<th th-search-status model="list"></th>-->
+
+                    <th class="hasinput" style="vertical-align: middle;">
+                        <select class="form-control" autocomplete="off" 
+                                ng-init="list.filters['status']=parentObj.filterResumes;"
+                                ng-model="list.filters.status"
+                                ng-change="list.load(true)">
+                            <option value="">[Publish]</option>
+                            <option ng-value="item.key" ng-repeat="item in resumesStatusList" ng-bind="item.value"></option>
+                        </select>
+                    </th>
+                    <th></th>
+                </tr>
+
+                <tr>
+                    <th th-sort name="Subject" model="list"> Subject </th>
+                    <th th-sort align="center" name="createdAt" model="list" width="180"> Posted Date </th>
+                    <th style="width: 150px;"
+                        class="text-center {{ list.setSortingClass(list, isActive) }}"
+                        ng-click="list.sort($event, 'isActive')">
+                        Resume
+                    </th>
+                    <th style="width: 150px;"
+                        class="text-center {{ list.setSortingClass(list, 'status') }}"
+                        ng-click="list.sort($event, 'status')">
+                        Status
+                    </th>
+                    <th th-sort-action></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr ng-repeat="item in list.data">
+                    <td>{{ item.subject }}</td>
+                    <td cell align="center"> {{ (item.createdAt | date:'MMM dd, yyyy') }} </td>
+                    <td cell-status item="item"></td>
+                    <td cell class="text-center">
+                        <div>
+                            <span class="label label-primary"
+                                  ng-show="item.status === 1">
+                                Pending
+                            </span>
+                            <span class="label label-success"
+                                  ng-show="item.status === 2">
+                                Approved
+                            </span>
+                            <span class="label label-danger"
+                                  ng-show="item.status === 3">
+                                Rejected
+                            </span>
+                        </div>
+                    </td>
+                    <td cell align="center">
+                        <a href="javascript:;" class="mglr-2" ng-click="editResumeSite(item.id)" title="Edit">
+                            <i class="glyphicon glyphicon-edit"></i>
+                        </a>
+                        <action-delete click="list.deleteRow(item.id)" model="list" item="item"title="Delete">
+                        </action-delete>
+                    </td>
+                </tr>
+
+                <tr row-no-records model="list"></tr>
+            </tbody>
+        </table>
+    </grid>
+</div>

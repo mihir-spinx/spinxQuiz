@@ -1,0 +1,26 @@
+﻿@using Spinx.Web.Infrastructure
+@{
+    ViewBag.Title = "404 - Page Not Found";
+}
+<!-- 404: 404 Banner -->
+<section class="cmn-banner page404-banner">
+    <div class="imgDiv web-view" style="background-image: url(Content/images/travel.jpg);"></div>
+    <div class="imgDiv mob-view" style="background-image: url(Content/images/travel.jpg);"></div>
+    <div class="fix-wrap">
+        <div class="cmn-form">
+            <div class="oops-img f-left"><img src="Content/images/oops.svg" alt=""></div>
+            <div class="page404-info f-left">
+                <p>We cant seem to find the page you are looking for. Return to the <a href="@Url.RootUrl()">homepage</a> or <a href="contact">contact us </a> for further assistance.</p>
+            </div>
+        </div>
+    </div>
+</section>
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function (e) {
+            $('.form-label').find('input').on('input', function (e) {
+                $(e.currentTarget).attr('data-empty', !e.currentTarget.value);
+            });
+        });
+    </script>
+}

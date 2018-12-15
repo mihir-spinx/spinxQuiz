@@ -1,0 +1,124 @@
+﻿@using Spinx.Web.Infrastructure
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="format-detection" content="telephone=no" />
+    <base href="@Url.Content("~/")">
+    <title>@(!string.IsNullOrEmpty(ViewBag.Title) ? ViewBag.Title + " - " : "" ) Pronix Quiz </title>
+    <meta name="description" content="@(!string.IsNullOrEmpty(ViewBag.MetaDescription) ? ViewBag.MetaDescription : "" )" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="" />
+    <meta name="language" content="en-us" />
+    <link rel="icon" href="@Url.Content("~/favicon.ico")" type="image/x-icon" />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,800,900" rel="stylesheet">
+    @RenderSection("headTop", required: false)
+    @Styles.Render("~/Content/css/bundles")
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <!--[if IE]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script> <![endif]-->
+
+    <script>document.documentElement.className = 'js';</script>
+    <!-- Scripts -->
+    <script>
+        var virtualDir = '@Url.Content("~/")';
+    </script>
+    @RenderSection("head", required: false)
+</head>
+<body class="@ViewBag.BodyClass" data-site="@ViewBag.Site">
+    <div class="page-wrapper">
+        <!-- Header section starts from here -->
+        <header>
+            <div class="clearfix fix-wrap">
+                <div class="navbar-header">
+                    <a href="@Url.RootUrl()" class="logo"><img src="Content/images/spinx-logo.png" width="259" alt="Spinx Logo" /><span class="dis-none">Home</span></a>
+                    <a href="javascript:void(0);" class="navbar-toggle"><span>Navbar</span></a>
+                </div>
+                @Html.Partial("_Navbar")
+            </div>
+        </header>
+        <div id="mid-wrapper" class="clearfix">
+            @RenderBody()
+        </div>
+        @Html.Partial("_Footer")
+    </div>
+    <script>
+    var currentUrl = '@Request.Url.AbsolutePath';
+    </script>
+    @Scripts.Render("~/bundles/js")
+    <script src="~/bower_components/angular/angular.min.js"></script>
+    <script src="~/bower_components/angular-cookies/angular-cookies.min.js"></script>
+    <script src="~/bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+    <script src="~/Content/js/general.js"></script>
+    <script src="~/Content/app/app.js"></script>
+
+    @RenderSection("scripts", required: false)
+    <script type="text/javascript">
+
+        $(window).on("load", function () {
+            var strUrl = window.location.href;
+            if (strUrl.toString().indexOf("resources/") > 0)
+                $("#liResource").addClass("active");
+            if (strUrl.toString().indexOf("jobcenter") > 0 || strUrl.toString().indexOf("jobs/") > 0 || strUrl.toString().indexOf("post-a-resume") > 0 || strUrl.toString().indexOf("postajob-detail") > 0)
+                $("#liFindAJob").addClass("active");
+            if (strUrl.toString().indexOf("resumes") > 0 || strUrl.toString().indexOf("post-a-job") > 0)
+                $("#liFindATeacher").addClass("active");
+        });
+
+    </script>
+    <script>
+        function SubmitOnEnter(searchBox, event) {
+            var keyCode;
+            if (window.event) {
+                keyCode = window.event.keyCode;
+            }
+            else if (event) {
+                keyCode = event.which;
+            }
+            else {
+                return true;
+            }
+            if (keyCode == 13) {
+                // This is for Enter Key
+                SiteSearch();
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+
+        function SiteSearch() {
+            if (document.getElementById('q').value != '')
+                document.location.href = "search?q=" +
+                    EncodeText(document.getElementById('q').value); // Here we should use url encode for the user input
+        }
+
+        function EncodeText(value) {
+            var returnValue = "";
+            var x = 0;
+            var regex = /(^[a-zA-Z0-9_.]*)/
+            while (x < value.toString().length) {
+                var match = regex.exec(value.substr(x));
+                if (match != null && match.length > 1 && match[1] != '') {
+                    returnValue += match[1];
+                    x += match[1].length;
+                }
+                else {
+                    if (value[x] == ' ') {
+                        returnValue += '+';
+                    }
+                    else {
+                        var charCode = value.charCodeAt(x);
+                        var haxValue = charCode.toString(16);
+                        returnValue += "%" + (haxValue.length < 2 ? '0' : '') + haxValue.toUpperCase();
+                    }
+                    x++;
+                }
+            }
+            return returnValue;
+        }
+    </script>
+</body>
+</html>

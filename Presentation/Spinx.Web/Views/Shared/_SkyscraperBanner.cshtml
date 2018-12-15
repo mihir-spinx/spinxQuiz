@@ -1,0 +1,19 @@
+﻿@using ImageProcessor.Web;
+@using Spinx.Domain.Advertisements
+
+@if ((Model as IEnumerable<AdvertisementManagement>).Where(a => a.IsActive && a.AdvertisementStatus == ((int)AdvertisementStatus.Approved) && a.EndDate >= DateTime.Now).Count() > 0)
+{
+    var advertisementManagement = (Model as IEnumerable<AdvertisementManagement>).Where(a => a.AdvertisementStatus == ((int)AdvertisementStatus.Approved) && a.EndDate >= DateTime.Now).FirstOrDefault();
+    <div class="sidebar-add">
+        <div class="banner-box">
+            <a href="@advertisementManagement.AdvertisementUrl" target="_blank"><img src="@advertisementManagement.AdvertisementImage" alt="Img @advertisementManagement.AdvertisementText" title="@advertisementManagement.AdvertisementText" width="160" height="600" /></a>
+        </div>
+        <a href="@advertisementManagement.AdvertisementUrl" target="_blank">@advertisementManagement.AdvertisementText</a>
+    </div>
+
+}
+else
+{
+    @Html.Partial("_SkyscraperBanner_notFound")
+}
+

@@ -1,0 +1,133 @@
+﻿<div ng-controller="ctrlPostedJobs" ng-init="list.filters.sortColumn='createdAt';list.filters.sortType='desc';">
+
+    <div class="row" style="padding-bottom: 15px;">
+        <div class="col-md-12 text-right">
+            <span class="font-md" style="margin-right: 5px;"> Standard Job Post Credits </span>
+            <span class="badge bg-color-greenLight font-md" style="margin-right: 10px;"> {{ standardJobPostCredit }} </span>
+            <span class="font-md" style="margin-right: 5px;"> Premium Job Post Credit </span> 
+            <span class="badge bg-color-orange font-md" style="margin-right: 10px;"> {{premiumJobPostCredit}} </span>&nbsp;
+            <a class="btn btn-primary" style="margin-right: 10px;" href="javascript:;" ng-click="addCredit()">
+                <i class="fa fa-plus"></i> Add Credit
+            </a>
+            <a class="btn btn-primary" href="javascript:;" ng-click="addJob()">
+                <i class="fa fa-plus"></i> Add Job
+            </a>
+        </div>
+
+    </div>
+    <grid>
+        <message message="list.message" type="list.messageType"></message>
+        <toolbar model="list"></toolbar>
+        
+        <div style="width: 100%;overflow-x: auto;padding-bottom: 1px;">
+        <table class="table table-bordered table-striped dataTable table-hover" style="width: 2000px;">
+            <thead>
+            <tr>
+                <th th-search-select name="jobBoardId" model="list" data="jobboards" label="Job Board"></th>
+                <th th-search name="jobTitle" model="list"></th>
+                <th th-search name="company" model="list"></th>
+                <th class="hasinput" style="vertical-align: middle;">
+                    <select class="form-control"
+                            autocomplete="off"
+                            ng-init="list.filters['jobType']=parentObj.filterPremiumJobs;"
+                            ng-model="list.filters['jobType']"
+                            ng-change="list.load(true)">
+                        <option value="" selected>[JobType]</option>
+                        <option ng-value="item.key" ng-repeat="item in postAJobTypeData" ng-bind="item.value"></option>
+                    </select>
+                </th>
+                <th th-search-date name="statusStartDate" model="list"></th>
+                <th></th>
+                <th th-search-date name="createdAt" model="list"></th>
+                <th class="hasinput" style="vertical-align: middle;">
+                    <select class="form-control" autocomplete="off" ng-init="list.filters['postAJobStatus']=parentObj.filterPostAJobStatus;" ng-model="list.filters['postAJobStatus']" ng-change="list.load(true)">
+                        <option value="" selected>[{{ 'Job Status' | humanize }}]</option>
+                        <option ng-repeat="item in postAJobStatusData" ng-value="item.key" ng-bind="item.value"></option>
+                    </select>
+                </th>
+
+                <th class="hasinput" style="vertical-align: middle;">
+                    <select class="form-control" autocomplete="off" ng-model="list.filters['isPublish']" ng-change="list.load(true)">
+                        <option value="" selected>[Is Published?]</option>
+                        <option value="true">Yes</option>
+                        <option value="false">No</option>
+                    </select>
+                </th>
+                <th></th>
+                <th></th>
+            </tr>
+            <tr>
+                <th model="list" align="center" width="150"> Job Board </th>
+                <th th-sort name="jobTitle" model="list"> Job Title </th>
+                <th th-sort name="company" model="list" width="200"> Company </th>
+                <th th-sort align="center" name="jobType" model="list" width="100"> Job Type </th>
+                <th th-sort align="center" name="statusStartDate" width="120" model="list"> Start Date </th>
+                <th th-sort align="center" width="120"> End Date </th>
+                <th th-sort align="center" width="120" name="createdAt" model="list"> Created At </th>
+                <th th-sort name="postAJobStatus" model="list" width="100" align="center"> Job Status </th>
+                <th th-sort name="isPublish" align="center" model="list" width="100">Is Published?</th>
+                <th name="createdByAdmin" class="text-center" align="center" model="list" width="70">By Admin?</th>
+                <th th-sort-action width="50"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in list.data">
+                <td cell>{{ item.jobBoardName }}</td>
+                <td>{{ item.jobTitle }}</td>
+                <td>{{ item.company }}</td>
+                <td cell align="center">{{ item.jobType==1 ? 'Standard' : 'Premium' }}</td>
+                <td cell align="center">{{item.statusStartDate  | date : 'MMM dd, yyyy'}}</td>
+                <td cell align="center">{{item.expirationDate  | date : 'MMM dd, yyyy'}}</td>
+                <td cell align="center">{{item.createdAt  | date : 'MMM dd, yyyy'}}</td>
+                <td class="text-center">
+                    <div>
+                        <span class="label label-primary"
+                              ng-show="item.postAJobStatus === 1 && item.parentId === null">
+                            Pending
+                        </span>
+                        <span class="label label-danger"
+                              ng-show="item.postAJobStatus === 2 && item.parentId === null">
+                            Rejected
+                        </span>
+                        <span class="label label-success"
+                              ng-show="item.postAJobStatus === 3 && item.parentId === null">
+                            Live
+                        </span>
+                        <span class="label label-warning"
+                              ng-show="item.postAJobStatus === 4 && item.parentId === null">
+                            Expired
+                        </span>
+                        <span class="label label-primary"
+                              ng-show="item.parentId !== null">
+                            Pending
+                        </span>
+                    </div>
+                </td>
+                <td align="center">
+                    <i ng-show="item.isPublish" class="glyphicon glyphicon-ok"></i>
+                    <i ng-show="!item.isPublish" class="glyphicon glyphicon-remove"></i>
+                </td>
+                <td align="center">
+                    <i ng-show="item.createdByAdmin" class="glyphicon glyphicon-ok"></i>
+                    <i ng-show="!item.createdByAdmin" class="glyphicon glyphicon-remove"></i>
+                </td>
+
+                <td cell align="center">
+                    <span class="plus-check-icon">
+                        <a ng-show="!item.isPublish" href="javascript:;" class="text-danger mglr-2" title="Approve Edit"
+                           ng-click="EditApprove(item.id,item.parentId);"><i class="glyphicon glyphicon-ok"></i></a>
+                        <a ng-show="item.postAJobStatus === 3 && item.isPublish" href="javascript:;" class="text-danger mglr-2"
+                           title="Add Days?" ng-click="addDays(item.id,item.jobTitle);"><i class="glyphicon glyphicon-plus"></i></a>
+                    </span>
+                    <a href="javascript:;" ng-click="editJob(item.id)" class="mglr-2" title="Edit">
+                        <i class="glyphicon glyphicon-edit"></i>
+                    </a>
+                </td>
+            </tr>
+
+            <tr row-no-records model="list"></tr>
+            </tbody>
+        </table>
+        </div>
+    </grid>
+</div>

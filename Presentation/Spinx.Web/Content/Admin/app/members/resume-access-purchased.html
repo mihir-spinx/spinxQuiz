@@ -1,0 +1,57 @@
+﻿<section ng-controller="ctrlResumeAccessPurchased">
+    
+    <div class="row" style="padding-bottom: 15px;">
+        <div class="col-md-12 text-right" ng-show="!parentObj.planActive">
+            <a class="btn btn-primary" href="javascript:;" ng-click="addResumePlan()">
+                <i class="fa fa-plus"></i> Add Resume Access Plan
+            </a>
+        </div>
+    </div>
+
+    <div ng-init="list.filters.sortColumn='createdAt';list.filters.sortType='desc';">
+        <grid>
+            <message message="list.message" type="list.messageType"></message>
+            <toolbar model="list"></toolbar>
+
+            <table class="table table-bordered table-striped dataTable table-hover">
+                <thead>
+                    <tr>
+                        <th th-search name="days" model="list"></th>
+                        <th th-search name="price" model="list"></th>
+                        <th th-search-date name="createdAt" model="list"></th>
+                        <th th-search-date name="expiryDate" model="list"></th>
+                        <th th-search name="daysLeft" model="list"></th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th th-sort name="days" model="list"> Type </th>
+                        <th th-sort align="right" name="price" model="list" width="100"> Amount </th>
+                        <th th-sort align="center" name="createdAt" model="list" width="180"> Start Date </th>
+                        <th th-sort align="center" name="expiryDate" model="list" width="180"> Expiry Date </th>
+                        <th th-sort align="center" name="daysLeft" model="list" width="180"> Days Left </th>
+                        <th th-sort-action ></th>
+                    </tr>
+                </thead>
+                <tbody ng-model="list.data" ng-data-id:{{list.data}}>
+                    <tr ng-repeat="item in list.data">
+                        <td cell>{{ item.days }} Days Resume Access </td>
+                        <td cell align="right"> {{item.price | currency : '$'}} </td>
+                        <td cell align="center"> {{ (item.createdAt | date:'MMM dd, yyyy') }} </td>
+                        <td cell align="center"> {{ (item.expiryDate | date:'MMM dd, yyyy') }} </td>
+                        <td cell align="center"> {{item.daysLeft == 0 ? 'Expired' : item.daysLeft}} </td>
+                        <td cell align="center">
+                            <!--<span class="plus-check-icon" ng-show="(item.daysLeft==0)?(parentObj.planActive)?false:true:true">-->
+                            <span class="plus-check-icon" ng-show="(item.daysLeft==0)?false:true;">
+                                <a href="javascript:;" class="text-danger mglr-2" title="Add Days" ng-click="addDays(item.id,'Resume Access')">
+                                    <i class="glyphicon glyphicon-plus"></i>
+                                </a>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr row-no-records model="list"></tr>
+                </tbody>
+            </table>
+        </grid>
+    </div>
+
+</section>

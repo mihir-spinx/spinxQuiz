@@ -1,0 +1,159 @@
+﻿@model Spinx.Domain.QuizCategories.QuizCategory
+
+<!-- Job Board: Page Banner Title -->
+<section class="cmn-banner page-title-banner">
+    <div class="imgDiv" style="background-image: url(Content/images/travel5.jpg);"></div>
+    <div class="banner-title">
+        <h1>Resources</h1>
+    </div>
+</section>
+
+<div ng-controller="ctrlList" ng-cloak>
+
+    <!-- Job Board: Two column section  -->
+    <section class="cmn-banner-links">
+        <div class="clearfix fix-wrap">
+            <a href="javascript:void(0);" class="toggle-link">Filter</a>
+            @Html.Partial("_ResourcesMenu")
+            <div class="f-right">
+                <div class="search-jobs">
+
+                    <form method="post">
+                        <div class="form-group">
+                            <label for="ResourcesSearch" class="dis-none">Resources Search</label>
+                            <input type="text" id="ResourcesSearch" placeholder="Keyword…" ng-model="filters.name"/>
+                            <input type="submit" class="btn-green" value="Search" ng-click="load()"/>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="quizzes-list-page">
+        <div class="clearfix fix-wrap">
+            <div class="left-content">
+
+                <!-- quizzes-list section here -->
+                <div id="Quizzes" class="left-column">
+                    <div class="gutter-sizer"></div>
+                    <div class="box" ng-repeat="item in list">
+                        <h2>{{item.name}} <img src="{{item.categoryIcon}}" alt="icon {{item.name}}" class="icon-left"></h2>
+
+                        <ul class="cmn-list">
+                            <li ng-repeat="qitem in item.quizs"><a href="resources/quiz/{{qitem.slug}}">{{qitem.title}}</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div id="no-records" style="display: none;">No resources found!</div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+@section scripts{
+    <script src="~/Content/js/jquery.masonry.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            filterLinks();
+            $("#liQuizzes").addClass("active");
+        });
+
+        function filterLinks() {
+            var screen_width = $(window).width();
+            if (screen_width < 979) {
+                $(".cmn-banner-links ul.cmn-list").hide();
+                $('a.toggle-link').off('click');
+                $('a.toggle-link').on('click', function () {
+                    $(this).toggleClass("open-filter");
+                    $(".cmn-banner-links ul.cmn-list").slideToggle(200);
+                });
+            }
+            else {
+                $('a.toggle-link').removeClass("open-filter");
+                $(".cmn-banner-links ul.cmn-list").show();
+            }
+        };
+
+        $(window).resize(function () {
+            filterLinks();
+        });
+
+        /*** For News Grid Item ***/
+        $(window).on('load', function () {
+            setTimeout(function () {
+                loadmasonry();
+            }, 500);
+
+        });
+        var $grid = null;
+        var masonryOptions = {
+            itemSelector: '.box',
+            columnWidth: '.box',
+            gutter: '.gutter-sizer',
+            percentPosition: true,
+            isAnimated: false,
+            transitionDuration: 0
+        };
+
+        function loadmasonry() {
+            $grid = $('#Quizzes').masonry(masonryOptions);
+        }
+
+    </script>
+    
+    <script src="~/Content/app/paging.js"></script>
+
+    <script>
+        myApp = angular.module('myApp', ["ngCookies", "bw.paging"]);
+
+        myApp.controller("ctrlList",
+            [
+                "$scope", "$http", function ($scope, $http) {
+                    var searchApiUrl = 'api/list/QuizCategoriesFrontList';
+                    $scope.virtualDir = virtualDir;
+                    $scope.result = {};
+                    $scope.filters = {};
+                    $scope.filters.sortColumn = 'Name';
+                    $scope.filters.sortType = 'Asc';
+                    $scope.data = [];
+                    $scope.isLoadComplete = false;
+                    $scope.load = function () {
+                        $http.get(searchApiUrl, { params: $scope.filters }).then(function (resp) {
+                            $scope.result = resp.data;
+                            $scope.list = resp.data.data;
+                            if (resp.data.data.length == 0) {
+                                $("#Quizzes").hide();
+                                $("#no-records").show();
+                            }
+                            else {
+
+                                $("#Quizzes").show();
+                                $("#no-records").hide();
+                                if ($scope.isLoadComplete) {
+                                    setTimeout(function () {
+                                        $(".cmn-list").each(function () {
+                                            if ($(this).find("li").length == 0) {
+                                                $(this).parent().hide();
+                                            }
+                                        });
+                                        if ($(".box ul:visible").length == 0) {
+                                            $("#Quizzes").hide();
+                                            $("#no-records").show();
+                                        }
+                                        $grid.masonry('reloadItems');
+                                        $grid.masonry(masonryOptions); // re-initialize
+                                    }, 500);
+                                }
+                                $scope.isLoadComplete = true;
+                            }
+                        });
+                    };
+                    $scope.load();
+                }
+            ]);
+    </script>
+}

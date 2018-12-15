@@ -1,0 +1,71 @@
+﻿<layout-header icon="book" breadcrumb="['Resources','Quizzes']">
+    <button-add url="admin/quizs/create"> Quiz </button-add>
+</layout-header>
+
+<div ng-controller="ctrlList" ng-init="list.filters.sortColumn='Title';list.filters.sortType='asc';">
+    <grid>
+        <message message="list.message" type="list.messageType"></message>
+        <toolbar model="list"></toolbar>
+        <table class="table table-bordered table-striped dataTable table-hover">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th th-search-select name="quizcategoryId" model="list" data="quizCategories" label="Quiz Category"></th>
+                    <th th-search name="title" model="list"></th>
+                    <th th-search-status model="list"></th>
+                    <th></th>
+                </tr>
+                <tr>
+                    <th th-sort-select-all model="list"></th>
+                    <th th-sort name="quizCategoryName" model="list" width="300"> Quiz Category </th>
+                    <th th-sort name="title" model="list"> Quiz Title </th>
+                    <th th-sort-status model="list"></th>
+                    <th th-sort-action></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in list.data">
+                    <td cell-checkbox-id model="list" item="item"></td>
+                    <td>{{ item.quizCategoryName }}</td>
+                    <td>{{ item.title }}</td>
+                    <td cell-status item="item"></td>
+                    <td cell align="center">
+                        <action-edit url="admin/quizs/edit/{{ item.id }}" model="list" 
+                                     item="item" title="Edit"></action-edit>
+                        <action-delete click="list.deleteRow(item.id)" model="list" item="item" title="Delete">
+                        </action-delete>
+                    </td>
+                </tr>
+                <tr row-no-records model="list"></tr>
+            </tbody>
+        </table>
+    </grid>
+</div>
+
+@section scripts {
+    <script>
+        myApp.controller("ctrlList",
+            [
+                "$scope", "$http", "spinxList", function ($scope, $http, spinxList) {
+
+                    var searchApiUrl = 'api/admin/quizs';
+                    $scope.list = new spinxList(searchApiUrl);
+                    $scope.list.actions = ['Delete', 'Active', 'Inactive'];
+
+                    $http.get(window.virtualDir + "api/list/quizcategorieslist").then(function (resp) {
+                        $scope.loadquizcategories();
+                    });
+                    $scope.loadquizcategories = function () {
+                        $http.get(window.virtualDir + "api/list/quizcategorieslist/")
+                            .then(function (resp) {
+                                $scope.quizCategories = resp.data;
+                            });
+                    };
+                    $scope.filterSite = function () {
+                        $scope.list.load();
+                        this.loadquizcategories();
+                    };
+                }
+            ]);
+    </script>
+}

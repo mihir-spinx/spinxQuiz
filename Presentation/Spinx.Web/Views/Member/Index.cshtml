@@ -1,0 +1,197 @@
+﻿@using Spinx.Web.Infrastructure
+<!-- Create: Create Banner -->
+<section class="cmn-banner createaccount-banner">
+    <div class="imgDiv web-view" style="background-image: url(Content/images/travel.jpg);"></div>
+    <div class="imgDiv mob-view" style="background-image: url(Content/images/travel.jpg);"></div>
+
+    <div class="fix-wrap" ng-controller="MemberController">
+        <div class="cmn-form">
+            <h1>Create an Account to Find a Teacher</h1>
+            <p>If you are looking for a teacher, please create an account to post a job, banner ad, and to access resumes on Dave's ESL Cafe.</p>
+
+            <form method="post">
+                <div class="alert alert-{{ messageType }} fade in" ng-show="message" ng-cloak>
+                    <i class="fa-fw fa fa-check"></i>
+                    <span ng-bind="message"></span>
+                </div>
+                <div class="form-group" ng-class="errors.name ? 'has-error' : ''">
+                    <div class="form-label">
+                        <input type="text" id="FullName" ng-model="entity.name" />
+                        <label for="FullName">Full Name</label>
+                        <i class="name-icon"></i>
+                    </div>
+                    <small class="help-block" ng-show="errors.name" ng-bind="errors.name"></small>
+                </div>
+
+                <div class="form-group" ng-class="errors.phone ? 'has-error' : ''">
+                    <div class="form-label">
+                        <input type="tel" id="phone" ng-model="entity.phone" />
+                        <label for="phone">Phone</label>
+                        <i class="name-icon"></i>
+                    </div>
+                    <small class="help-block" ng-show="errors.phone" ng-bind="errors.phone"></small>
+                </div>
+
+                <div class="form-group" ng-class="errors.email ? 'has-error' : ''">
+                    <div class="form-label">
+                        <input type="email" id="EmailAddress" ng-model="entity.email" />
+                        <label for="EmailAddress">Email Address</label>
+                        <i class="email-icon"></i>
+                    </div>
+                    <small class="help-block" ng-show="errors.email" ng-bind="errors.email"></small>
+                </div>
+
+                <div class="form-group" ng-class="errors.password ? 'has-error' : ''">
+                    <div class="form-label">
+                        <input type="password" id="Password" ng-model="entity.password" />
+                        <label for="Password">Password</label>
+                        <i class="password-icon"></i>
+                    </div>
+                    <small class="help-block" ng-show="errors.password" ng-bind="errors.password"></small>
+                </div>
+
+                <div class="form-group" ng-class="errors.addressLine1 ? 'has-error' : ''">
+                    <div class="form-label">
+                        <input type="text" id="AddressLine1" ng-model="entity.addressLine1" />
+                        <label for="AddressLine1"> Address Line - 1 </label>
+                        <i class="name-icon"></i>
+                    </div>
+                    <small class="help-block" ng-show="errors.addressLine1" ng-bind="errors.addressLine1"></small>
+                </div>
+
+                <div class="form-group" ng-class="errors.addressLine2 ? 'has-error' : ''">
+                    <div class="form-label">
+                        <input type="text" id="AddressLine2" ng-model="entity.addressLine2" />
+                        <label for="AddressLine2"> Address Line - 2 </label>
+                        <i class="name-icon"></i>
+                    </div>
+                    <small class="help-block" ng-show="errors.addressLine2" ng-bind="errors.addressLine2"></small>
+                </div>
+
+                <div class="form-group" ng-class="errors.city ? 'has-error' : ''">
+                    <div class="form-label">
+                        <input type="text" id="City" ng-model="entity.city" />
+                        <label for="City"> City </label>
+                        <i class="name-icon"></i>
+                    </div>
+                    <small class="help-block" ng-show="errors.city" ng-bind="errors.city"></small>
+                </div>
+
+                <div class="form-group" ng-class="errors.state ? 'has-error' : ''">
+                    <div class="form-label">
+                        <input type="text" id="State" ng-model="entity.state" />
+                        <label for="State"> State </label>
+                        <i class="name-icon"></i>
+                    </div>
+                    <small class="help-block" ng-show="errors.state" ng-bind="errors.state"></small>
+                </div>
+
+                <div class="form-group" ng-class="errors.degree ? 'has-error' : ''">
+                    <div class="form-label">
+                        <input type="text" id="Degree" ng-model="entity.degree" />
+                        <label for="Degree"> Degree </label>
+                        <i class="name-icon"></i>
+                    </div>
+                    <small class="help-block" ng-show="errors.degree" ng-bind="errors.degree"></small>
+                </div>
+                
+                <div class="form-group" ng-class="errors.college ? 'has-error' : ''">
+                    <div class="form-label">
+                        <input type="text" id="College" ng-model="entity.college" />
+                        <label for="College"> College </label>
+                        <i class="name-icon"></i>
+                    </div>
+                    <small class="help-block" ng-show="errors.college" ng-bind="errors.college"></small>
+                </div>
+                
+                <div class="form-group" ng-class="errors.lastSemMark ? 'has-error' : ''">
+                    <div class="form-label">
+                        <input type="text" id="LastSemMark" ng-model="entity.lastSemMark" />
+                        <label for="LastSemMark"> Last Semester Mark </label>
+                        <i class="name-icon"></i>
+                    </div>
+                    <small class="help-block" ng-show="errors.lastSemMark" ng-bind="errors.lastSemMark"></small>
+                </div>
+                
+                <div class="form-group" ng-class="errors.experience ? 'has-error' : ''">
+                    <div class="form-label">
+                        <input type="text" id="Experience" ng-model="entity.experience" />
+                        <label for="Experience"> Experience </label>
+                        <i class="name-icon"></i>
+                    </div>
+                    <small class="help-block" ng-show="errors.experience" ng-bind="errors.experience"></small>
+                </div>
+                
+                <div class="agree-section">
+                    <div class="custom_checkbox">
+                        <input id="agreereceive" type="checkbox" ng-model="entity.issubscribed" />
+                        <label for="agreereceive">
+                            I declare that, above data are correct and specified.
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group createaccount-group">
+                    <input type="submit" class="btn-green" value="Create Account" ng-class="loading ? 'submit-disabled' : ''" ng-disabled="loading" ng-click="submit()" />
+                    <div id="divLoader" ng-show="loading">
+                        <img src="Content/images/ajax-loader.gif" class="ajax-loader" alt="loader icon" />
+                    </div>
+                    <a href="login" class="f-left">Have an account? Login</a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</section>
+
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function (e) {
+            funInputPlaceholder();
+        });
+    </script>
+
+    <script>
+        myApp.controller("MemberController",
+            [
+                "$scope", "$http", "$rootScope", function ($scope, $http, $rootScope) {
+                    $scope.entity = {};
+                    $scope.submit = function () {
+                        $scope.message = null;
+                        $scope.messageType = null;
+                        $scope.loading = true;
+                        $scope.errors = {};
+
+                        $http({
+                            url: window.location.href,
+                            method: 'POST',
+                            data: angular.toJson($scope.entity)
+                        }).then(function (resp) {
+                            $scope.loading = false;
+                            $scope.errors = resp.data.errors;
+
+                            if (resp.data.success) {
+                                $scope.entity = {};
+                                $scope.message = resp.data.message;
+                                $scope.messageType = 'success';
+
+                                $('html, body').animate({
+                                    scrollTop: $("form").offset().top - 200
+                                }, 500);
+
+                                if (resp.data.isRedirect) {
+                                    setTimeout(function () { window.location.href = resp.data.redirect; }, 500);
+                                }
+                            }
+                            else {
+                                $scope.message = resp.data.message;
+                                $scope.messageType = 'error';
+                                $('html, body').animate({
+                                    scrollTop: $("form").offset().top - 200
+                                }, 500);
+                            }
+                        });
+                    }
+                }
+            ]);
+    </script>
+}

@@ -1,0 +1,183 @@
+﻿@using Spinx.Web.Infrastructure
+@using Spinx.Domain.PostAJobs;
+@{
+    ViewBag.Title = "Post A Job DashBoard";
+}
+@section headTop
+{
+<link href="~/Content/Admin/css/bootstrap.min.css" rel="stylesheet">     
+}
+<script>
+    document.body.classList.add("cmn-static-page");
+</script>
+
+<section class="cmn-banner dashboard-title">
+    <div class="banner-title">
+        <h1><img src="Content/images/person-icon.svg" alt="Member Name" />  @ViewBag.Member.Name</h1>
+    </div>
+</section>
+@Html.Partial("_nav")
+<!-- Job Board: Two column section  -->
+<section class="dashboard-wrap" ng-controller="ctrlList" ng-cloak>
+    <div class="clearfix fix-wrap">
+        <div class="jobs-filter">
+            <h3>You have <strong>{{standardCredit }} @(JobType.Standard) Job Post</strong> Credits and <strong>{{premiumCredit}} @(JobType.Premium) Job Post </strong>Credits left </h3>
+            <div class="f-right">
+                <a href="@Url.PostAJobUrlWithGuest()" class="btn-primary">Post a Job</a>
+            </div>
+        </div>
+        <div class="clearfix alert fade in" ng-class="{1:'alert-success',0:'alert-danger'}[messageType]" ng-show="message">
+            <a data-dismiss="alert" class="close" ng-click="message=''">×</a>
+            <i class="fa-fw fa fa-{{  messageIcon }}"></i>
+            <span ng-bind="message"></span>
+        </div>
+        <div id="divLoader" ng-show="loading" style="text-align:center;width:100%;margin-bottom:10px;">
+            <img src="Content/images/ajax-loader.gif" class="ajax-loader" />
+        </div>
+        <div class="data-table">
+            <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>Jobs</th>
+                        <th width="195">Type</th>
+                        <th width="150">Expiration Date</th>
+                        <th width="180">Status</th>
+                        <th width="140">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in list">
+                        <td>
+                            <a ng-show="item.postAJobStatus != @((int)PostAJobStatus.Live)">{{item.jobTitle}}</a>
+                            <a ng-show="item.postAJobStatus == @((int)PostAJobStatus.Live)" href="{{virtualDir + 'postajob-detail/'+ item.slug}}">{{item.jobTitle}}</a>
+                        </td>
+                        <td> <span ng-class="{@((int)JobType.Premium):'premium'}[item.jobType]">{{item.jobType == @((int)JobType.Standard) ? 'Standard' : 'Premium'  }} Job Post</span> </td>
+                        <td> {{item.expirationDate  | date : 'MMM dd, yyyy'}}   </td>
+                        <td>
+                            <div ng-show="item.postAJobStatus == @((int)PostAJobStatus.Pending)"> @PostAJobStatus.Pending</div>
+                            <div ng-show="item.postAJobStatus == @((int)PostAJobStatus.Rejected)"> @PostAJobStatus.Rejected</div>
+                            <div ng-show="item.postAJobStatus == @((int)PostAJobStatus.Live) && (item.remainingDays > 0 && item.remainingDays<= minimumRemainingDays)">Expiring in {{item.remainingDays}} {{item.remainingDays == 1 ? 'day' : 'days'}}</div>
+                            <div ng-show="item.postAJobStatus == @((int)PostAJobStatus.Live) && item.remainingDays== 0">  Expiring today</div>
+                            <div ng-show="item.postAJobStatus == @((int)PostAJobStatus.Live) && item.remainingDays> minimumRemainingDays">  @PostAJobStatus.Live</div>
+                            <div ng-show="item.postAJobStatus == @((int)PostAJobStatus.Expired)"> @PostAJobStatus.Expired</div>
+                        </td>
+
+                        <td>
+                            <a href="postajob-edit/{{item.slug}}" ng-if="(item.postAJobStatus == @((int)PostAJobStatus.Pending) || item.postAJobStatus == @((int)PostAJobStatus.Live))" title="Edit?">Edit</a>
+                            {{item.postAJobStatus == @((int)PostAJobStatus.Live) && item.remainingDays >= 0 && item.remainingDays<= minimumRemainingDays ? '|' :''}}
+                            <a href="postajob-renew/{{item.slug}}" ng-if="(item.postAJobStatus == @((int)PostAJobStatus.Expired)|| (item.postAJobStatus == @((int)PostAJobStatus.Live) && item.remainingDays >= 0 && item.remainingDays<= minimumRemainingDays)) && item.jobType == @((int)JobType.Standard) && @(ViewBag.MemberCredit.StandardJobPostCredit) == 0" title="Renew?">Renew</a>
+                            <a href="javascript:;" ng-click="renew(item.id,item.jobType)" ng-if="(item.postAJobStatus == @((int)PostAJobStatus.Expired) || (item.postAJobStatus == @((int)PostAJobStatus.Live) && item.remainingDays >= 0 && item.remainingDays<= minimumRemainingDays)) && item.jobType == @((int)JobType.Standard) && @(ViewBag.MemberCredit.StandardJobPostCredit) > 0" ng-class="loading ? 'submit-disabled' : ''" ng-disabled="loading" title="Renew?">Renew</a>
+
+                            <a href="postajob-renew/{{item.slug}}" ng-if="(item.postAJobStatus == @((int)PostAJobStatus.Expired) ||(item.postAJobStatus == @((int)PostAJobStatus.Live) && item.remainingDays >= 0 && item.remainingDays<= minimumRemainingDays)) && item.jobType == @((int)JobType.Premium) && item.isAvilabe && @(ViewBag.MemberCredit.PremiumJobPostCredit) == 0" title="Renew?">Renew</a>
+                            <a href="javascript:;" ng-click="renew(item.id,item.jobType)" ng-if="(item.postAJobStatus == @((int)PostAJobStatus.Expired) || (item.postAJobStatus == @((int)PostAJobStatus.Live) && item.remainingDays >= 0 && item.remainingDays<= minimumRemainingDays)) && item.jobType == @((int)JobType.Premium) && item.isAvilabe && @(ViewBag.MemberCredit.PremiumJobPostCredit) > 0" ng-class="loading ? 'submit-disabled' : ''" ng-disabled="loading"  title="Renew?">Renew</a>
+
+                            <a href="javascript:;" ng-if="item.postAJobStatus == @((int)PostAJobStatus.Expired) && item.jobType == @((int)JobType.Premium) && !item.isAvilabe" title="Renew?">Not Available</a>
+                        </td>
+                    </tr>
+                    <tr ng-show="list.length <= 0">
+                        <td style="text-align:center" colspan="6">
+                            No job posts found.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+@section scripts {
+
+<script src="~/bower_components/bootstrap/js/modal.js"></script>
+<script src="@Url.Content("~/Content/Admin/js/myplugin/jquery.confirm/jquery.confirm.js")"></script>
+  <script>
+      var standardCredit =  @(ViewBag.MemberCredit.StandardJobPostCredit);
+      var premiumCredit =  @(ViewBag.MemberCredit.PremiumJobPostCredit);
+      $(document).ready(function () {
+          $("#postajobdashboard").addClass("active");
+            /*** For header style 2 ***/
+            filterLinks();
+        });
+    function filterLinks() {
+        var screen_width = $(window).width();
+        if (screen_width < 979) {
+            $(".cmn-banner-links ul.cmn-list").hide();
+            $('a.toggle-link').off('click');
+            $('a.toggle-link').on('click', function () {
+                $(this).toggleClass("open-filter");
+                $(".cmn-banner-links ul.cmn-list").slideToggle(200);
+            });
+        }
+        else {
+            $('a.toggle-link').removeClass("open-filter");
+            $(".cmn-banner-links ul.cmn-list").show();
+        }
+    };
+    $(window).resize(function () {
+        filterLinks();
+    });
+    myApp.controller("ctrlList", ["$scope", "$http", "$cookies", function ($scope, $http, $cookies) {
+        var searchApiUrl = 'DashBoards/GetdashboardList';
+        // $scope.list.actions = ['Delete'];
+        $scope.virtualDir = virtualDir;
+        $scope.minimumRemainingDays = 5;
+        $scope.loading = false;
+        $scope.result = {};
+        $scope.paging = {};
+        $scope.filters = {};
+        $scope.filters.page = 1;
+        $scope.filters.size = 999;
+        $scope.filters.sortColumn = 'StatusStartDate';
+        $scope.filters.sortType = 'desc';
+        $scope.data = [];
+        $scope.standardCredit = standardCredit;
+        $scope.premiumCredit = premiumCredit;
+        $scope.load = function () {
+            $http.post(searchApiUrl, $scope.filters).then(function (resp) {
+                $scope.result = resp.data;
+                $scope.paging = $scope.result.paging
+                $scope.list = $scope.result.data;
+            });
+        };
+        $scope.load();
+        $scope.showMessage = function () {
+            angular.forEach([0, 1, 2, 3],
+                function (value) {
+                    var cookie = $cookies.get(`Flash.${value}`);
+                    if (cookie !== undefined && cookie != null) {
+                        $scope.message = cookie;
+                        $scope.messageType = value;
+                        $cookies.remove(`Flash.${value}`);
+                    }
+                }.bind(this));
+        }
+        $scope.showMessage();
+        var renewPost = function (postAjobId, jobType) {
+            $scope.loading = true;
+            $http.post("DashBoards/RenewUseCredit", { postAjobId: postAjobId }).then(function (resp) {
+                $scope.loading = false;
+                if (resp.data.success)
+                {
+                    $scope.message = resp.data.message;
+                    $scope.messageType = resp.data.messageType;
+                    $scope.load();
+                    if (jobType == @Convert.ToInt32(JobType.Standard))
+                        $scope.standardCredit = $scope.standardCredit - 1;
+                    else
+                        $scope.premiumCredit = $scope.premiumCredit - 1;
+                }
+            });
+        };
+        $scope.renew = function (id, jobType) {
+            $.confirm({
+                text: "Are you sure want to use your credit?",
+                title: "Confirmation required",
+                confirmButtonClass: "btn-danger",
+                confirm: function (button) {
+                    renewPost(id, jobType);
+                },
+                cancel: function () {
+                }
+            });
+        }
+    }]);
+      </script>
+}

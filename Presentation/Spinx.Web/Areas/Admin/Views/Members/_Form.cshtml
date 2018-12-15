@@ -1,0 +1,31 @@
+﻿<layout-header icon="user" breadcrumb="['Customers', 'Members']">
+    <a class="btn bg-color-blueLight txt-color-white" href="admin/members">
+        <i class="fa fa-long-arrow-left"></i> Back to Member List
+    </a>
+</layout-header>
+
+<section class="well" ng-controller="ctrlForm">
+    <form class="form-horizontal" autocomplete="off" novalidate>
+
+        <message message="form.message" type="form.messageType" model="form"></message>
+
+        <textbox name="name" maxlength="100" required model="form"></textbox>
+        <textbox name="phone" maxlength="20" model="form"></textbox>
+        <textbox name="email" maxlength="100" required model="form"></textbox>
+        <textbox type="password" name="password" maxlength="20" model="form"></textbox>
+        <textbox name="addressLine1" maxlength="250" model="form"></textbox>
+        <textbox name="addressLine2" maxlength="250" model="form"></textbox>
+        <textbox name="city" maxlength="100" model="form"></textbox>
+        <textbox name="state" maxlength="100" model="form"></textbox>
+        <textbox name="college" maxlength="100" model="form"></textbox>
+        <textbox name="degree" maxlength="100" model="form"></textbox>
+        <textbox name="lastSemMark" maxlength="100" model="form"></textbox>
+        <textbox name="experience" maxlength="100" model="form"></textbox>
+
+        <status model="form"></status>
+        <form-actions>
+            <save click="form.submit()"></save>
+        </form-actions>
+
+    </form>
+</section>

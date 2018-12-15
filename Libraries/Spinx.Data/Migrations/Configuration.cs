@@ -1,0 +1,22 @@
+﻿namespace Spinx.Data.Migrations
+{
+    using System.Data.Entity.Migrations;
+
+    internal sealed class Configuration : DbMigrationsConfiguration<Spinx.Data.SqlContext>
+    {
+        //private SqlContext _context;
+
+        public Configuration()
+        {
+            AutomaticMigrationsEnabled = false;
+        }
+
+        protected override void Seed(SqlContext context)
+        {
+            //  This method will be called after migrating to the latest version.
+
+            //  You can use the DbSet<T>.AddOrUpdate() helper extension method
+            //  to avoid creating duplicate seed data.
+        }
+    }
+}

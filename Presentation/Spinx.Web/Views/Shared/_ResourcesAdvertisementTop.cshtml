@@ -1,0 +1,25 @@
+﻿@using Spinx.Domain.Advertisements
+@if (ViewBag.Advertisements != null)
+{
+    if (ViewBag.Advertisements.AdvertisementPageTypes != null && ViewBag.Advertisements.AdvertisementPageTypes.Count > 0)
+    {
+        foreach (AdvertisementPageType advertisementPageTypes in ViewBag.Advertisements.AdvertisementPageTypes)
+        {
+            if (advertisementPageTypes.Code == "1E")
+            {
+                if (advertisementPageTypes.AdvertisementManagement.Count > 0)
+                {
+                    @Html.Partial("_LeaderboardBanner", advertisementPageTypes.AdvertisementManagement)
+                }
+                else
+                {
+                    @Html.Partial("_LeaderboardBanner_notFound")
+                }
+            }
+        }
+    }
+    else
+    {
+        @Html.Partial("_LeaderboardBanner_notFound")
+    }
+}

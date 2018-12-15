@@ -1,0 +1,32 @@
+﻿<div class="form-group" ng-class="$ctrl.model.errors[$ctrl.name] ? 'has-error' : ''">
+    <label class="col-md-2 control-label">{{$ctrl.label || ($ctrl.name | humanize)}} 
+        <span class="text-danger" ng-show="$ctrl.required != undefined">*</span>
+    </label>
+
+    <div class="col-md-6">
+        <div style="margin-bottom: 10px;">
+            <a href="javascript:;" class="btn btn-link" ng-click="$ctrl.browseFiles()">
+                <i class="fa fa-file-o"></i> Browse Files
+            </a>
+            <a href="javascript:;" class="btn btn-link txt-color-red" ng-click="$ctrl.removeFile()" ng-show="$ctrl.model.entity[$ctrl.name]">
+                <i class="fa fa-trash-o"></i> Remove
+            </a>
+            <a class="btn btn-link txt-color-orangeDark" target="_blank" ng-href="{{ $ctrl.model.entity[$ctrl.name] }}" ng-show="$ctrl.model.entity[$ctrl.name]">
+                <i class="fa fa-trash-o"></i> Preview
+            </a>
+        </div>
+
+        <input class="form-control"
+               placeholder="{{$ctrl.name | humanize}}"
+               type="{{$ctrl.type || 'text'}}"
+               ng-attr-maxlength="{{$ctrl.maxlength || undefined}}"
+               ng-model="$ctrl.model.entity[$ctrl.name]"
+               readonly ng-hide>
+
+        <small class="help-block" ng-show="$ctrl.model.errors[$ctrl.name]" ng-bind="$ctrl.model.errors[$ctrl.name]"></small>
+    </div>
+</div>
+
+
+
+

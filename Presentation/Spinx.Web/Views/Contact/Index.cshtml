@@ -1,0 +1,120 @@
+﻿@section head
+{
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+}
+<section class="cmn-banner contact-banner">
+    <div class="imgDiv web-view" style="background-image: url(Content/images/travel.jpg);"></div>
+    <div class="imgDiv mob-view" style="background-image: url(Content/images/travel.jpg);"></div>
+    <div class="fix-wrap" ng-controller="ContactUsController">
+        <div class="cmn-form">
+            <div class="contact-form">
+                <h1>Contact Dave</h1>
+                <form method="post">
+                    <div class="alert alert-{{ messageType }} fade in" ng-show="message" ng-cloak>
+                        <i class="fa-fw fa fa-check"></i>
+                        <span ng-bind="message"></span>
+                    </div>
+                    <div class="form-group" ng-class="errors.name ? 'has-error' : ''">
+                        <div class="form-label">
+                            <input type="text" id="FullName" ng-model="entity.name" />
+                            <label for="FullName">Full Name</label>
+                        </div>
+                        <small class="help-block" ng-show="errors.name" ng-bind="errors.name"></small>
+                    </div>
+                    <div class="form-group" ng-class="errors.email ? 'has-error' : ''">
+                        <div class="form-label">
+                            <input type="email" id="EmailAddress" ng-model="entity.email" />
+                            <label for="EmailAddress">Email Address</label>
+                        </div>
+                        <small class="help-block" ng-show="errors.email" ng-bind="errors.email"></small>
+                    </div>
+                    <div class="form-group" ng-class="errors.phone ? 'has-error' : ''">
+                        <div class="form-label">
+                            <input type="tel" id="PhoneNumber" ng-model="entity.phone" maxlength="20" />
+                            <label for="PhoneNumber">Phone Number</label>
+                        </div>
+                        <small class="help-block" ng-show="errors.phone" ng-bind="errors.phone"></small>
+                    </div>
+                    <div class="form-group" ng-class="errors.details ? 'has-error' : ''">
+                        <div class="form-label">
+                            <textarea ng-model="entity.details" id="Message" cols="30" rows="10"></textarea>
+                            <label for="Message">Message</label>
+                        </div>
+                        <small class="help-block" ng-show="errors.details" ng-bind="errors.details"></small>
+                    </div>
+                    @if (ViewBag.RecaptchaEnable)
+                    {
+                        <div class="form-group" id="g-recaptcha" ng-class="errors['gRecaptchaResponse'] ? 'has-error' : ''">
+                            <div class="g-recaptcha" data-sitekey="@ViewBag.RecaptchaPublicKey"></div>
+                            <i class="form-control-feedback glyphicon glyphicon-remove" ng-show="errors['gRecaptchaResponse']"></i>
+                            <small class="help-block" ng-show="errors['gRecaptchaResponse']" ng-bind="errors['gRecaptchaResponse']"></small>
+                        </div>
+                    }
+                    <div class="form-group form-cmn-btn">
+                        <input type="submit" class="btn-green" value="Send Message" ng-class="loading ? 'submit-disabled' : ''" ng-disabled="loading" ng-click="submit()" />
+                        <div id="divLoader" ng-show="loading">
+                            <img src="Content/images/ajax-loader.gif" alt="loader" class="ajax-loader" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="user-cont-info">
+                <div class="cont-user-pic">
+                    <img src="~/Content/images/dave-2.png" alt="Dave photo" />
+                </div>
+                <h3>Dave Sperling</h3>
+                <p>9018 Balboa Blvd. #512  <br>Northridge, CA <br>91325-2610 USA<br> <a href="mailto:dave@email.com">dave@email.com</a> </p>
+                <div class="cont-user-social">
+                    <a href="https://www.facebook.com/sperling.dave" class="fb-icon" target="_blank"><img src="~/Content/images/facebook.png" width="25" height="25" alt="facebook icon" /></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function (e) {
+            funInputPlaceholder();
+        });
+    </script>
+    <script>
+        myApp.controller("ContactUsController",
+            [
+                "$scope", "$http", "$rootScope", function ($scope, $http, $rootScope) {
+                    $scope.entity = {};
+                    $scope.submit = function () {
+                        $scope.entity['gRecaptchaResponse'] = $('#g-recaptcha-response').val();
+                        $scope.message = null;
+                        $scope.messageType = null;
+                        $scope.loading = true;
+                        $scope.errors = {};
+                        $http({
+                            url: 'contact',
+                            method: 'POST',
+                            data: angular.toJson($scope.entity)
+                        }).then(function (resp) {
+                            $scope.loading = false;
+                            $scope.errors = resp.data.errors;
+                            if (resp.data.success) {
+                                $scope.entity = {};
+                                $scope.message = resp.data.message;
+                                $scope.messageType = 'success';
+                                setTimeout(function () { funResetInputPlaceholder(); }, 100);
+                                $('html, body').animate({
+                                    scrollTop: $("form").offset().top - 200
+                                }, 500);
+                            }
+                            else {
+                                $scope.message = resp.data.message;
+                                $scope.messageType = 'error';
+                                $('html, body').animate({
+                                    scrollTop: $("form").offset().top - 200
+                                }, 500);
+                            }
+                        });
+                    }
+                }
+            ]);
+    </script>
+}

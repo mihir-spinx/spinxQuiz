@@ -1,0 +1,15 @@
+﻿@using ImageProcessor.Web;
+@using Spinx.Domain.Advertisements
+@if ((Model as IEnumerable<AdvertisementManagement>).Where(a => a.IsActive &&  a.AdvertisementStatus == ((int)AdvertisementStatus.Approved) && a.EndDate >= DateTime.Now).Count() > 0)
+{
+    var advertisementManagement = (Model as IEnumerable<AdvertisementManagement>).Where(a => a.AdvertisementStatus == ((int)AdvertisementStatus.Approved) && a.EndDate >= DateTime.Now).FirstOrDefault();
+    <div class="clear cmn-add-view">
+        <a target="_blank" href="@advertisementManagement.AdvertisementUrl"><img src="@advertisementManagement.AdvertisementImage" alt="Img @advertisementManagement.AdvertisementText" width="728" height="90" title="@advertisementManagement.AdvertisementText" /></a>
+        <h3><a target="_blank" href="@advertisementManagement.AdvertisementUrl">@advertisementManagement.AdvertisementText</a></h3>
+    </div>
+
+}
+else
+{
+    @Html.Partial("_LeaderboardBanner_notFound")
+}

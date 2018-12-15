@@ -1,0 +1,74 @@
+﻿@using Spinx.Domain.Advertisements
+<div class="sponsor-links">
+    <h3>SPONSORED LINKS</h3>
+    <a href="@Url.Action("Index", "Advertisements",new {slug = "resources" })" class="small-link">Purchase a sponsored link</a>
+    @if (ViewBag.Advertisements != null)
+    {
+        if (ViewBag.Advertisements.AdvertisementPageTypes != null && ViewBag.Advertisements.AdvertisementPageTypes.Count > 0)
+        {
+            <ul class="cmn-list">
+                @foreach (AdvertisementPageType advertisementPageTypes in ViewBag.Advertisements.AdvertisementPageTypes)
+                {
+                    switch (advertisementPageTypes.Code)
+                    {
+                        case "2E":
+                        case "3E":
+                        case "4E":
+                        case "5E":
+                        case "6E":
+                            {
+                                if (advertisementPageTypes.AdvertisementManagement.Count > 0)
+                                {
+                                    @Html.Partial("_SmallTextAdBanner", advertisementPageTypes.AdvertisementManagement)
+                                }
+                                else
+                                {
+                                    @Html.Partial("_SmallTextAdBanner_notFound")
+                                }
+
+                            }
+                            break;
+                    }
+                }
+            </ul>
+        }
+        else
+        {
+            <ul class="cmn-list">
+                @Html.Partial("_SmallTextAdBanner_notFound")
+                @Html.Partial("_SmallTextAdBanner_notFound")
+                @Html.Partial("_SmallTextAdBanner_notFound")
+                @Html.Partial("_SmallTextAdBanner_notFound")
+                @Html.Partial("_SmallTextAdBanner_notFound")
+            </ul>
+
+
+        }
+    }
+
+
+</div>
+@if (ViewBag.Advertisements != null)
+{
+    if (ViewBag.Advertisements.AdvertisementPageTypes != null && ViewBag.Advertisements.AdvertisementPageTypes.Count > 0)
+    {
+        foreach (AdvertisementPageType advertisementPageTypes in ViewBag.Advertisements.AdvertisementPageTypes)
+        {
+            if (advertisementPageTypes.Code == "7E")
+            {
+                if (advertisementPageTypes.AdvertisementManagement.Count > 0)
+                {
+                    @Html.Partial("_SkyscraperBanner", advertisementPageTypes.AdvertisementManagement)
+                }
+                else
+                {
+                    @Html.Partial("_SkyscraperBanner_notFound")
+                }
+            }
+        }
+    }
+    else
+    {
+        @Html.Partial("_SkyscraperBanner_notFound")
+    }
+}

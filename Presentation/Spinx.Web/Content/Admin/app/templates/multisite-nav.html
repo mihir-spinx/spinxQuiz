@@ -1,0 +1,7 @@
+﻿<ul class="nav nav-tabs" id="ulSites">
+    <li ng-repeat="site in sites" data-id="{{ site.id }}" ng-class="currentSiteId == site.id ? 'active' : ''">
+        <a href="javascript:;" ng-click="click({event: $event, id: site.id})">{{ site.name }}</a>
+    </li>
+</ul>
+
+<div class="clearfix"></div>

@@ -1,0 +1,29 @@
+﻿<form class="form-horizontal" autocomplete="off" novalidate ng-controller="ctrlQuizForm">
+    <fieldset>
+        <legend> Quiz Information </legend>
+        <message message="form.message" type="form.messageType" model="form"></message>
+
+        <selectbox label="Category" name="quizCategoryId" model="form" data="quizcategories" required></selectbox>
+        <textbox name="title" maxlength="250" required model="form"></textbox>
+        <textbox-area name="shortDescription" label="Special Instruction" required maxlength="400" model="form"></textbox-area>
+
+        <status model="form"></status>
+        
+        <legend>SEO</legend>
+        <textbox name="metaTitle" maxlength="100" model="form">
+            <p class="note ng-binding full-linen">
+                <strong> Note: </strong>
+                Google will accept only 60 characters from this meta title.
+            </p>
+        </textbox>
+        <textbox-area name="metaDescription" maxlength="300" model="form">
+            <p class="note ng-binding full-linen">
+                <strong> Note: </strong>
+                Google will accept only 300 characters from this meta description.
+            </p>
+        </textbox-area>
+    </fieldset>
+    <form-actions>
+        <save click="form.submit()"></save>
+    </form-actions>
+</form>

@@ -1,0 +1,11 @@
+﻿<div class="form-group">
+    <label class="col-md-2 control-label"> Is Default? <span class="text-danger">*</span></label>
+    <div class="col-md-6">
+        <select class="form-control"
+                ng-init="$ctrl.model.entity.isDefault = $ctrl.model.entity.isDefault || true"
+                ng-model="$ctrl.model.entity.isDefault">
+            <option ng-value="true">Yes</option>
+            <option ng-value="false" selected="selected">No</option>
+        </select>
+    </div>
+</div>

@@ -1,0 +1,140 @@
+﻿@using Spinx.Web.Core.Authentication;
+@{
+	ViewBag.Title = "Resume access purchase list";
+}
+<script>
+	document.body.classList.add("cmn-static-page");
+</script>
+
+<!-- Job Board: Page Banner Title -->
+<section class="cmn-banner dashboard-title">
+	<div class="banner-title">
+		<h1><img src="~/Content/images/person-icon.svg" alt="" /> @UserAuth.User.Name</h1>
+	</div>
+</section>
+
+<!-- Job Board: Two column section  -->
+@Html.Partial("_nav")
+<section class="dashboard-wrap">
+	<div class="clearfix fix-wrap" ng-controller="ctrlList" ng-cloak>
+		<div class="jobs-filter">
+			<h3>Go to <a href="@Url.Action("Index", "PostAResumes")">Resume Board</a></h3>
+			<div class="f-right" ng-show="btnPurchase"> <a href="@Url.Action("Index", "ResumeAccessPlans")" class="btn-primary">Purchase Resume Access</a> </div>
+		</div>
+		@*filteredCount>0*@
+		<div class="data-table resume-purchase-data">
+			<table cellpadding="0" cellspacing="0" border="0" width="100%">
+				<thead>
+					<tr>
+						<th>Type</th>
+						<th>Expiration Date</th>
+						<th width="115">Days Left</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="item in list">
+						<td> {{item.days}} Days Teacher Resume Access </td>
+						<td> {{ (item.expiryDate | date:'MMM dd, yyyy') }} </td>
+						<td> {{item.daysLeft == 0 ? 'Expired' : item.daysLeft}} </td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div id="no-records" style="display:none;">No resume access found!</div>
+		<div class="well">
+			<div paging
+				 class="paginition"
+				 page="paging.page"
+				 page-size="paging.size"
+				 total="paging.total"
+				 show-prev-next="true"
+				 scroll-top="true"
+				 hide-if-empty="true"
+				 paging-action="gotopage(page)">
+			</div>
+		</div>
+	</div>
+</section>
+@section scripts{
+<script>
+	$(document).ready(function() {
+		/*** For header style 2 ***/
+		$("#resumeaccesspurchased").addClass("active");
+		filterLinks();
+	});
+
+	function filterLinks(){
+		var screen_width = $( window ).width();
+		if(screen_width < 979) {
+			$(".cmn-banner-links ul.cmn-list").hide();
+			$('a.toggle-link').off('click');
+			$('a.toggle-link').on('click',function(){
+				$(this).toggleClass("open-filter");
+				$(".cmn-banner-links ul.cmn-list").slideToggle(200);
+			});
+		}
+		else
+		{
+			$('a.toggle-link').removeClass("open-filter");
+			$(".cmn-banner-links ul.cmn-list").show();
+		}
+	};
+
+	$(window).resize(function(){
+		filterLinks();
+	});
+</script>
+<script src="~/Content/app/paging.js"></script>
+<script>
+		myApp = angular.module('myApp', ["ngCookies", "bw.paging"]);
+		myApp.controller("ctrlList",
+			[
+				"$scope", "$http", function ($scope, $http) {
+
+					var searchApiUrl = 'DashBoards/ResumeAccessPurchaseList/';
+					$scope.virtualDir = virtualDir;
+					$scope.result = {};
+					$scope.paging = {};
+					$scope.btnPurchase = false;
+					$scope.filteredCount = 0;
+					$scope.filters = {};
+					$scope.filters.page = 1;
+					$scope.filters.size = 10;
+					$scope.filters.sortColumn = 'SortOrder';
+					$scope.filters.sortType = 'Asc';
+					$scope.data = [];
+
+					$scope.load = function () {
+
+						$http.post(searchApiUrl,  $scope.filters).then(function (resp) {
+							$scope.result = resp.data;
+							$scope.paging = $scope.result.paging;
+							$scope.list = $scope.result.data;
+
+							for (var i = 0; i < $scope.list.length; i++){
+								if ($scope.list[i].daysLeft > 0) {
+									$scope.filteredCount = $scope.filteredCount + 1;
+									
+								}
+							}
+							if ($scope.filteredCount <= 0) $scope.btnPurchase = true;
+
+						   if (resp.data.data.length == 0) {
+								$(".resume-purchase-data").hide();
+								$("#no-records").show();
+							}
+							else {
+								$(".resume-purchase-data").show();
+								$("#no-records").hide();
+							}
+						});
+					};
+					$scope.load();
+					$scope.gotopage = function (page) {
+						$scope.filters.page = page;
+						$scope.load();
+					};
+				}
+			]);
+</script>
+	}

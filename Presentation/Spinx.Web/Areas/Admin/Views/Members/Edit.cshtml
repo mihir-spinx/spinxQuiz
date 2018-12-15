@@ -1,0 +1,36 @@
+﻿@using System.Globalization
+@using Humanizer
+
+<layout-header icon="user" breadcrumb="['Customers', 'Members']">
+    <a class="btn bg-color-blueLight txt-color-white" href="admin/members">
+        <i class="fa fa-long-arrow-left"></i> Back to Member List
+    </a>
+</layout-header>
+
+<section ng-controller="ModelEditController" onload="onTemplateLoad()">
+    <section class="well">
+        <div class="tabs-left">
+            <ul class="nav nav-tabs tabs-left" id="demo-pill-nav">
+                <li ng-class="parentObj.tab == item ? 'active' : ''" ng-repeat="item in parentObj.tabs" ng-click="tabChange($event, item)">
+                    <a href="javascript:;"> {{ item | humanize }} </a>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <div style="border-bottom: 1px dashed rgba(0,0,0,.2);margin: 0 0 15px 0;">
+                    <h3>@ViewBag.Member.Name - (@ViewBag.Member.Email)</h3>
+                </div>
+                <div class="tab-pane active" ng-include="parentObj.template"> </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </section>
+
+</section>
+@section scripts{
+    <script>
+        var Id = @Url.RequestContext.RouteData.Values["Id"];
+        var filePath = '@ViewBag.filepath';
+    </script>
+    <script src="~/Content/Admin/app/members/controllers.js"></script>
+}

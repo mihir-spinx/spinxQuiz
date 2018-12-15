@@ -1,0 +1,88 @@
+﻿<section class="well" ng-controller="ctrlAddJob">
+    <div class="row" style="padding-bottom: 15px;">
+        <div class="col-md-12 text-right">
+            <a class="btn bg-color-blueLight txt-color-white" href="javascript:;" ng-click="backPostAJobList()">
+                <i class="fa fa-long-arrow-left"></i> Back to Post jobs
+            </a>
+        </div>
+    </div>
+    <form class="form-horizontal" autocomplete="off" novalidate>
+
+        <fieldset>
+            <legend> Post A Job </legend>
+            <message message="form.message" type="form.messageType" model="form"></message>
+
+            <div class="form-group" ng-class="form.errors['MemberId'] ? 'has-error' : ''">
+                <label class="col-md-2 control-label">
+                    Member
+                </label>
+                <div class="col-md-6">
+                    <select disabled class="form-control"
+                            ng-model="form.entity['MemberId']">
+                        <option ng-repeat="item in members" ng-value="item.id" ng-bind="item.name+' ('+ item.email +')'"></option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group" ng-class="form.errors['jobBoardId'] ? 'has-error' : ''">
+                <label class="col-md-2 control-label">
+                    Job Board
+                    <span class="text-danger">*</span>
+                </label>
+                <div class="col-md-6">
+                    <select class="form-control"
+                            ng-model="form.entity['jobBoardId']" ng-change="loadCreditPremiumList(form.entity['jobBoardId'])">
+                        <option value="">[ Select JobBoard ]</option>
+                        <option ng-repeat="item in jobboards" ng-value="item.id" ng-bind="item.name"></option>
+                    </select>
+                    <i class="form-control-feedback glyphicon glyphicon-remove" ng-show="form.errors['jobBoardId']"></i>
+                    <small class="help-block" ng-show="form.errors['jobBoardId']" ng-bind="form.errors['jobBoardId']"></small>
+                </div>
+            </div>
+
+            <textbox name="jobTitle" maxlength="250" required model="form"></textbox>
+            <textbox name="jobLocation" maxlength="100" required model="form"></textbox>
+            <textbox name="company" maxlength="100" required model="form"></textbox>
+            <textbox name="contactEmail" maxlength="100" model="form"></textbox>
+            <ckeditor required name="description" model="form"></ckeditor>
+            <div class="form-group opennewtab">
+                <label class="col-md-2 control-label">
+                    Open into New Tab
+                </label>
+                <div class="col-md-6">
+                    <input type="checkbox"  ng-model="form.entity['IsOpenNewTab']" />
+                </div>
+            </div>
+            <div class="job-adds" ng-show="form.entity['jobBoardId']" ng-class="form.errors['postAJobsCreditId'] ? 'has-error' : ''">
+                <div class="fix-wrap">
+                    <div>
+                        <div class="max-premiumplan-list">
+                            <span class="premiumplan-title">Premium</span>
+                            <a href="javascript:;" ng-click="creditchange();">clear</a>
+                            <ul class="cmn-list">
+                                <li ng-repeat="pitem in creditList[0].premium" ng-class="pitem.isAvilabe ? '':'not-available'">
+                                    <label class="custom-radio">
+                                        <input type="radio" ng-disabled="!pitem.isAvilabe" name="positionPlan" data-value=""
+                                               ng-value="{{pitem.id}}" ng-model="form.entity.postAJobsCreditPremiumId"
+                                               ng-click="creditPremiumchange(item.id)">
+                                        <div class="checkmark">{{pitem.name}}</div>
+                                    </label>
+                                    <div class="job-available" ng-show="pitem.isAvilabe">Available</div>
+                                    <div class="job-available" ng-show="!pitem.isAvilabe">Available on <br />{{pitem.avilabeDate | date:'mediumDate'}}</div>
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+
+                    <i class="form-control-feedback glyphicon glyphicon-remove" ng-show="form.errors['postAJobsCreditId']"></i>
+                    <small class="help-block" ng-show="form.errors['postAJobsCreditId']" ng-bind="form.errors['postAJobsCreditId']"></small>
+                </div>
+            </div>
+
+        </fieldset>
+        <form-actions>
+            <save click="form.submit()"></save>
+        </form-actions>
+    </form>
+</section>

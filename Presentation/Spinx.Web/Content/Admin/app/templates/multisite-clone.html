@@ -1,0 +1,21 @@
+﻿<fieldset>
+    <legend>Clone Content to Other Sites</legend>
+
+    <div class="form-group" ng-class="$ctrl.model.errors.cloneSiteIds ? 'has-error' : ''">
+        <label class="col-md-2 control-label">Sites</label>
+
+        <div class="col-md-6">
+            <div class="tree-fix-boxed" ng-hide="$ctrl.sites.length == 0">
+                <div class="checkbox" ng-repeat="item in $ctrl.sites" ng-show="item.id!=$ctrl.currentSiteId">
+                    <label>
+                        <input type="checkbox" class="checkbox style-0" checklist-model="$ctrl.model.entity.cloneSiteIds" checklist-value="item.id">
+                        <span ng-bind="item.name"></span>
+                    </label>
+                </div>
+            </div>
+            <small class="help-block" ng-show="$ctrl.model.errors.cloneSiteIds" ng-bind="$ctrl.model.errors.cloneSiteIds"></small>
+            <p class="note"><strong>Note:</strong> Please select site where you want to clone same content.</p>
+        </div>
+
+    </div>
+</fieldset>

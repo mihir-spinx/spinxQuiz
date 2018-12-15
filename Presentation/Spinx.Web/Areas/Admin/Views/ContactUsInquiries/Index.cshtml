@@ -1,0 +1,66 @@
+﻿<layout-header icon="user" breadcrumb="['Customers', 'Contact Us Inquiries']"></layout-header>
+
+<div ng-controller="ctrlList" ng-init="list.filters.sortColumn='createdAt';list.filters.sortType='desc';">
+    <grid>
+        <message message="list.message" type="list.messageType"></message>
+        <toolbar model="list"></toolbar>
+        <table class="table table-bordered table-striped dataTable table-hover">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th th-search name="name" model="list"></th>
+                    <th th-search name="email" model="list"></th>
+                    <th th-search name="phone" model="list"></th>
+                    <th th-search-date name="createdAt" model="list"></th>
+                    <th></th>
+                </tr>
+                <tr>
+                    <th th-sort-select-all model="list"></th>
+                    <th th-sort width="25"></th>
+                    <th th-sort name="name" model="list"> Name </th>
+                    <th th-sort name="email" model="list" width="600"> Email </th>
+                    <th th-sort align="center" name="phone" model="list" width="200"> Phone </th>
+                    <th th-sort-date name="createdAt" model="list"> Inquiry Date </th>
+                    <th th-sort-action></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat-start="item in list.data">
+                    <td cell-checkbox-id model="list" item="item" permissions="contactus.delete"></td>
+                    <td class="expand" ng-click="trShow[$index] = !trShow[$index]">
+                        <i class="fa" ng-class="trShow[$index] ? 'fa-minus-circle' : 'fa-plus-circle'" title="Expand"></i>
+                    </td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.email }}</td>
+                    <td cell align="center">{{ item.phone }}</td>
+                    <td cell-date item="item.createdAt"></td>
+                    <td cell align="center" permissions="contactUs.delete">
+                        <action-delete click="list.deleteRow(item.id)" model="list" item="item"
+                                       permissions="contactus.delete"  title="Delete"></action-delete>
+                    </td>
+                </tr>
+                <tr ng-repeat-end ng-show="trShow[$index]">
+                    <td colspan="99">
+                        <strong>Message: </strong> <p>{{ item.details }}</p>
+                        <hr class="dashed">
+                    </td>
+                </tr>
+                <tr row-no-records model="list"></tr>
+            </tbody>
+        </table>
+    </grid>
+</div>
+
+@section scripts {
+    <script>
+        myApp.controller("ctrlList",
+            [
+                "$scope", "$http", "spinxList", function ($scope, $http, spinxList) {
+                    var searchApiUrl = 'api/admin/ContactUsInquiries';
+                    $scope.list = new spinxList(searchApiUrl);
+                    $scope.list.actions = ['Delete'];
+                }
+            ]);
+    </script>
+}
