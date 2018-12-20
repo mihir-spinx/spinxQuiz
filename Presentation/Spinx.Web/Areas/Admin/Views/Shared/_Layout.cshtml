@@ -93,8 +93,10 @@
                 @if (Context.GetAdminUser().HasPermission("Content"))
                 {
                     <li>
-                        <a href="javascript:;"><i class="fa fa-lg fa-fw fa-pencil-square-o"></i> 
-                            <span class="menu-item-parent">Content</span></a>
+                        <a href="javascript:;">
+                            <i class="fa fa-lg fa-fw fa-pencil-square-o"></i>
+                            <span class="menu-item-parent">Content</span>
+                        </a>
                         <ul>
                             @Html.BkndMenuItem("Pages")
                             @Html.BkndMenuItem("SeoPages", label: "SEO Pages")
@@ -103,15 +105,11 @@
                 }
 
                 <li>
-                    <a href="javascript:;"><i class="fa fa fa-book"></i> <span class="menu-item-parent">Resources</span></a>
+                    <a href="javascript:;"><i class="fa fa fa-book"></i> <span class="menu-item-parent">Quiz</span></a>
+
                     <ul>
-                        <li>
-                            <a href="javascript:;">Quizzes</a>
-                            <ul>
-                                @Html.BkndMenuItem("QuizCategories", label: "Categories")
-                                @Html.BkndMenuItem("Quizs", label: "Quizzes")
-                            </ul>
-                        </li>
+                        @Html.BkndMenuItem("QuizCategories", label: "Categories")
+                        @Html.BkndMenuItem("Quizs", label: "Quizzes")
                     </ul>
                 </li>
 
