@@ -1,4 +1,5 @@
 ﻿using Spinx.Core.Domain;
+using Spinx.Domain.Quizs;
 using System;
 
 namespace Spinx.Domain.Members
@@ -9,6 +10,9 @@ namespace Spinx.Domain.Members
 
         public int MemberId { get; set; }
         public Member Member { get; set; }
+
+        public int QuizId { get; set; }
+        public Quiz Quiz { get; set; }
 
         public int AttempedQues { get; set; }
         public int Score { get; set; }

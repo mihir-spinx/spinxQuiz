@@ -99,6 +99,10 @@
     <Compile Include="Migrations\201812151755290_CreateMemberQuizAnswerAndMemberResultTable.Designer.cs">
       <DependentUpon>201812151755290_CreateMemberQuizAnswerAndMemberResultTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201812200825557_UpdateMemberQuizAnswerAndMemberResultTable.cs" />
+    <Compile Include="Migrations\201812200825557_UpdateMemberQuizAnswerAndMemberResultTable.Designer.cs">
+      <DependentUpon>201812200825557_UpdateMemberQuizAnswerAndMemberResultTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\SeedData\AdminUsersSeed.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -138,6 +142,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201812151755290_CreateMemberQuizAnswerAndMemberResultTable.resx">
       <DependentUpon>201812151755290_CreateMemberQuizAnswerAndMemberResultTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812200825557_UpdateMemberQuizAnswerAndMemberResultTable.resx">
+      <DependentUpon>201812200825557_UpdateMemberQuizAnswerAndMemberResultTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
