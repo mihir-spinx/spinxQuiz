@@ -7,6 +7,12 @@ namespace Spinx.Data.Configuration.Members
     {
         public MemberQuizAnswerConfiguration()
         {
+            Property(t => t.QuizAnswerId)
+               .IsOptional();
+
+            Property(t => t.IsRight)
+               .IsOptional();
+
         }
     }
 }

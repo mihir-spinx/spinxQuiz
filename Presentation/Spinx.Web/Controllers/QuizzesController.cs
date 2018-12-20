@@ -1,4 +1,5 @@
-﻿using Spinx.Services.QuizCategories;
+﻿using Spinx.Services.Members;
+using Spinx.Services.QuizCategories;
 using Spinx.Services.QuizQuestions;
 using Spinx.Services.Quizs;
 using Spinx.Services.SeoPages;
@@ -12,16 +13,19 @@ namespace Spinx.Web.Controllers
         private readonly IQuizCategoryService _quizCategoryService;
         private readonly IQuizQuestionService _quizQuestionService;
         private readonly ISeoPageService _seoPageService;
-
+        private readonly IMemberQuizService _memberQuizService;
+        
         public QuizzesController(IQuizService quizService,
             IQuizCategoryService quizCategoryService,
             IQuizQuestionService quizQuestionService,
+            IMemberQuizService memberQuizService,
             ISeoPageService seoPageService)
         {
             _quizService = quizService;
             _quizCategoryService = quizCategoryService;
             _quizQuestionService = quizQuestionService;
             _seoPageService = seoPageService;
+            _memberQuizService = memberQuizService;
         }
 
         public ActionResult Index()
@@ -50,6 +54,8 @@ namespace Spinx.Web.Controllers
 
         public ActionResult Question(string slug)
         {
+            var result = _memberQuizService.SaveMemberQuizInit(1, slug);
+
             var entity = _quizService.GetQuizBySlug(slug);
 
             entity.QuizCategory = _quizCategoryService.GetQuizCategoryById(entity.QuizCategoryId);

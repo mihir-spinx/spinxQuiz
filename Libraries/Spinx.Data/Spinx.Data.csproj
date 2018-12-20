@@ -107,6 +107,10 @@
     <Compile Include="Migrations\201812201143059_UpdateMemberQuizAnswerTable.Designer.cs">
       <DependentUpon>201812201143059_UpdateMemberQuizAnswerTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201812201328531_MemberQuizAnswerUpdate2.cs" />
+    <Compile Include="Migrations\201812201328531_MemberQuizAnswerUpdate2.Designer.cs">
+      <DependentUpon>201812201328531_MemberQuizAnswerUpdate2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\SeedData\AdminUsersSeed.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -115,6 +119,8 @@
     <Compile Include="Repository\AdminUsers\AdminUserRepository.cs" />
     <Compile Include="Repository\ContactUsInquiries\ContactUsInquiryRepository.cs" />
     <Compile Include="Repository\EmailTemplates\EmailTemplateRepository.cs" />
+    <Compile Include="Repository\Member\MemberQuizAnswerRepository.cs" />
+    <Compile Include="Repository\Member\MemberResultRepository.cs" />
     <Compile Include="Repository\Member\MemberRepository.cs" />
     <Compile Include="Repository\Pages\PageRepository.cs" />
     <Compile Include="Repository\Quizs\QuizAnswerRepository.cs" />
@@ -152,6 +158,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201812201143059_UpdateMemberQuizAnswerTable.resx">
       <DependentUpon>201812201143059_UpdateMemberQuizAnswerTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812201328531_MemberQuizAnswerUpdate2.resx">
+      <DependentUpon>201812201328531_MemberQuizAnswerUpdate2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
