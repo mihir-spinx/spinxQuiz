@@ -1,8 +1,7 @@
 namespace Spinx.Data.Migrations
 {
-    using System;
     using System.Data.Entity.Migrations;
-    
+
     public partial class CreateMemberQuizAnswerAndMemberResultTable : DbMigration
     {
         public override void Up()
@@ -22,7 +21,7 @@ namespace Spinx.Data.Migrations
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Members", t => t.MemberId, cascadeDelete: true)
                 .ForeignKey("dbo.Quizs", t => t.QuizId, cascadeDelete: true)
-                .ForeignKey("dbo.QuizAnswers", t => t.QuizAnswerId, cascadeDelete: true)
+                .ForeignKey("dbo.QuizAnswers", t => t.QuizAnswerId, cascadeDelete: false)
                 .Index(t => t.MemberId)
                 .Index(t => t.QuizId)
                 .Index(t => t.QuizAnswerId);
