@@ -1,6 +1,7 @@
 ﻿using Spinx.Core.Domain;
 using Spinx.Domain.Quizs;
 using System;
+using System.Collections.Generic;
 
 namespace Spinx.Domain.Members
 {
@@ -16,11 +17,14 @@ namespace Spinx.Domain.Members
 
         public int AttempedQues { get; set; }
         public int Score { get; set; }
-        public decimal Percentage { get; set; }
+        public decimal Percentage { get; set; }        
 
-        public string TimeDuration { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
 
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
+
+        public ICollection<MemberQuizAnswer> MemberQuizAnswer { get; set; }
     }
 }

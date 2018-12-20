@@ -103,6 +103,10 @@
     <Compile Include="Migrations\201812200825557_UpdateMemberQuizAnswerAndMemberResultTable.Designer.cs">
       <DependentUpon>201812200825557_UpdateMemberQuizAnswerAndMemberResultTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201812201143059_UpdateMemberQuizAnswerTable.cs" />
+    <Compile Include="Migrations\201812201143059_UpdateMemberQuizAnswerTable.Designer.cs">
+      <DependentUpon>201812201143059_UpdateMemberQuizAnswerTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\SeedData\AdminUsersSeed.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -145,6 +149,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201812200825557_UpdateMemberQuizAnswerAndMemberResultTable.resx">
       <DependentUpon>201812200825557_UpdateMemberQuizAnswerAndMemberResultTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812201143059_UpdateMemberQuizAnswerTable.resx">
+      <DependentUpon>201812201143059_UpdateMemberQuizAnswerTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

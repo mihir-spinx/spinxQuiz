@@ -68,6 +68,7 @@ namespace Spinx.Web
             //quizzes
             routes.MapRoute(name: "quizzes", url: "quiz", defaults: new { controller = "Quizzes", action = "Index" }, namespaces: FrontNamespaces);
             routes.MapRoute(name: "quiz", url: "resources/quiz/{Slug}", defaults: new { controller = "Quizzes", action = "Detail" }, namespaces: FrontNamespaces);
+            routes.MapRoute(name: "question", url: "resources/question/{Slug}", defaults: new { controller = "Quizzes", action = "Question" }, namespaces: FrontNamespaces);
 
             //Member
             routes.MapRoute(name: "create-account", url: "create-account", defaults: new { controller = "Member", action = "Index" }, namespaces: FrontNamespaces);

@@ -38,6 +38,19 @@ namespace Spinx.Web.Controllers
         public ActionResult Detail(string slug)
         {
             var entity = _quizService.GetQuizBySlug(slug);
+            ViewBag.slug = slug;
+            entity.QuizCategory = _quizCategoryService.GetQuizCategoryById(entity.QuizCategoryId);
+            ViewBag.QuizQuestions = _quizQuestionService.GetQuizQuestionsByQuizId(entity.Id);
+
+            if (entity == null)
+                return HttpNotFound();
+
+            return View(entity);
+        }
+
+        public ActionResult Question(string slug)
+        {
+            var entity = _quizService.GetQuizBySlug(slug);
 
             entity.QuizCategory = _quizCategoryService.GetQuizCategoryById(entity.QuizCategoryId);
             ViewBag.QuizQuestions = _quizQuestionService.GetQuizQuestionsByQuizId(entity.Id);

@@ -11,7 +11,7 @@ namespace Spinx.Services.QuizQuestions
     public interface IQuizQuestionService
     {
         IEnumerable<QuizQuestion> GetCachedQuizQuestions();
-        List<QuizQuestionListDto> GetQuizQuestionsByQuizId(int quizId);
+        List<QuizQuestionCountDto> GetQuizQuestionsByQuizId(int quizId);
     }
 
     public class QuizQuestionService : IQuizQuestionService
@@ -32,19 +32,17 @@ namespace Spinx.Services.QuizQuestions
                 .ToList();
         }
 
-        public List<QuizQuestionListDto> GetQuizQuestionsByQuizId(int quizId)
+        public List<QuizQuestionCountDto> GetQuizQuestionsByQuizId(int quizId)
         {
             var query = _quizQuestionRepository.AsNoTracking;
             query = query.Where(w => w.QuizId == quizId);
             query = query.Where(w => w.IsActive);
-            query = query.OrderBy(s => s.Question);
+            query = query.OrderBy(s => s.SortOrder);
 
-            var result = query.Where(w => w.IsActive)
-              .OrderBy(o => o.SortOrder)
-              .Select(s => new QuizQuestionListDto
+            var result = query.Select(s => new QuizQuestionCountDto
               {
-                  Question = s.Question,
-                  QuizAnswers = _quizAnswerRepository.AsNoTracking.Where(x => x.QuizQuestionId == s.Id).OrderBy(y=>y.SortOrder).ToList()
+                 Id = s.Id,
+                 SortOrder = s.SortOrder
               })
               .ToList();
             return result;

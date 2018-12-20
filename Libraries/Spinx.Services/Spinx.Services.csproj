@@ -158,6 +158,7 @@
     <Compile Include="AdminRolePermissions\Mappers\AdminRoleMapper.cs" />
     <Compile Include="AdminRolePermissions\Validators\AdminPermissionValidator.cs" />
     <Compile Include="AdminRolePermissions\Validators\AdminRoleValidator.cs" />
+    <Compile Include="Quizs\DTOs\QuizQuestionCountDto.cs" />
     <Compile Include="SeoPages\Actions\SeoPageAdminActionFactory.cs" />
     <Compile Include="SeoPages\Actions\SeoPageAdminDeleteAction.cs" />
     <Compile Include="SeoPages\SeoPageService.cs" />

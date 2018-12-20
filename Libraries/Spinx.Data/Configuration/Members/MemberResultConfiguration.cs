@@ -17,8 +17,9 @@ namespace Spinx.Data.Configuration.Members
                 .IsOptional()
                 .HasPrecision(9, 2);
 
-            Property(t => t.TimeDuration)
-                .IsOptional();
+            Property(t => t.EndTime)
+               .IsOptional();               
+
         }
     }
 }
