@@ -1,6 +1,8 @@
 ﻿using Spinx.Core.Domain;
+using Spinx.Domain.QuizAnswers;
 using Spinx.Domain.Quizs;
 using System;
+using System.Collections.Generic;
 
 namespace Spinx.Domain.QuizQuestions
 {
@@ -17,5 +19,7 @@ namespace Spinx.Domain.QuizQuestions
 
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
+
+        public ICollection<QuizAnswer> QuizAnswer { get; set; }
     }
 }

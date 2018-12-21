@@ -1,8 +1,9 @@
 ﻿@model Spinx.Domain.Quizs.Quiz
-@{
-    ViewBag.Title = Model.MetaTitle ?? Model.Title;
-    ViewBag.MetaDescription = Model.MetaDescription ?? Model.ShortDescription;
-}
+@using Spinx.Domain.Members;
+@*@{
+        ViewBag.Title = Model.MetaTitle ?? Model.Title;
+        ViewBag.MetaDescription = Model.MetaDescription ?? Model.ShortDescription;
+    }*@
 
 <!-- Job Board: Page Banner Title -->
 <section class="cmn-banner page-title-banner">
@@ -12,15 +13,8 @@
     </div>
 </section>
 
-<!-- Job Board: Two column section  -->
-<section class="cmn-banner-links">
-    <div class="clearfix fix-wrap">
-        <a href="javascript:void(0);" class="toggle-link">Filter</a>
-        @Html.Partial("_ResourcesMenu")
-    </div>
-</section>
 
-<section class="quiz-detail-wrap">
+<section class="quiz-detail-wrap" ng-controller="ctrlList">
     <div class="clearfix fix-wrap">
         <div class="left-content">
 
@@ -29,14 +23,35 @@
             </div>
 
             <div class="quiz-detail">
-                <h2><img src="@Model.QuizCategory.CategoryIcon" width="24" alt="title-icon"/><span>@Model.Title</span></h2>
+                <h2><img src="@Model.QuizCategory.CategoryIcon" width="24" alt="title-icon" /><span>@Model.Title</span></h2>
                 <div class="short-desc">
                     <h3>Special Instructions:</h3>
                     <p>@Model.ShortDescription</p>
                 </div>
-
+                <div class="left-content">
+                    <ul>
+                        @foreach (MemberQuizAnswer memberQuiz in ViewBag.MemberQuizList)
+                        {
+                            <li> <a href="javascript:;" ng-click="goToQuestion(@memberQuiz.SortOrder)">@memberQuiz.SortOrder</a></li>
+                        }
+                    </ul>
+                </div>
                 <div class="short-quiz">
-                  <h1>Welcome</h1>                
+
+                    <div class="form-group">
+                        <div class="serial-no" ng-bind="list.sortOrder"></div>
+                        <div class="quiz-title">
+                            <h3 ng-bind="list.question"></h3>
+                            <label class="custom-radio" ng-repeat="item in list.quizAnswer">
+                                <input ng-model="list.quizAnswerId" ng-value="item.id" type="radio" name="questionOption" ng-click="memberAnswer(item.id,list.questionId)" />
+                                <div class="checkmark" ng-bind="item.answer"></div>
+                            </label>
+                        </div>
+                    </div>
+                    <a class="btn-primary btn-continue" ng-disabled="filters.sortOrder == 1" ng-class="filters.sortOrder == 1 ? 'submit-disabled' : ''" ng-click="goToQuestion(filters.sortOrder - 1)">Prev</a>
+                    <a  class="btn-primary btn-continue"  ng-disabled="filters.sortOrder == totelQuestion" ng-class="filters.sortOrder == totelQuestion ? 'submit-disabled' : ''" ng-click="goToQuestion(filters.sortOrder + 1)" >Next</a>                    
+                    <a ng-click="submitQuiz()" class="btn-primary btn-continue">Finish</a>
+
                 </div>
 
             </div>
@@ -48,53 +63,70 @@
 @section scripts{
     <script>
         $(document).ready(function () {
-            filterLinks();
+
             $("#liQuizzes").addClass("active");
         });
+        var sortOrder = @(ViewBag.SortOrder);
+        var memberResultId = @(ViewBag.MemberResultId);
+        var totelQuestion =  @(ViewBag.totelQuestion); 
 
-        function CalculateResult(TotalQuestion) {
-            var TotalCorrectAnswers = 0;
+        myApp = angular.module('myApp', ["ngCookies"]);
 
-            for (var i = 1; i <= TotalQuestion; i++) {
-                if ($("input:radio[name='" + i + "']:checked").val() == $("#hdnAns" + i).val() && $("#hdnAns" + i).val() != "" && typeof($("#hdnAns" + i).val()) !="undefined") {
-                    $("#imgRightAns" + $("#hdnAns" + i).data("qid") + $("#hdnAns" + i).val()).show();
-                    TotalCorrectAnswers++;
+        myApp.controller("ctrlList",
+            [
+                "$scope", "$http", function ($scope, $http) {
+                    var searchApiUrl = 'api/quiz/getQuestion/';
+                    $scope.virtualDir = virtualDir;
+                    $scope.result = {};
+                    $scope.filters = {};
+                    $scope.totelQuestion = totelQuestion;
+                    $scope.answerFilters = {};                    
+                    $scope.filters.sortOrder = sortOrder;
+                    $scope.filters.memberResultId = memberResultId;
+                    $scope.answerFilters.memberResultId = $scope.filters.memberResultId;
+                    $scope.data = [];
+                    $scope.isLoadComplete = false;
+                    $scope.load = function () {
+                        $http.get(searchApiUrl, { params: $scope.filters }).then(function (resp) {
+                            $scope.result = resp.data;
+                            $scope.list = resp.data.data;
+                            $scope.isLoadComplete = true;                            
+                        });
+                    };
+                    $scope.load();
+
+                    $scope.goToQuestion = function (questionNumber) {                        
+                        if (questionNumber > 0 && questionNumber <= $scope.totelQuestion) {
+                            $scope.filters.sortOrder = questionNumber;
+                            $scope.load();
+                        }                        
+                    }
+                    $scope.memberAnswer = function (answerId, questionId) {                        
+                        $scope.answerFilters.quizAnswerId = answerId;
+                        $scope.answerFilters.quizQuestionId = questionId;
+                        $http.post('api/quiz/getAnswer/', $scope.answerFilters).then(function (resp) {
+                            $scope.result = resp.data;                            
+                        });
+                    }; 
+
+                    $scope.submitQuiz = function () {
+
+                        if (confirm('Are you sure submit quiz !')) {
+                            $http.post('api/quiz/submitquiz/', { 'memberResultId': $scope.filters.memberResultId }).then(function (resp) {                                
+                                $scope.submitResult = resp.data;
+                                if ($scope.submitResult.success) {
+                                    if ($scope.submitResult.isRedirect)
+                                        window.location.href = $scope.submitResult.redirect;
+                                }
+                              
+                            });
+                        }
+
+                    }
+                    
                 }
-                else {
-                    $("input:radio[name='" + i + "']:checked").siblings(".wrong-img").show();
-                    $("#imgRightAns" + $("#hdnAns" + i).data("qid") +  $("#hdnAns" + i).val()).show();
-                }
-                $("input:radio[name='" + i + "']").each(function () {
-                    $(this).hide();
-                    $(this).siblings("div").removeClass().addClass("uncheckmark");
-                });
-            }
+            ]);
 
-            var finalResult = (TotalCorrectAnswers * 100) / TotalQuestion;
-            $("#spnResult").html(parseInt(finalResult));
-            $("#divSubmit").hide();
-            $("#divResult").show();
-        }
 
-        function filterLinks() {
-            var screen_width = $(window).width();
-
-            if (screen_width < 979) {
-                $(".cmn-banner-links ul.cmn-list").hide();
-                $('a.toggle-link').off('click');
-                $('a.toggle-link').on('click', function () {
-                    $(this).toggleClass("open-filter");
-                    $(".cmn-banner-links ul.cmn-list").slideToggle(200);
-                });
-            }
-            else {
-                $('a.toggle-link').removeClass("open-filter");
-                $(".cmn-banner-links ul.cmn-list").show();
-            }
-        };
-
-        $(window).resize(function () {
-            filterLinks();
-        });
     </script>
 }

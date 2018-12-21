@@ -159,6 +159,8 @@
     <Compile Include="AdminRolePermissions\Validators\AdminPermissionValidator.cs" />
     <Compile Include="AdminRolePermissions\Validators\AdminRoleValidator.cs" />
     <Compile Include="Members\MemberQuizService.cs" />
+    <Compile Include="Quizs\DTOs\MemberQuizAnswerDto.cs" />
+    <Compile Include="Quizs\DTOs\MemberQuizListDto.cs" />
     <Compile Include="Quizs\DTOs\QuizQuestionCountDto.cs" />
     <Compile Include="SeoPages\Actions\SeoPageAdminActionFactory.cs" />
     <Compile Include="SeoPages\Actions\SeoPageAdminDeleteAction.cs" />

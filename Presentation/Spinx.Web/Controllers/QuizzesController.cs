@@ -1,8 +1,10 @@
 ﻿using Spinx.Services.Members;
 using Spinx.Services.QuizCategories;
+using Spinx.Services.QuizCategories.DTOs;
 using Spinx.Services.QuizQuestions;
 using Spinx.Services.Quizs;
 using Spinx.Services.SeoPages;
+using Spinx.Web.Infrastructure;
 using System.Web.Mvc;
 
 namespace Spinx.Web.Controllers
@@ -14,7 +16,7 @@ namespace Spinx.Web.Controllers
         private readonly IQuizQuestionService _quizQuestionService;
         private readonly ISeoPageService _seoPageService;
         private readonly IMemberQuizService _memberQuizService;
-        
+        private readonly int MemberId = 1;// Tempory
         public QuizzesController(IQuizService quizService,
             IQuizCategoryService quizCategoryService,
             IQuizQuestionService quizQuestionService,
@@ -54,17 +56,49 @@ namespace Spinx.Web.Controllers
 
         public ActionResult Question(string slug)
         {
-            var result = _memberQuizService.SaveMemberQuizInit(1, slug);
+            var result = _memberQuizService.SaveMemberQuizInit(MemberId, slug);
+            if(result.Success)
+            {
+                ViewBag.MemberQuizList = result.MemberQuizAnswerList;
+                ViewBag.MemberResultId = result.MemberResultId;
+                ViewBag.SortOrder = result.SortOrder;
+                ViewBag.totelQuestion = result.MemberQuizAnswerList.Count;
+                var entity = _quizService.GetQuizBySlug(slug);                
 
-            var entity = _quizService.GetQuizBySlug(slug);
-
-            entity.QuizCategory = _quizCategoryService.GetQuizCategoryById(entity.QuizCategoryId);
-            ViewBag.QuizQuestions = _quizQuestionService.GetQuizQuestionsByQuizId(entity.Id);
-
-            if (entity == null)
+                return View(entity);
+            }
+            else           
                 return HttpNotFound();
+        }
 
-            return View(entity);
+        [HttpGet]
+        [System.Web.Http.Route("api/quiz/getQuestion/")]
+        public JsonNetResult GetQuestion(int memberResultId, int sortOrder)
+        {
+            var result = _memberQuizService.GetQuestionByMemberResult(memberResultId, sortOrder);
+            return new JsonNetResult(result);
+        }
+
+        [HttpPost]
+        [System.Web.Http.Route("api/quiz/getAnswer/")]
+        public JsonNetResult GetAnswer(MemberQuizAnswerDto dto)
+        {
+            var result = _memberQuizService.SaveAnswerByMember(dto);
+            return new JsonNetResult(result);
+        }
+        [HttpPost]
+        [System.Web.Http.Route("api/quiz/submitquiz/")]
+        public JsonNetResult SubmitQuiz(int memberResultId)
+        {
+            var result = _memberQuizService.SubmitQuiz(MemberId, memberResultId);
+            result.SetRedirect( Url.RouteUrl("quizthankyou"));     
+            // TODO : add logout logic
+            return new JsonNetResult(result);
+        }
+
+        public ActionResult ThankYou()
+        {
+            return View();
         }
     }
 }

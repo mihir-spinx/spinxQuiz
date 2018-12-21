@@ -3925,6 +3925,7 @@
     <Content Include="Views\Shared\_SmallTextLinkBanner_notFound.cshtml" />
     <Content Include="Views\Shared\_ResourcesAdvertisementTop.cshtml" />
     <Content Include="Views\Quizzes\Question.cshtml" />
+    <Content Include="Views\Quizzes\ThankYou.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Libraries\Spinx.Core\Spinx.Core.csproj">
