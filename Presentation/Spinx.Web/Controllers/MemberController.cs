@@ -61,12 +61,12 @@ namespace Spinx.Web.Controllers
             //var emailService = new EmailService(_emailTemplateService, _appSettings);
             //emailService.SendWelcomEmail(dto);
 
-            UserAuth.SignIn(Convert.ToInt32(result.Id), dto.Name, dto.Email, true);
+            //UserAuth.SignIn(Convert.ToInt32(result.Id), dto.Name, dto.Email, true);
 
             result.Data = null;
             result.IsRedirect = true;
 
-            result.SetRedirect("quiz");
+            result.SetRedirect(Url.RouteUrl("login"));
 
             return new JsonNetResult(result);
         }
@@ -74,7 +74,7 @@ namespace Spinx.Web.Controllers
         public ActionResult EditProfile()
         {
             if (!UserAuth.IsLogedIn())
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Login", "Member");
 
             var entity = _memberService.GetById(UserAuth.User.UserId);
 
@@ -118,7 +118,7 @@ namespace Spinx.Web.Controllers
         {
             UserAuth.Signout(UserAuth.CookieUser);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Member");
         }
 
         [HttpPost]
