@@ -1,4 +1,5 @@
-﻿using Spinx.Services.Members;
+﻿using System;
+using Spinx.Services.Members;
 using Spinx.Services.QuizCategories;
 using Spinx.Services.QuizCategories.DTOs;
 using Spinx.Services.QuizQuestions;
@@ -6,6 +7,7 @@ using Spinx.Services.Quizs;
 using Spinx.Services.SeoPages;
 using Spinx.Web.Infrastructure;
 using System.Web.Mvc;
+using Newtonsoft.Json;
 using Spinx.Core;
 using Spinx.Web.Core.Authentication;
 
@@ -51,6 +53,11 @@ namespace Spinx.Web.Controllers
                 return RedirectToAction("Login", "Member");
 
             var entity = _quizService.GetQuizBySlug(slug);
+
+            var result = _memberQuizService.CheckQuizRunning(UserAuth.User.UserId, entity.Id);
+            if(result.Success)
+                return RedirectToAction("Question", "Quizzes");
+
             ViewBag.slug = slug;
             entity.QuizCategory = _quizCategoryService.GetQuizCategoryById(entity.QuizCategoryId);
             ViewBag.QuizQuestions = _quizQuestionService.GetQuizQuestionsByQuizId(entity.Id);
@@ -69,8 +76,9 @@ namespace Spinx.Web.Controllers
             var result = _memberQuizService.SaveMemberQuizInit(UserAuth.User.UserId, slug);
             if(result.Success)
             {
-                ViewBag.MemberQuizList = result.MemberQuizAnswerList;
+                ViewBag.MemberQuizList =  JsonConvert.SerializeObject(result.MemberQuizAnswerList);
                 ViewBag.MemberResultId = result.MemberResultId;
+                ViewBag.diffInSeconds = (DateTime.Now - result.StartTime).TotalSeconds;
                 ViewBag.SortOrder = result.SortOrder;
                 ViewBag.totelQuestion = result.MemberQuizAnswerList.Count;
                 var entity = _quizService.GetQuizBySlug(slug);                
@@ -83,11 +91,11 @@ namespace Spinx.Web.Controllers
 
         [HttpGet]
         [System.Web.Http.Route("api/quiz/getQuestion/")]
-        public JsonNetResult GetQuestion(int memberResultId, int sortOrder)
+        public JsonNetResult GetQuestion(int memberResultId, int sortOrder,int lastSortOrder)
         {
             if (!UserAuth.IsLogedIn())
                 return  new JsonNetResult(new Result().SetError("Please Login"));
-            var result = _memberQuizService.GetQuestionByMemberResult(memberResultId, sortOrder);
+            var result = _memberQuizService.GetQuestionByMemberResult(memberResultId, sortOrder, lastSortOrder);
             return new JsonNetResult(result);
         }
 

@@ -13,7 +13,7 @@ namespace Spinx.Services.Members.Validators
         {
             _memberRepository = memberRepository;
 
-            RuleFor(v => v.Name).NotEmpty().MaximumLength(100);
+            RuleFor(v => v.Name).NotEmpty().WithMessage("'Full Name' should not be empty.").MaximumLength(100);
 
             RuleFor(v => v.Email).NotEmpty().WithMessage("Invalid email address.")
                 .EmailAddress().WithMessage("Invalid email address.").MaximumLength(100)

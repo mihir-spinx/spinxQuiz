@@ -19,10 +19,11 @@ namespace Spinx.Services.Members
 {
     public interface IMemberQuizService
     {
-        MemberQuizListDto SaveMemberQuizInit(int userId,string slug);
-        Result GetQuestionByMemberResult(int memberResultId, int sortOrder);
+        MemberQuizListDto SaveMemberQuizInit(int memberId, string slug);
+        Result CheckQuizRunning(int memberId, int quizId);
+        Result GetQuestionByMemberResult(int memberResultId, int sortOrder, int lastSortOrder);
         Result SaveAnswerByMember(MemberQuizAnswerDto dto);
-        Result SubmitQuiz(int MemberId, int memberResultId);
+        Result SubmitQuiz(int memberId, int memberResultId);
     }
 
     public class MemberQuizService : IMemberQuizService
@@ -58,7 +59,7 @@ namespace Spinx.Services.Members
 
        
 
-        public MemberQuizListDto SaveMemberQuizInit(int MemberId, string slug)
+        public MemberQuizListDto SaveMemberQuizInit(int memberId, string slug)
         {
             var result = new MemberQuizListDto();
 
@@ -71,12 +72,12 @@ namespace Spinx.Services.Members
             }
                 
 
-            if (!_memberResultRepository.AsNoTracking.Any(a => a.MemberId == MemberId && a.QuizId == quiz.Id && a.EndTime == null))
+            if (!_memberResultRepository.AsNoTracking.Any(a => a.MemberId == memberId && a.QuizId == quiz.Id && a.EndTime == null))
             {
 
                 var entity = new MemberResult()
                 {
-                    MemberId = MemberId,
+                    MemberId = memberId,
                     QuizId = quiz.Id,
                     CreatedAt = DateTime.Now,
                     StartTime = DateTime.Now
@@ -103,11 +104,12 @@ namespace Spinx.Services.Members
 
             }
 
-            var memberResultId = _memberResultRepository.AsNoTracking.FirstOrDefault(a => a.MemberId == MemberId && a.QuizId == quiz.Id && a.EndTime == null).Id;
-            result.MemberResultId = memberResultId;
+            var memberResult = _memberResultRepository.AsNoTracking.FirstOrDefault(a => a.MemberId == memberId && a.QuizId == quiz.Id && a.EndTime == null);
+            result.MemberResultId = memberResult.Id;
+            result.StartTime = memberResult.StartTime;
             result.Success = true;
             result.SortOrder = 1;
-            var memberQuiz = _memberQuizAnswerRepository.AsNoTracking.Where(w => w.MemberResultId == memberResultId);
+            var memberQuiz = _memberQuizAnswerRepository.AsNoTracking.Where(w => w.MemberResultId == memberResult.Id);
             result.MemberQuizAnswerList = memberQuiz.OrderBy(o => o.SortOrder).ToList();
             var quizOrder = memberQuiz.Where(w => w.QuizAnswerId != null).OrderByDescending(o => o.UpdatedAt).FirstOrDefault();
             if (quizOrder != null)
@@ -115,9 +117,30 @@ namespace Spinx.Services.Members
             return result;
         }
 
-        public Result GetQuestionByMemberResult(int memberResultId, int sortOrder)
+        public Result CheckQuizRunning(int memberId, int quizId)
         {
             var result = new Result();
+            result.Success = _memberResultRepository.AsNoTracking.Any(a =>
+                a.MemberId == memberId && a.QuizId == quizId && a.EndTime == null);
+            return result;
+        }
+
+        public Result GetQuestionByMemberResult(int memberResultId, int sortOrder, int lastSortOrder)
+        {
+            var result = new Result();
+
+            var entity = _memberQuizAnswerRepository.AsNoTracking.FirstOrDefault(w =>
+                w.MemberResultId == memberResultId && w.SortOrder == lastSortOrder);
+            if (entity != null)
+            {
+                if (entity.QuizAnswerId == null && entity.IsAttempt == null)
+                {
+                    entity.IsAttempt = false;
+                    _memberQuizAnswerRepository.Update(entity);
+                    _unitOfWork.Commit();
+                }
+            }
+
             result.Data =  _memberQuizAnswerRepository.AsNoTracking.Where(w => w.MemberResultId == memberResultId && w.SortOrder == sortOrder)
            .Select(s => new
             {
@@ -145,6 +168,7 @@ namespace Spinx.Services.Members
 
             entity.QuizAnswerId = dto.QuizAnswerId;
             entity.UpdatedAt = DateTime.Now;
+            entity.IsAttempt = true;
             entity.IsRight = _quizAnswerRepository.AsNoTracking.FirstOrDefault(x => x.Id == entity.QuizAnswerId).IsCorrectAnswer;            
 
             _memberQuizAnswerRepository.Update(entity);
@@ -154,10 +178,10 @@ namespace Spinx.Services.Members
             return result.SetSuccess(Messages.RecordSaved);           
         }
 
-        public  Result SubmitQuiz(int MemberId,int memberResultId)
+        public  Result SubmitQuiz(int memberId,int memberResultId)
         {
             var result = new Result();
-            var entity = _memberResultRepository.AsNoTracking.FirstOrDefault(a => a.MemberId == MemberId && a.Id == memberResultId && a.EndTime == null);
+            var entity = _memberResultRepository.AsNoTracking.FirstOrDefault(a => a.MemberId == memberId && a.Id == memberResultId && a.EndTime == null);
             if (entity == null)
                 return result.SetError("Something wrong.");
 
