@@ -17,7 +17,7 @@ myApp.controller("quizQuestionsEditController",
                         $scope.parentObj.template = templatePath + 'quiz-edit.html';
                         break;
                     case 'questions':
-                        $scope.parentObj.template = templatePath + 'questions.html';
+                        $scope.parentObj.template = templatePath + 'questions.html?id=1';
                         break;
                 }
             };

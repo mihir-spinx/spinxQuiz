@@ -16,8 +16,8 @@
         <table class="table table-bordered table-striped dataTable table-hover">
             <thead>
                 <tr>
-                    <th th-sort-select-all model="list"></th>
-                    <th th-sort width="30" align="center"></th>
+                   <th th-sort-select-all model="list"></th>
+                    <!--<th th-sort width="30" align="center"></th>-->
                     <th th-sort>Question</th>
                     <th th-sort-status></th>
                     <th th-sort-action></th>
@@ -26,7 +26,7 @@
             <tbody ui-sortable="sortableOptions" ng-model="list.data">
                 <tr ng-repeat="item in list.data">
                     <td cell-checkbox-id model="list" item="item"></td>
-                    <td class="text-center drag"><i class="glyphicon glyphicon-sort"></i></td>
+                    <!--<td class="text-center drag"><i class="glyphicon glyphicon-sort"></i></td>-->
 
                     <td>
                         {{ item.question }}

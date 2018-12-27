@@ -39,7 +39,7 @@
         <table class="table table-bordered table-striped dataTable table-hover">
             <thead>
                 <tr>
-                    <th th-sort width="30" align="center"></th>
+                    <!--<th th-sort width="30" align="center"></th>-->
                     <th th-sort>Answer</th>
                     <th>Is Correct?</th>
                     <th th-sort-action></th>
@@ -47,7 +47,7 @@
             </thead>
             <tbody ui-sortable="sortableOptions" ng-model="list.data">
                 <tr id="BlankAnswerRow" style="display:none;">
-                    <td></td>
+                    <!--<td></td>-->
                     <td>
                         <input id="NewAnswer" placeholder=" Answer" type="text" ng-model="item.answer" ng-required style="min-width: 530px;height:  30px;padding: 0 5px 0px 10px;" />
                         <small id="NewAnswerError"  style="display: none;float: right;color: red;padding-top: 7px;padding-right: 50px;">'Answer' should not be empty.</small>
@@ -59,7 +59,7 @@
                     </td>
                 </tr>
                 <tr ng-repeat="item in list.data">
-                    <td class="text-center drag"><i class="glyphicon glyphicon-sort"></i></td>
+                    <!--<td class="text-center drag"><i class="glyphicon glyphicon-sort"></i></td>-->
                     <td>
                         <span ng-hide="item.editMode">{{item.answer}}</span>
                         <input id="ans{{item.id}}" placeholder=" Answer" type="text" ng-show="item.editMode" ng-model="item.answer" ng-required style="min-width: 530px;height:  30px;padding: 0 5px 0px 10px;"/>

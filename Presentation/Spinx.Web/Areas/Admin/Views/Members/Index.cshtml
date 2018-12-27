@@ -8,15 +8,6 @@
         <toolbar model="list"></toolbar>
             <table class="table table-bordered table-striped dataTable table-hover">
                 <thead>
-                    @*<tr>
-                       <th></th>
-                        <th colspan="3" cell align="center"> <b> Member Detail </b> </th>
-                        <th colspan="7" cell align="center"> <b> Job Detail </b> </th>
-                        <th colspan="6" cell align="center"> <b> Advertisement Detail </b> </th>
-                        <th colspan="3" cell align="center"> <b> Resume Access Detail </b> </th>
-                        <th colspan="4" cell align="center"> <b> Resume Detail </b> </th>
-                    </tr>*@
-
                     <tr>
                         <th></th>
                         <th class='hasinput' style='vertical-align: middle;'>
@@ -34,23 +25,19 @@
                         <th name="jobPayment" model="list"></th>
                         <th name="totalJobPosts" model="list"></th>
                         <th name="approvedJobs" model="list"></th>
-                        <th name="pendingJobs" model="list"></th>
-                        <th name="rejectedJobs" model="list"></th>
                     </tr>
 
                     <tr>
                         <th th-sort-action width="25"></th>
                         <th th-sort name="name" model="list"> Member </th>
-                        <th th-sort width="70" name="createdSource" model="list"> Created Source</th>
+                        <th th-sort width="70" name="createdSource"> Created Source</th>
                         <th th-sort-date width="130" name="createdAt" model="list"> Created At</th>
-
-                        <th th-sort width="70" align="center" name="starndardCredits" model="list"> Starndard Credits </th>
-                        <th th-sort width="70" align="center" name="premiumCredits" model="list"> Premium Credits </th>
-                        <th th-sort width="70" align="center" name="jobPayment" model="list"> Payment by Jobs </th>
-                        <th th-sort width="70" align="center" name="totalJobPosts" model="list"> Total Job Post</th>
-                        <th th-sort width="70" align="center" name="approvedJobs" model="list"> Approved Jobs </th>
-                        <th th-sort width="70" align="center" name="pendingJobs" model="list"> Pending Jobs </th>
-                        <th th-sort width="70" align="center" name="rejectedJobs" model="list"> Rejected Jobs </th>
+                        <th th-sort width="70" align="center" name="score" model="list"> Score </th>
+                        <th th-sort width="70" align="center" name="percentage" model="list"> Percentage </th>
+                        <th th-sort width="70" align="center" name="attempedQues" model="list"> Attemped Question </th>
+                        <th th-sort width="70" align="center" name="startTime" model="list"> Start Time</th>
+                        <th th-sort width="70" align="center" name="endTime" model="list"> End Time </th>
+                        <th th-sort width="70" align="center" name="TimeDuration"> Time Interval </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -67,18 +54,17 @@
                         </td>
 
                         <td cell align="right">
-                            {{ item.createdSource }}
+                            {{ item.createdSourceName }}
                         </td>
 
                         <td cell-date item="item.createdAt"></td>
 
-                        <td cell align="center">{{ item.starndardCredits == 0 ? '-' : item.starndardCredits }}</td>
-                        <td cell align="center">{{ item.premiumCredits == 0 ? '-' : item.premiumCredits }}</td>
-                        <td cell align="right">{{ item.jobPayment == 0.00 ? '- ' : (item.jobPayment | currency : '$') }}</td>
-                        <td cell align="center">{{ item.totalJobPosts == 0 ? '-' : item.totalJobPosts }}</td>
-                        <td cell align="center">{{ item.approvedJobs == 0 ? '-' : item.approvedJobs }}</td>
-                        <td cell align="center">{{ item.pendingJobs == 0 ? '-' : item.pendingJobs }}</td>
-                        <td cell align="center">{{ item.rejectedJobs == 0 ? '-' : item.rejectedJobs }}</td>
+                        <td cell align="center">{{ item.score == 0 ? '-' : item.score }}</td>
+                        <td cell align="center">{{ item.percentage == 0 ? '-' : item.percentage }}</td>
+                        <td cell align="right">{{ item.attempedQues == 0.00 ? '- ' : item.attempedQues}} {{ item.quizQuestions == 0 ? ' ' : '/' + item.quizQuestions}}</td>
+                        <td cell align="center">{{ item.startTime == 0 ? '-' : item.startTime }}</td>
+                        <td cell align="center">{{ item.endTime == 0 ? '-' : item.endTime }}</td>
+                        <td cell align="center">{{ item.timeDuration}}</td>
                     </tr>
 
                     <tr row-no-records model="list"></tr>
@@ -90,7 +76,7 @@
 @section scripts {
     <script>
         myApp.controller("ctrlList", ["$scope", "$http", "spinxList", function ($scope, $http, spinxList) {
-            var searchApiUrl = 'api/admin/members';
+            var searchApiUrl = 'api/admin/membersResult';
             $scope.list = new spinxList(searchApiUrl);
             $scope.list.actions = [];
 
