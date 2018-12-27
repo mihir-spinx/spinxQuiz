@@ -67,7 +67,6 @@ namespace Spinx.Services.Members
             _memberRepository = memberRepository;
             _unitOfWork = unitOfWork;
             _actionFactory = actionFactory;
-
             _memberValidator = memberValidator;
             _memberChangePasswordValidator = memberChangePasswordValidator;
             _memberFrontChangePasswordValidator = memberFrontChangePasswordValidator;
@@ -132,7 +131,7 @@ namespace Spinx.Services.Members
             var result = validator.ValidateResult(dto);
 
             if (!result.Success) return result;
-            dto.CreatedSource = (int) MemberCreatedSource.Admin;
+            dto.CreatedSource = (int)MemberCreatedSource.Admin;
             var entity = Mapper.Map<Member>(dto);
             entity.Salt = SecurityHelper.GenerateSalt();
             entity.Password = SecurityHelper.GenerateHash(dto.Password, entity.Salt);
