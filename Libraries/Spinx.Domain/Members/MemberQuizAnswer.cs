@@ -13,13 +13,14 @@ namespace Spinx.Domain.Members
         public int MemberResultId { get; set; }
         public MemberResult MemberResult { get; set; }                
 
-        public int QuizAnswerId { get; set; }
+        public int? QuizAnswerId { get; set; }
         public QuizAnswer QuizAnswer { get; set; }
 
         public int QuizQuestionId { get; set; }
         public QuizQuestion QuizQestion { get; set; }
 
         public bool IsRight { get; set; }
+        public bool? IsAttempt  { get; set; }
 
         public int? SortOrder { get; set; }
 

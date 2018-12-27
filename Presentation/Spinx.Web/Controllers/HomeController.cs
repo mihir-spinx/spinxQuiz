@@ -1,6 +1,7 @@
 ﻿using Spinx.Services.SeoPages;
 using Spinx.Web.Infrastructure;
 using System.Web.Mvc;
+using Spinx.Web.Core.Authentication;
 
 namespace Spinx.Web.Controllers
 {
@@ -15,10 +16,10 @@ namespace Spinx.Web.Controllers
 
         public ActionResult Index()
         {
-            var entity = _seoPageService.GetPageMeta("HomePage");
-
-            //ViewBag.Title = entity.MetaTitle;
-            //ViewBag.MetaDescription = entity.MetaDescription;
+            if (UserAuth.IsLogedIn())
+                return RedirectToAction("Index", "Quizzes");
+            else
+                return RedirectToAction("Login", "Member");
 
             return View();
         }

@@ -3859,7 +3859,7 @@
     <Content Include="Areas\Admin\Views\SeoPages\Create.cshtml" />
     <Content Include="Areas\Admin\Views\SeoPages\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\SeoPages\Index.cshtml" />
-    <Content Include="connections.config" />
+    <Content Include="connections.config" />    
     <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
     <Content Include="bower_components\angular-ui-sortable\.bower.json" />
     <Content Include="bower_components\angular-ui-sortable\.travis.yml" />
@@ -3925,6 +3925,7 @@
     <Content Include="Views\Shared\_SmallTextLinkBanner_notFound.cshtml" />
     <Content Include="Views\Shared\_ResourcesAdvertisementTop.cshtml" />
     <Content Include="Views\Quizzes\Question.cshtml" />
+    <Content Include="Views\Quizzes\ThankYou.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Libraries\Spinx.Core\Spinx.Core.csproj">

@@ -69,6 +69,10 @@ namespace Spinx.Web
             routes.MapRoute(name: "quizzes", url: "quiz", defaults: new { controller = "Quizzes", action = "Index" }, namespaces: FrontNamespaces);
             routes.MapRoute(name: "quiz", url: "resources/quiz/{Slug}", defaults: new { controller = "Quizzes", action = "Detail" }, namespaces: FrontNamespaces);
             routes.MapRoute(name: "question", url: "resources/question/{Slug}", defaults: new { controller = "Quizzes", action = "Question" }, namespaces: FrontNamespaces);
+            routes.MapRoute(name: "getquestion", url: "api/quiz/getQuestion/", defaults: new { controller = "Quizzes", action = "GetQuestion" }, namespaces: FrontNamespaces);
+            routes.MapRoute(name: "getAnswer", url: "api/quiz/getAnswer/", defaults: new { controller = "Quizzes", action = "getAnswer" }, namespaces: FrontNamespaces);
+            routes.MapRoute(name: "submitquiz", url: "api/quiz/submitquiz/", defaults: new { controller = "Quizzes", action = "submitquiz" }, namespaces: FrontNamespaces);
+            routes.MapRoute(name: "quizthankyou", url: "resources/thankyou", defaults: new { controller = "Quizzes", action = "ThankYou" }, namespaces: FrontNamespaces);
 
             //Member
             routes.MapRoute(name: "create-account", url: "create-account", defaults: new { controller = "Member", action = "Index" }, namespaces: FrontNamespaces);
@@ -91,7 +95,7 @@ namespace Spinx.Web
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+                defaults: new { controller = "Quizzes", action = "Index", id = UrlParameter.Optional },
                 namespaces: FrontNamespaces
             );
         }

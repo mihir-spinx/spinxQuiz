@@ -1,9 +1,15 @@
-﻿using Spinx.Services.Members;
+﻿using System;
+using Spinx.Services.Members;
 using Spinx.Services.QuizCategories;
+using Spinx.Services.QuizCategories.DTOs;
 using Spinx.Services.QuizQuestions;
 using Spinx.Services.Quizs;
 using Spinx.Services.SeoPages;
+using Spinx.Web.Infrastructure;
 using System.Web.Mvc;
+using Newtonsoft.Json;
+using Spinx.Core;
+using Spinx.Web.Core.Authentication;
 
 namespace Spinx.Web.Controllers
 {
@@ -14,7 +20,6 @@ namespace Spinx.Web.Controllers
         private readonly IQuizQuestionService _quizQuestionService;
         private readonly ISeoPageService _seoPageService;
         private readonly IMemberQuizService _memberQuizService;
-        
         public QuizzesController(IQuizService quizService,
             IQuizCategoryService quizCategoryService,
             IQuizQuestionService quizQuestionService,
@@ -30,6 +35,9 @@ namespace Spinx.Web.Controllers
 
         public ActionResult Index()
         {
+            if (!UserAuth.IsLogedIn())
+                return RedirectToAction("Login", "Member");
+
             var entity = _seoPageService.GetPageMeta("Quizzes");
             if (entity == null) return View();
 
@@ -41,7 +49,15 @@ namespace Spinx.Web.Controllers
 
         public ActionResult Detail(string slug)
         {
+            if (!UserAuth.IsLogedIn())
+                return RedirectToAction("Login", "Member");
+
             var entity = _quizService.GetQuizBySlug(slug);
+
+            var result = _memberQuizService.CheckQuizRunning(UserAuth.User.UserId, entity.Id);
+            if(result.Success)
+                return RedirectToAction("Question", "Quizzes");
+
             ViewBag.slug = slug;
             entity.QuizCategory = _quizCategoryService.GetQuizCategoryById(entity.QuizCategoryId);
             ViewBag.QuizQuestions = _quizQuestionService.GetQuizQuestionsByQuizId(entity.Id);
@@ -54,17 +70,61 @@ namespace Spinx.Web.Controllers
 
         public ActionResult Question(string slug)
         {
-            var result = _memberQuizService.SaveMemberQuizInit(1, slug);
+            if (!UserAuth.IsLogedIn())
+                return RedirectToAction("Login", "Member");
 
-            var entity = _quizService.GetQuizBySlug(slug);
+            var result = _memberQuizService.SaveMemberQuizInit(UserAuth.User.UserId, slug);
+            if(result.Success)
+            {
+                ViewBag.MemberQuizList =  JsonConvert.SerializeObject(result.MemberQuizAnswerList);
+                ViewBag.MemberResultId = result.MemberResultId;
+                ViewBag.diffInSeconds = (DateTime.Now - result.StartTime).TotalSeconds;
+                ViewBag.SortOrder = result.SortOrder;
+                ViewBag.totelQuestion = result.MemberQuizAnswerList.Count;
+                var entity = _quizService.GetQuizBySlug(slug);                
 
-            entity.QuizCategory = _quizCategoryService.GetQuizCategoryById(entity.QuizCategoryId);
-            ViewBag.QuizQuestions = _quizQuestionService.GetQuizQuestionsByQuizId(entity.Id);
-
-            if (entity == null)
+                return View(entity);
+            }
+            else           
                 return HttpNotFound();
+        }
 
-            return View(entity);
+        [HttpGet]
+        [System.Web.Http.Route("api/quiz/getQuestion/")]
+        public JsonNetResult GetQuestion(int memberResultId, int sortOrder,int lastSortOrder)
+        {
+            if (!UserAuth.IsLogedIn())
+                return  new JsonNetResult(new Result().SetError("Please Login"));
+            var result = _memberQuizService.GetQuestionByMemberResult(memberResultId, sortOrder, lastSortOrder);
+            return new JsonNetResult(result);
+        }
+
+        [HttpPost]
+        [System.Web.Http.Route("api/quiz/getAnswer/")]
+        public JsonNetResult GetAnswer(MemberQuizAnswerDto dto)
+        {
+            if (!UserAuth.IsLogedIn())
+                return new JsonNetResult(new Result().SetError("Please Login"));
+            var result = _memberQuizService.SaveAnswerByMember(dto);
+            return new JsonNetResult(result);
+        }
+        [HttpPost]
+        [System.Web.Http.Route("api/quiz/submitquiz/")]
+        public JsonNetResult SubmitQuiz(int memberResultId)
+        {
+            if (!UserAuth.IsLogedIn())
+                return new JsonNetResult(new Result().SetError("Please Login"));
+            var result = _memberQuizService.SubmitQuiz(UserAuth.User.UserId, memberResultId);
+            result.SetRedirect( Url.RouteUrl("quizthankyou"));
+            
+            UserAuth.Signout(UserAuth.CookieUser);
+
+            return new JsonNetResult(result);
+        }
+
+        public ActionResult ThankYou()
+        {
+            return View();
         }
     }
 }

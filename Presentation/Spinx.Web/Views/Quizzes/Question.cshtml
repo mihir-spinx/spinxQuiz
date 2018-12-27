@@ -1,44 +1,72 @@
 ﻿@model Spinx.Domain.Quizs.Quiz
-@{
-    ViewBag.Title = Model.MetaTitle ?? Model.Title;
-    ViewBag.MetaDescription = Model.MetaDescription ?? Model.ShortDescription;
-}
+@using Spinx.Domain.Members;
+@*@{
+        ViewBag.Title = Model.MetaTitle ?? Model.Title;
+        ViewBag.MetaDescription = Model.MetaDescription ?? Model.ShortDescription;
+    }*@
 
 <!-- Job Board: Page Banner Title -->
 <section class="cmn-banner page-title-banner">
     <div class="imgDiv" style="background-image: url(Content/images/travel7.jpg);"></div>
     <div class="banner-title">
-        <h1>Resources</h1>
+        @*<h1>Resources</h1>*@
     </div>
 </section>
 
-<!-- Job Board: Two column section  -->
-<section class="cmn-banner-links">
-    <div class="clearfix fix-wrap">
-        <a href="javascript:void(0);" class="toggle-link">Filter</a>
-        @Html.Partial("_ResourcesMenu")
-    </div>
-</section>
 
-<section class="quiz-detail-wrap">
+<section class="quiz-detail-wrap" ng-controller="ctrlList">
     <div class="clearfix fix-wrap">
         <div class="left-content">
 
             <div class="back-link">
-                <a href="quiz">&lt; &nbsp;Quiz</a>
+                <a href="quiz">&lt; &nbsp;Back</a>
             </div>
 
             <div class="quiz-detail">
-                <h2><img src="@Model.QuizCategory.CategoryIcon" width="24" alt="title-icon"/><span>@Model.Title</span></h2>
-                <div class="short-desc">
-                    <h3>Special Instructions:</h3>
-                    <p>@Model.ShortDescription</p>
+                <div class="top-content">
+                    <h2><img src="@Model.QuizCategory.CategoryIcon" width="24" alt="title-icon"/><span class="quiz-title-test">@Model.Title</span></h2>
+                    <div class="short-desc">
+                        <div><span id="time"></span> minutes</div>
+                    </div>
                 </div>
+                <div class="left-content">
+                    <ul id="ulQuestionNumber">
+                        <li ng-repeat="item in memberQuizList" ng-class="{active :item.SortOrder == list.sortOrder,green : item.IsAttempt === true,blue: item.IsAttempt === false }"> <a href="javascript:;" ng-click="goToQuestion(item.SortOrder)" ng-bind="item.SortOrder"></a></li>
 
+                    </ul>
+                </div>
                 <div class="short-quiz">
-                  <h1>Welcome</h1>                
+
+                    <div class="form-group">
+                        <div class="serial-no" ng-bind="list.sortOrder"></div>
+                        <div class="quiz-title">
+                            <h3 ng-bind="list.question"></h3>
+                            <label class="custom-radio" ng-repeat="item in list.quizAnswer">
+                                <input ng-model="list.quizAnswerId" ng-value="item.id" type="radio" name="questionOption" ng-click="memberAnswer(item.id,list.questionId,list.sortOrder)"/>
+                                <div class="checkmark" ng-bind="item.answer"></div>
+                            </label>
+                        </div>
+                    </div>
+                    <a class="btn-primary btn-continue" ng-disabled="filters.sortOrder == 1" ng-class="filters.sortOrder == 1 ? 'submit-disabled' : ''" ng-click="goToQuestion(filters.sortOrder - 1)">Prev</a>
+                    <a class="btn-primary btn-continue" ng-disabled="filters.sortOrder == totelQuestion" ng-class="filters.sortOrder == totelQuestion ? 'submit-disabled' : ''" ng-click="goToQuestion(filters.sortOrder + 1)">Next</a>
+                    <a ng-click="submitQuiz()" class="btn-primary btn-continue">Finish</a>
+
                 </div>
 
+            </div>
+            <div class="right-comment">
+                <div class="divlast">
+                    <span class="spnabox" style="background-color:#0B89D3;">&nbsp;&nbsp;&nbsp;</span> Not submited 
+                </div>
+                <div class="divlast">
+                    <span class="spnabox" style="background-color:#FFCC01;">&nbsp;&nbsp;&nbsp;</span> Not Viewed  
+                </div>
+                <div class="divlast">
+                    <span class="spnabox" style="background-color:green;">&nbsp;&nbsp;&nbsp;</span> Submited 
+                </div>
+                <div class="divlast">
+                    <span class="spnabox" style="background-color:#000000;">&nbsp;&nbsp;&nbsp;</span> Active
+                </div>
             </div>
         </div>
 
@@ -47,54 +75,118 @@
 
 @section scripts{
     <script>
-        $(document).ready(function () {
-            filterLinks();
+        $(document).ready(function() {
+
             $("#liQuizzes").addClass("active");
         });
+        var sortOrder = @(ViewBag.SortOrder);
+        var memberResultId = @(ViewBag.MemberResultId);
+        var totelQuestion = @(ViewBag.totelQuestion);
+        myApp = angular.module('myApp', ["ngCookies"]);
 
-        function CalculateResult(TotalQuestion) {
-            var TotalCorrectAnswers = 0;
+        myApp.controller("ctrlList",
+            [
+                "$scope", "$http", "$filter", function($scope, $http, $filter) {
+                    var searchApiUrl = 'api/quiz/getQuestion/';
+                    $scope.virtualDir = virtualDir;
+                    $scope.result = {};
+                    $scope.filters = {};
+                    $scope.memberQuizList = JSON.parse('@(Html.Raw(ViewBag.MemberQuizList))');
+                    $scope.diffInSeconds = @(ViewBag.diffInSeconds);
+                    $scope.totelQuestion = totelQuestion;
+                    $scope.answerFilters = {};
+                    $scope.filters.sortOrder = sortOrder;
+                    $scope.filters.lastSortOrder = sortOrder;
+                    $scope.filters.memberResultId = memberResultId;
+                    $scope.answerFilters.memberResultId = $scope.filters.memberResultId;
+                    $scope.data = [];
+                    $scope.isLoadComplete = false;
+                    var totalTimeMinute = 60;
+                    var fiveMinutes = (60 * totalTimeMinute) - $scope.diffInSeconds,
+                        display = document.querySelector('#time');
+                    startTimer(fiveMinutes, display);
 
-            for (var i = 1; i <= TotalQuestion; i++) {
-                if ($("input:radio[name='" + i + "']:checked").val() == $("#hdnAns" + i).val() && $("#hdnAns" + i).val() != "" && typeof($("#hdnAns" + i).val()) !="undefined") {
-                    $("#imgRightAns" + $("#hdnAns" + i).data("qid") + $("#hdnAns" + i).val()).show();
-                    TotalCorrectAnswers++;
+                    $scope.load = function() {
+                        $http.get(searchApiUrl, { params: $scope.filters }).then(function(resp) {
+                            $scope.result = resp.data;
+                            $scope.list = resp.data.data;
+                            $scope.filters.lastSortOrder = $scope.list.sortOrder;
+                            $scope.isLoadComplete = true;
+                        });
+                    };
+                    $scope.load();
+
+                    function startTimer(duration, display) {
+                        var timer = duration, minutes, seconds;
+                        var setTimeInterval =   setInterval(function () {
+                            minutes = parseInt(timer / 60, 10);
+                            seconds = parseInt(timer % 60, 10);
+
+                            minutes = minutes < 10 ? "0" + minutes : minutes;
+                            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                            display.textContent = minutes + ":" + seconds;
+                            if (--timer < 0) {
+                                //timer = duration;
+                                clearInterval(setTimeInterval);
+                                alert('Time out');
+
+                            }
+                        }, 1000);
+                    }
+
+                    window.onload = function () {
+                       
+                    };
+
+                    $scope.goToQuestion = function(questionNumber) {
+                        if (questionNumber > 0 && questionNumber <= $scope.totelQuestion) {
+                            
+                            //update member question numbers
+                            if ($scope.list.quizAnswerId === null) {
+                                angular.forEach($scope.memberQuizList,
+                                    function(value, key) {
+                                        if (value.SortOrder === $scope.filters.lastSortOrder) {
+                                            value.IsAttempt = false;
+                                        }
+                                    });
+                            }
+
+                            $scope.filters.sortOrder = questionNumber;
+                            $scope.load();
+                        }
+                    }
+                    $scope.memberAnswer = function(answerId, questionId, sortOrder) {
+                        $scope.answerFilters.quizAnswerId = answerId;
+                        $scope.answerFilters.quizQuestionId = questionId;
+                        $http.post('api/quiz/getAnswer/', $scope.answerFilters).then(function(resp) {
+                            $scope.result = resp.data;
+                            angular.forEach($scope.memberQuizList,
+                                function(value, key) {
+                                    if (value.SortOrder === sortOrder) {
+                                        value.IsAttempt = true;
+                                    }
+                                });
+                        });
+                    };
+
+                    $scope.submitQuiz = function() {
+
+                        if (confirm('Are you sure submit quiz !')) {
+                            $http.post('api/quiz/submitquiz/', { 'memberResultId': $scope.filters.memberResultId })
+                                .then(function(resp) {
+                                    $scope.submitResult = resp.data;
+                                    if ($scope.submitResult.success) {
+                                        if ($scope.submitResult.isRedirect)
+                                            window.location.href = $scope.submitResult.redirect;
+                                    }
+
+                                });
+                        }
+                    }
                 }
-                else {
-                    $("input:radio[name='" + i + "']:checked").siblings(".wrong-img").show();
-                    $("#imgRightAns" + $("#hdnAns" + i).data("qid") +  $("#hdnAns" + i).val()).show();
-                }
-                $("input:radio[name='" + i + "']").each(function () {
-                    $(this).hide();
-                    $(this).siblings("div").removeClass().addClass("uncheckmark");
-                });
-            }
+            ]);
 
-            var finalResult = (TotalCorrectAnswers * 100) / TotalQuestion;
-            $("#spnResult").html(parseInt(finalResult));
-            $("#divSubmit").hide();
-            $("#divResult").show();
-        }
 
-        function filterLinks() {
-            var screen_width = $(window).width();
-
-            if (screen_width < 979) {
-                $(".cmn-banner-links ul.cmn-list").hide();
-                $('a.toggle-link').off('click');
-                $('a.toggle-link').on('click', function () {
-                    $(this).toggleClass("open-filter");
-                    $(".cmn-banner-links ul.cmn-list").slideToggle(200);
-                });
-            }
-            else {
-                $('a.toggle-link').removeClass("open-filter");
-                $(".cmn-banner-links ul.cmn-list").show();
-            }
-        };
-
-        $(window).resize(function () {
-            filterLinks();
-        });
     </script>
 }

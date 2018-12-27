@@ -1,6 +1,7 @@
 ﻿using Spinx.Data.Repository.Quizs;
 using Spinx.Domain.Quizs;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using Z.EntityFramework.Plus;
 
@@ -29,7 +30,7 @@ namespace Spinx.Services.Quizs
         }
         public Quiz GetQuizBySlug(string slug)
         {
-            return _quizRepository.AsNoTracking
+            return _quizRepository.AsNoTracking.Include(i => i.QuizCategory)
                 .Where(w => w.Slug == slug && w.IsActive)
                 .DeferredFirstOrDefault()
                 .FromCache(QuizCacheManager.Name);
