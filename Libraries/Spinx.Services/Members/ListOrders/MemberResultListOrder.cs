@@ -18,6 +18,31 @@ namespace Spinx.Services.Members.ListOrders
             Query = OrderBy(t => t.Member.Email);
         }
 
+        internal void College()
+        {
+            Query = OrderBy(w => w.Member.College);
+        }
+
+        internal void QuizTitle()
+        {
+            Query = OrderBy(w => w.Quiz.Title);
+        }
+
+        internal void QuizCategoryName()
+        {
+            Query = OrderBy(w => w.Quiz.QuizCategory.Name);
+        }
+
+        internal void Score()
+        {
+            Query = OrderBy(w => w.Score);
+        }
+
+        internal void Percentage()
+        {
+            Query = OrderBy(w => w.Percentage);
+        }
+
         internal void IsActive()
         {
             Query = OrderBy(t => t.Member.IsActive);

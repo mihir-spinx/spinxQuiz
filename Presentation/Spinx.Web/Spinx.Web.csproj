@@ -2077,6 +2077,7 @@
     <Content Include="Content\Admin\app\QuizQuestions\questions.html" />
     <Content Include="Content\Admin\app\QuizQuestions\quiz-edit.html" />
     <Content Include="Content\Admin\app\templates\action-delete.html" />
+    <Content Include="Content\Admin\app\templates\action-view.html" />
     <Content Include="Content\Admin\app\templates\action-edit.html" />
     <Content Include="Content\Admin\app\templates\button-add.html" />
     <Content Include="Content\Admin\app\templates\button-back.html" />
@@ -3859,7 +3860,8 @@
     <Content Include="Areas\Admin\Views\SeoPages\Create.cshtml" />
     <Content Include="Areas\Admin\Views\SeoPages\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\SeoPages\Index.cshtml" />
-    <Content Include="connections.config" />    
+    <Content Include="connections.config" />
+    <Content Include="Areas\Admin\Views\Members\Result.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
     <Content Include="bower_components\angular-ui-sortable\.bower.json" />
     <Content Include="bower_components\angular-ui-sortable\.travis.yml" />

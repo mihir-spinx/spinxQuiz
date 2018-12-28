@@ -21,6 +21,10 @@ namespace Spinx.Services.Members.Filters
         {
             Query = Query.Where(w => w.Email.Contains(Dto.Email));
         }
+        internal void College()
+        {
+            Query = Query.Where(w => w.College.Contains(Dto.College));
+        }
         internal void IsActive()
         {
             Query = Query.Where(w => w.IsActive == Dto.IsActive);
@@ -34,13 +38,5 @@ namespace Spinx.Services.Members.Filters
             Query = Query.Where(w => w.CreatedAt <= Dto.ToCreatedAt);
         }
 
-        //internal void FromTotalPayment()
-        //{
-        //    Query = Query.Where(w => _paymentTransactionRepository.AsNoTracking.Sum(z => z.Payment) >= Dto.FromTotalPayment);
-        //}
-        //internal void ToTotalPayment()
-        //{
-        //    Query = Query.Where(w => _paymentTransactionRepository.AsNoTracking.Sum(z => z.Payment) <= Dto.ToTotalPayment);
-        //}
     }
 }

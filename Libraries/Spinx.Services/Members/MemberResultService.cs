@@ -44,10 +44,53 @@ namespace Spinx.Services.Members
                 return result;
 
             var query = _memberResultRepository.AsNoTracking;
+
             query = query.Include(i => i.Member);
             query = query.Include(i => i.Quiz);
 
+
             query = new MemberResultListFilter(query, dto).FilteredQuery();
+
+            if (dto.MemberId != 0)
+            {
+                query = query.Where(w => w.MemberId == dto.MemberId);
+            }
+
+            if (dto.FromScore != null && dto.FromScore != 0)
+            {
+                query = query.Where(w => w.Score >= dto.FromScore);
+            }
+
+            if (dto.ToScore != null && dto.ToScore != 0)
+            {
+                query = query.Where(w => w.Score <= dto.ToScore);
+            }
+
+            if (dto.FromPercentage != null && dto.FromPercentage != 0)
+            {
+                query = query.Where(w => w.Percentage >= dto.FromPercentage);
+            }
+
+            if (dto.ToPercentage != null && dto.ToPercentage != 0)
+            {
+                query = query.Where(w => w.Percentage <= dto.ToPercentage);
+            }
+
+            if (dto.FromAttempedQues != null && dto.FromAttempedQues != 0)
+            {
+                query = query.Where(w => w.AttempedQues >= dto.FromAttempedQues);
+            }
+
+            if (dto.ToAttempedQues != null && dto.ToAttempedQues != 0)
+            {
+                query = query.Where(w => w.AttempedQues <= dto.ToAttempedQues);
+            }
+
+            if (dto.CreatedSource != 0)
+            {
+                query = query.Where(w => w.Member.CreatedSource == dto.CreatedSource);
+            }
+
             query = new MemberResultListOrder(query, dto).OrderByQuery();
 
             result.SetPaging(dto?.Page ?? 1, dto?.Size ?? 10, query.Count());
@@ -56,6 +99,7 @@ namespace Spinx.Services.Members
             {
                 Name = s.Member.Name,
                 Email = s.Member.Email,
+                College = s.Member.College,
                 CreatedSource = s.Member.CreatedSource,
                 CreatedAt = s.CreatedAt,
                 Score = s.Score,
@@ -63,7 +107,9 @@ namespace Spinx.Services.Members
                 AttempedQues = s.AttempedQues,
                 StartTime = s.StartTime,
                 EndTime = s.EndTime,
-                QuizQuestions = s.Quiz.QuizQuestions.Count
+                QuizQuestions = s.Quiz.QuizQuestions.Count,
+                QuizTitle = s.Quiz.Title,
+                QuizCategoryName = s.Quiz.QuizCategory.Name
             })
             .ToPaged(result.Paging.Page, result.Paging.Size)
             .ToList()
@@ -71,6 +117,7 @@ namespace Spinx.Services.Members
             {
                 s.Name,
                 s.Email,
+                s.College,
                 s.CreatedAt,
                 s.CreatedSource,
                 CreatedSourceName = Enum.GetName(typeof(MemberCreatedSource), s.CreatedSource).Humanize(LetterCasing.Title),
@@ -78,10 +125,13 @@ namespace Spinx.Services.Members
                 s.Percentage,
                 s.AttempedQues,
                 s.StartTime,
+                StartTimeDisplay = s.StartTime.Value.ToString("MM/dd/yyyy hh:mm:ss"),
+                EndTimeDisplay = s.EndTime.Value.ToString("MM/dd/yyyy hh:mm:ss"),
                 s.EndTime,
-                TimeDuration = s.EndTime - s.StartTime,
-                s.QuizQuestions
-                //s.TestStartTime
+                TimeDuration = ((DateTime)s.EndTime - (DateTime)s.StartTime).Hours + ":" + ((DateTime)s.EndTime - (DateTime)s.StartTime).Minutes + ":" + ((DateTime)s.EndTime - (DateTime)s.StartTime).Seconds,
+                s.QuizQuestions,
+                s.QuizTitle,
+                s.QuizCategoryName
             });
 
             return result;

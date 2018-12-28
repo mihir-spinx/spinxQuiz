@@ -1,4 +1,5 @@
-﻿using Omu.ValueInjecter;
+﻿using Humanizer;
+using Omu.ValueInjecter;
 using Spinx.Core;
 using Spinx.Core.Encryption;
 using Spinx.Core.Extensions;
@@ -45,6 +46,7 @@ namespace Spinx.Services.Members
     public class MemberService : IMemberService
     {
         private readonly IMemberRepository _memberRepository;
+        private readonly IMemberResultRepository _memberResultRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly MemberActionFactory _actionFactory;
         private readonly MemberFrontValidator _memberValidator;
@@ -56,6 +58,7 @@ namespace Spinx.Services.Members
 
         public MemberService(
             IMemberRepository memberRepository,
+            IMemberResultRepository memberResultRepository,
             IUnitOfWork unitOfWork, MemberActionFactory actionFactory,
             MemberFrontValidator memberValidator,
             MemberChangePasswordValidator memberChangePasswordValidator,
@@ -65,6 +68,7 @@ namespace Spinx.Services.Members
             IContactUsInquiryRepository contactUsInquiryRepository)
         {
             _memberRepository = memberRepository;
+            _memberResultRepository = memberResultRepository;
             _unitOfWork = unitOfWork;
             _actionFactory = actionFactory;
             _memberValidator = memberValidator;
@@ -87,22 +91,42 @@ namespace Spinx.Services.Members
             var query = _memberRepository.AsNoTracking;
 
             query = new MemberDetailListFilter(query, dto).FilteredQuery();
+
+            if (dto.CreatedSource != 0)
+            {
+                query = query.Where(w => w.CreatedSource == dto.CreatedSource);
+            }
+
             query = new MemberListOrder(query, dto).OrderByQuery();
 
             result.SetPaging(dto?.Page ?? 1, dto?.Size ?? 10, query.Count());
 
-            var test = query.Select(s => new MemberDetailListDto
+            result.Data = query.Select(s => new MemberDetailListDto
             {
                 Id = s.Id,
                 Name = s.Name,
                 Email = s.Email,
+                College = s.College,
                 IsActive = s.IsActive,
                 CreatedAt = s.CreatedAt,
-                CreatedSource = s.CreatedSource,
-            });
+                CreatedSource = s.CreatedSource
+            })
+           .ToPaged(result.Paging.Page, result.Paging.Size)
+           .ToList()
+           .Select(s => new
+           {
+               s.Id,
+               s.Name,
+               s.Email,
+               s.College,
+               s.CreatedAt,
+               s.CreatedSource,
+               CreatedSourceName = Enum.GetName(typeof(MemberCreatedSource), s.CreatedSource).Humanize(LetterCasing.Title),
+               TotalExam = _memberResultRepository.AsNoTracking.Count(w => w.MemberId == s.Id)
+           });
 
-            result.Data = test.ToPaged(result.Paging.Page, result.Paging.Size).ToList();
             return result;
+
         }
 
         public Result GetMemberDashboard(int memberId)

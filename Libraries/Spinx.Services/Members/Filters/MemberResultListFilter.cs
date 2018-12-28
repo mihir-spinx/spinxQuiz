@@ -14,16 +14,43 @@ namespace Spinx.Services.Members.Filters
 
         internal void Name()
         {
-            Query = Query.Where(w => w.Member.Name.Contains(Dto.Member.Name));
+            Query = Query.Where(w => w.Member.Name.Contains(Dto.Name));
         }
         internal void Email()
         {
-            Query = Query.Where(w => w.Member.Email.Contains(Dto.Member.Email));
+            Query = Query.Where(w => w.Member.Email.Contains(Dto.Email));
         }
-        internal void IsActive()
+        internal void College()
         {
-            Query = Query.Where(w => w.Member.IsActive == Dto.Member.IsActive);
+            Query = Query.Where(w => w.Member.College.Contains(Dto.College));
         }
+
+        internal void QuizTitle()
+        {
+            Query = Query.Where(w => w.Quiz.Title.Contains(Dto.QuizTitle));
+        }
+
+        internal void QuizCategoryName()
+        {
+            Query = Query.Where(w => w.Quiz.QuizCategory.Name.Contains(Dto.QuizCategoryName));
+        }
+      
+
+        internal void StartTime()
+        {
+            Query = Query.Where(w => w.StartTime.Equals(Dto.StartTime));
+        }
+
+        internal void EndTime()
+        {
+            Query = Query.Where(w => w.EndTime.Equals(Dto.EndTime));
+        }
+
+        internal void CreatedSource()
+        {
+            Query = Query.Where(w => w.Member.CreatedSource >= Dto.CreatedSource);
+        }
+
         internal void FromCreatedAt()
         {
             Query = Query.Where(w => w.CreatedAt >= Dto.FromCreatedAt);

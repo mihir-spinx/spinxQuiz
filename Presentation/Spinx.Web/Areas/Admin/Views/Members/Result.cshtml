@@ -1,0 +1,117 @@
+﻿@using Humanizer
+@using Spinx.Domain.Members
+@using System;
+<layout-header icon="user" breadcrumb="['Members', 'Results']">
+    <a class="btn bg-color-blueLight txt-color-white" href="admin/members">
+        <i class="fa fa-long-arrow-left"></i> Back to Member List
+    </a>
+</layout-header>
+<div ng-controller="ctrlList" ng-init="list.filters.sortColumn='createdAt';list.filters.sortType='desc'">
+    <grid>
+        <message message="list.message" type="list.messageType"></message>
+        <toolbar model="list"></toolbar>
+        <table class="table table-bordered table-striped dataTable table-hover">
+            <thead>
+                <tr>
+                    <th class='hasinput' style='vertical-align: middle;'>
+                        <input type='text' class='form-control' placeholder='Name' name='name' ng-model="list.filters['name']"
+                               model="list" ng-blur="list.load(true)" enter-Key="list.load(true)" style="margin-bottom: 5px;">
+                        <input type='text' class='form-control' placeholder='Email' name='email' model="list"
+                               ng-model="list.filters['email']" ng-blur="list.load(true)" enter-Key="list.load(true)">
+                    </th>
+                    <th th-search name="college" model="list"></th>
+                    <th class='hasinput' style='vertical-align: middle;'>
+                        <select class="form-control" autocomplete="off" ng-model="list.filters['createdSource']"
+                                ng-change="list.load(true)">
+                            <option value="" selected>[{{ 'Soruce Type' | humanize }}]</option>
+                            @foreach (var item in Enumeration.GetAll<MemberCreatedSource>().OrderBy(x => x.Key))
+                            {
+                                <option value="@item.Key">@item.Value.Humanize(LetterCasing.Title)</option>
+                            }
+                        </select>
+                    </th>
+                    <th th-search name="quizTitle" model="list"></th>
+                    <th th-search name="quizCategoryName" model="list"></th>
+                    <th class='hasinput' style='vertical-align: middle;'>
+                        <div class="input-group mgb-5">
+                            <input type="text" ng-model="list.filters['FromScore']" placeholder="From Score" ng-change="list.load(true)" class="form-control">
+                        </div>
+                        <div class="input-group">
+                            <input type="text" ng-model="list.filters['ToScore']" placeholder="To Score" ng-change="list.load(true)" class="form-control">
+                        </div>
+                    </th>
+                    <th class='hasinput' style='vertical-align: middle;'>
+                        <div class="input-group mgb-5">
+                            <input type="text" ng-model="list.filters['FromPercentage']" placeholder="From Percentage" ng-change="list.load(true)" class="form-control">
+                        </div>
+                        <div class="input-group">
+                            <input type="text" ng-model="list.filters['ToPercentage']" placeholder="To Percentage" ng-change="list.load(true)" class="form-control">
+                        </div>
+                    </th>
+                    <th class='hasinput' style='vertical-align: middle;'>
+                        <div class="input-group mgb-5">
+                            <input type="text" ng-model="list.filters['FromAttempedQues']" placeholder="From AttempedQues" ng-change="list.load(true)" class="form-control">
+                        </div>
+                        <div class="input-group">
+                            <input type="text" ng-model="list.filters['ToAttempedQues']" placeholder="To AttempedQues" ng-change="list.load(true)" class="form-control">
+                        </div>
+                    </th>
+                    <th name="startTime" model="list"></th>
+                    <th name="endTime" model="list"></th>
+                    <th name="timeDuration" model="list"></th>
+                </tr>
+                <tr>
+                    <th th-sort name="name" model="list"> Member </th>
+                    <th th-sort width="170" name="college" model="list"> College </th>
+                    <th th-sort width="110" name="createdSource"> Created Source</th>
+                    <th th-sort width="70" name="quizTitle" model="list"> Quiz Name</th>
+                    <th th-sort width="70" name="quizCategoryName" model="list"> Quiz Category</th>
+                    <th th-sort width="70" align="center" name="score" model="list"> Score </th>
+                    <th th-sort width="70" align="center" name="percentage" model="list"> Percentage </th>
+                    <th th-sort width="70" align="center" name="attempedQues" model="list"> Attemped Question </th>
+                    <th th-sort width="70" align="center" name="startTime" model="list"> Start Time</th>
+                    <th th-sort width="70" align="center" name="endTime" model="list"> End Time </th>
+                    <th th-sort width="70" align="center" name="timeDuration" model="list">Time Interval </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in list.data">
+                    <td>
+                        {{ item.name }} <br />
+                        {{ item.email }}
+                    </td>
+                    <td>
+                        {{item.college}}
+                    </td>
+                    <td cell>
+                        {{item.createdSourceName}}
+                    </td>
+                    <td>{{ item.quizTitle}}</td>
+                    <td>{{ item.quizCategoryName}}</td>
+                    <td cell align="center">{{ item.score == 0 ? '-' : item.score }}</td>
+                    <td cell align="center">{{ item.percentage == 0 ? '-' : item.percentage }}</td>
+                    <td cell align="right">{{ item.attempedQues == 0.00 ? '- ' : item.attempedQues}} {{ item.quizQuestions == 0 ? ' ' : '/' + item.quizQuestions}}</td>
+                    <td cell align="center">{{ item.startTimeDisplay == '' ? '-' : item.startTimeDisplay}}</td>
+                    <td cell align="center">{{ item.endTimeDisplay == '' ? '-' : item.endTimeDisplay}}</td>
+                    <td cell align="center">{{ item.timeDuration}}</td>
+                </tr>
+                <tr row-no-records model="list"></tr>
+            </tbody>
+        </table>
+    </grid>
+</div>
+
+@section scripts {
+    <script>
+        myApp.controller("ctrlList", ["$scope", "$http", "spinxList", function ($scope, $http, spinxList) {
+            var memberid = '@ViewBag.MemberId';
+            var searchApiUrl = 'api/admin/membersResult';
+            $scope.list = new spinxList(searchApiUrl);
+            $scope.list.actions = [];
+            $scope.list.filters.memberid = memberid;
+            $scope.filterSite = function () {
+                $scope.list.load();
+            };
+        }]);
+    </script>
+}

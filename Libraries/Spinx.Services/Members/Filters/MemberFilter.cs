@@ -1,13 +1,13 @@
 ﻿using Spinx.Domain.Members;
-using Spinx.Services.Members.DTOs;
 using Spinx.Services.Infrastructure;
+using Spinx.Services.Members.DTOs;
 using System.Linq;
 
 namespace Spinx.Services.Members.Filters
 {
     public class MemberFilter : BaseFilter<Member, MemberFilterDto>
     {
-        public MemberFilter(IQueryable<Member> query, MemberFilterDto dto) : base (query, dto) { }
+        public MemberFilter(IQueryable<Member> query, MemberFilterDto dto) : base(query, dto) { }
 
         internal void Name()
         {
@@ -20,6 +20,10 @@ namespace Spinx.Services.Members.Filters
         internal void IsActive()
         {
             Query = Query.Where(w => w.IsActive == Dto.IsActive);
+        }
+        internal void College()
+        {
+            Query = Query.Where(w => w.College.Contains(Dto.College));
         }
         internal void FromCreatedAt()
         {

@@ -9,6 +9,20 @@ namespace Spinx.Web.Areas.Admin
         public override void RegisterArea(AreaRegistrationContext context)
         {
             context.MapRoute(
+                "Admin_member",
+                "admin/{controller}/{action}",
+                new { area = "Admin", controller = "Members", action = "Index" },
+                new[] { "Spinx.Web.Areas.Admin.Controllers" }
+            );
+
+            context.MapRoute(
+                "Admin_memberresult",
+                "admin/{controller}/{action}/{id}",
+                new { area = "Admin", controller = "Members", action = "Result", id = UrlParameter.Optional },
+                new[] { "Spinx.Web.Areas.Admin.Controllers" }
+            );
+
+            context.MapRoute(
                 "Admin_Site_Edit_Page",
                 "admin/{controller}/{action}/{siteId}/{siblingId}",
                 new { area = "Admin" },

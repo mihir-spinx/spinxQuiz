@@ -19,19 +19,19 @@ namespace Spinx.Web.Areas.Admin.Controllers
             _appSettings = appSettings;
         }
 
-        [AuthorizeAdminUser(permissions: new [] {"Members"})]
+        [AuthorizeAdminUser(permissions: new[] { "Members" })]
         public ActionResult Index()
         {
             return View();
         }
 
-        [AuthorizeAdminUser(permissions: new [] {"Members.Create"})]
+        [AuthorizeAdminUser(permissions: new[] { "Members.Create" })]
         public ActionResult Create()
         {
             return View();
         }
 
-        [AuthorizeAdminUser(permissions: new [] {"Members.Edit"})]
+        [AuthorizeAdminUser(permissions: new[] { "Members.Edit" })]
         public ActionResult Edit(int id)
         {
             ViewBag.Member = _memberService.GetById(id);
@@ -45,6 +45,13 @@ namespace Spinx.Web.Areas.Admin.Controllers
         {
             var result = _memberService.GetMemberDashboard(id);
             return new JsonNetResult(result);
+        }
+
+        [AuthorizeAdminUser(permissions: new[] { "Members.Result" })]
+        public ActionResult Result(int? id)
+        {
+            ViewBag.MemberId = id;
+            return View();
         }
     }
 }

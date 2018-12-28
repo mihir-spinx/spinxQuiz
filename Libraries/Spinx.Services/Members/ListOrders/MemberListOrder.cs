@@ -20,6 +20,12 @@ namespace Spinx.Services.Members.ListOrders
             Query = OrderBy(t => t.Email);
         }
 
+        internal void College()
+        {
+            Query = OrderBy(t => t.College);
+        }
+
+
         internal void IsActive()
         {
             Query = OrderBy(t => t.IsActive);

@@ -451,6 +451,17 @@ myApp.directive("actionEdit", function () {
     };
 });
 
+myApp.directive("actionView", function () {
+    return {
+        scope: {
+            model: '=',
+            item: "=",
+            url: "@"
+        },
+        replace: true,
+        templateUrl: templatesRoot + "action-view.html"
+    };
+});
 myApp.directive("actionDelete", function () {
     return {
         scope: {
