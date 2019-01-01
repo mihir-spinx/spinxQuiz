@@ -1,7 +1,8 @@
 ﻿@using Humanizer
 @using Spinx.Domain.Members
 @using System;
-<layout-header icon="user" breadcrumb="['Members']">
+<layout-header icon="user" breadcrumb="['Candidates']">
+    <button-add url="admin/members/create">Candidate</button-add>
 </layout-header>
 
 <div ng-controller="ctrlList" ng-init="list.filters.sortColumn='createdAt';list.filters.sortType='desc'">
@@ -32,32 +33,32 @@
                     <th></th>
                 </tr>
                 <tr>
-                    <th style='vertical-align: middle;text-align:center' width="25">Action</th>
-                    <th th-sort name="name" model="list"> Member </th>
-                    <th th-sort width="170" name="college" model="list"> College </th>
-                    <th th-sort width="110" name="createdSource"> Created Source</th>
-                    <th th-sort width="70" name="totalExam"> Total Exam</th>
+                    <th style='vertical-align: middle;text-align:center' width="50">Action</th>
+                    <th th-sort name="name" model="list"> Candidate </th>
+                    <th th-sort width="250" name="college" model="list"> College </th>
+                    <th th-sort width="180" name="createdSource"> Created Source</th>
+                    <th th-sort width="100" name="totalExam"> Total Exam</th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="item in list.data">
                     <td cell align="center">
-                        <action-edit ng-show="item.totalExam > 0" url="admin/members/edit/{{ item.id }}" model="list" item="item" title="View Result">
+                        <action-edit url="admin/members/edit/{{ item.id }}" model="list" item="item" title="View Edit">
                         </action-edit>
                         <action-view ng-show="item.totalExam > 0" url="admin/members/result/{{ item.id }}" model="list" item="item" title="View Result">
                         </action-view>
                     </td>
-                    <td>
+                    <td cell>
                         {{ item.name }} <br />
                         {{ item.email }}
                     </td>
-                    <td>
+                    <td cell>
                         {{item.college}}
                     </td>
-                    <td>
+                    <td cell>
                         {{item.createdSourceName}}
                     </td>
-                    <td>
+                    <td cell align="center">
                         {{item.totalExam}}
                     </td>
                 </tr>
