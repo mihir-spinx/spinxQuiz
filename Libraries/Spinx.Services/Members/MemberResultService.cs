@@ -95,45 +95,146 @@ namespace Spinx.Services.Members
 
             result.SetPaging(dto?.Page ?? 1, dto?.Size ?? 10, query.Count());
 
-            result.Data = query.Select(s => new MemberResultListDto
-            {
-                Name = s.Member.Name,
-                Email = s.Member.Email,
-                College = s.Member.College,
-                CreatedSource = s.Member.CreatedSource,
-                CreatedAt = s.CreatedAt,
-                Score = s.Score,
-                Percentage = s.Percentage,
-                AttempedQues = s.AttempedQues,
-                StartTime = s.StartTime,
-                EndTime = s.EndTime,
-                QuizQuestions = s.Quiz.QuizQuestions.Count,
-                QuizTitle = s.Quiz.Title,
-                QuizCategoryName = s.Quiz.QuizCategory.Name
-            })
-            .ToPaged(result.Paging.Page, result.Paging.Size)
-            .ToList()
-            .Select(s => new
-            {
-                s.Name,
-                s.Email,
-                s.College,
-                s.CreatedAt,
-                s.CreatedSource,
-                CreatedSourceName = Enum.GetName(typeof(MemberCreatedSource), s.CreatedSource).Humanize(LetterCasing.Title),
-                s.Score,
-                s.Percentage,
-                s.AttempedQues,
-                s.StartTime,
-                StartTimeDisplay = s.StartTime.Value.ToString("MM/dd/yyyy hh:mm:ss"),
-                EndTimeDisplay = s.EndTime.Value.ToString("MM/dd/yyyy hh:mm:ss"),
-                s.EndTime,
-                TimeDuration = ((DateTime)s.EndTime - (DateTime)s.StartTime).Hours + ":" + ((DateTime)s.EndTime - (DateTime)s.StartTime).Minutes + ":" + ((DateTime)s.EndTime - (DateTime)s.StartTime).Seconds,
-                s.QuizQuestions,
-                s.QuizTitle,
-                s.QuizCategoryName
-            });
 
+
+            if (dto.SortColumn != "timeDuration")
+            {
+                result.Data = query.Select(s => new MemberResultListDto
+                {
+                    Name = s.Member.Name,
+                    Email = s.Member.Email,
+                    College = s.Member.College,
+                    CreatedSource = s.Member.CreatedSource,
+                    CreatedAt = s.CreatedAt,
+                    Score = s.Score,
+                    Percentage = s.Percentage,
+                    AttempedQues = s.AttempedQues,
+                    StartTime = s.StartTime,
+                    EndTime = s.EndTime,
+                    QuizQuestions = s.Quiz.QuizQuestions.Count,
+                    QuizTitle = s.Quiz.Title,
+                    QuizCategoryName = s.Quiz.QuizCategory.Name
+                })
+                    .ToPaged(result.Paging.Page, result.Paging.Size)
+                    .ToList()
+                    .Select(s => new
+                    {
+                        s.Name,
+                        s.Email,
+                        s.College,
+                        s.CreatedAt,
+                        s.CreatedSource,
+                        CreatedSourceName = Enum.GetName(typeof(MemberCreatedSource), s.CreatedSource)
+                            .Humanize(LetterCasing.Title),
+                        s.Score,
+                        s.Percentage,
+                        s.AttempedQues,
+                        s.StartTime,
+                        StartTimeDisplay = s.StartTime.Value.ToString("MM/dd/yyyy hh:mm:ss"),
+                        EndTimeDisplay = s.EndTime.Value.ToString("MM/dd/yyyy hh:mm:ss"),
+                        s.EndTime,
+                        TimeDuration = ((DateTime)s.EndTime - (DateTime)s.StartTime).Hours + ":" +
+                                       ((DateTime)s.EndTime - (DateTime)s.StartTime).Minutes + ":" +
+                                       ((DateTime)s.EndTime - (DateTime)s.StartTime).Seconds,
+                        s.QuizQuestions,
+                        s.QuizTitle,
+                        s.QuizCategoryName
+                    });
+            }
+            else
+            {
+                if (dto.SortType == "desc")
+                {
+                    result.Data = query.Select(s => new MemberResultListDto
+                    {
+                        Name = s.Member.Name,
+                        Email = s.Member.Email,
+                        College = s.Member.College,
+                        CreatedSource = s.Member.CreatedSource,
+                        CreatedAt = s.CreatedAt,
+                        Score = s.Score,
+                        Percentage = s.Percentage,
+                        AttempedQues = s.AttempedQues,
+                        StartTime = s.StartTime,
+                        EndTime = s.EndTime,
+                        QuizQuestions = s.Quiz.QuizQuestions.Count,
+                        QuizTitle = s.Quiz.Title,
+                        QuizCategoryName = s.Quiz.QuizCategory.Name
+                    })
+                    .ToPaged(result.Paging.Page, result.Paging.Size)
+                    .ToList()
+                    .Select(s => new
+                    {
+                        s.Name,
+                        s.Email,
+                        s.College,
+                        s.CreatedAt,
+                        s.CreatedSource,
+                        CreatedSourceName = Enum.GetName(typeof(MemberCreatedSource), s.CreatedSource)
+                            .Humanize(LetterCasing.Title),
+                        s.Score,
+                        s.Percentage,
+                        s.AttempedQues,
+                        s.StartTime,
+                        StartTimeDisplay = s.StartTime.Value.ToString("MM/dd/yyyy hh:mm:ss"),
+                        EndTimeDisplay = s.EndTime.Value.ToString("MM/dd/yyyy hh:mm:ss"),
+                        s.EndTime,
+                        TimeDuration = ((DateTime)s.EndTime - (DateTime)s.StartTime).Hours + ":" +
+                                       ((DateTime)s.EndTime - (DateTime)s.StartTime).Minutes + ":" +
+                                       ((DateTime)s.EndTime - (DateTime)s.StartTime).Seconds,
+                        s.QuizQuestions,
+                        s.QuizTitle,
+                        s.QuizCategoryName
+                    })
+                    .OrderByDescending(o => o.TimeDuration);
+                }
+                else
+                {
+                    result.Data = query.Select(s => new MemberResultListDto
+                    {
+                        Name = s.Member.Name,
+                        Email = s.Member.Email,
+                        College = s.Member.College,
+                        CreatedSource = s.Member.CreatedSource,
+                        CreatedAt = s.CreatedAt,
+                        Score = s.Score,
+                        Percentage = s.Percentage,
+                        AttempedQues = s.AttempedQues,
+                        StartTime = s.StartTime,
+                        EndTime = s.EndTime,
+                        QuizQuestions = s.Quiz.QuizQuestions.Count,
+                        QuizTitle = s.Quiz.Title,
+                        QuizCategoryName = s.Quiz.QuizCategory.Name
+                    })
+                    .ToPaged(result.Paging.Page, result.Paging.Size)
+                    .ToList()
+                    .Select(s => new
+                    {
+                        s.Name,
+                        s.Email,
+                        s.College,
+                        s.CreatedAt,
+                        s.CreatedSource,
+                        CreatedSourceName = Enum.GetName(typeof(MemberCreatedSource), s.CreatedSource)
+                            .Humanize(LetterCasing.Title),
+                        s.Score,
+                        s.Percentage,
+                        s.AttempedQues,
+                        s.StartTime,
+                        StartTimeDisplay = s.StartTime.Value.ToString("MM/dd/yyyy hh:mm:ss"),
+                        EndTimeDisplay = s.EndTime.Value.ToString("MM/dd/yyyy hh:mm:ss"),
+                        s.EndTime,
+                        TimeDuration = ((DateTime)s.EndTime - (DateTime)s.StartTime).Hours + ":" +
+                                       ((DateTime)s.EndTime - (DateTime)s.StartTime).Minutes + ":" +
+                                       ((DateTime)s.EndTime - (DateTime)s.StartTime).Seconds,
+                        s.QuizQuestions,
+                        s.QuizTitle,
+                        s.QuizCategoryName
+                    })
+                    .OrderBy(o => o.TimeDuration);
+                }
+
+            }
             return result;
         }
 
