@@ -101,32 +101,88 @@ namespace Spinx.Services.Members
 
             result.SetPaging(dto?.Page ?? 1, dto?.Size ?? 10, query.Count());
 
-            result.Data = query.Select(s => new MemberDetailListDto
+            if (dto.SortColumn != "totalExam")
             {
-                Id = s.Id,
-                Name = s.Name,
-                Email = s.Email,
-                College = s.College,
-                IsActive = s.IsActive,
-                CreatedAt = s.CreatedAt,
-                CreatedSource = s.CreatedSource
-            })
-           .ToPaged(result.Paging.Page, result.Paging.Size)
-           .ToList()
-           .Select(s => new
-           {
-               s.Id,
-               s.Name,
-               s.Email,
-               s.College,
-               s.CreatedAt,
-               s.CreatedSource,
-               CreatedSourceName = Enum.GetName(typeof(MemberCreatedSource), s.CreatedSource).Humanize(LetterCasing.Title),
-               TotalExam = _memberResultRepository.AsNoTracking.Count(w => w.MemberId == s.Id)
-           });
-
+                result.Data = query.Select(s => new MemberDetailListDto
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    Email = s.Email,
+                    College = s.College,
+                    IsActive = s.IsActive,
+                    CreatedAt = s.CreatedAt,
+                    CreatedSource = s.CreatedSource
+                })
+                    .ToPaged(result.Paging.Page, result.Paging.Size)
+                    .ToList()
+                    .Select(s => new
+                    {
+                        s.Id,
+                        s.Name,
+                        s.Email,
+                        s.College,
+                        s.CreatedAt,
+                        s.CreatedSource,
+                        CreatedSourceName = Enum.GetName(typeof(MemberCreatedSource), s.CreatedSource).Humanize(LetterCasing.Title),
+                        TotalExam = _memberResultRepository.AsNoTracking.Count(w => w.MemberId == s.Id)
+                    });
+            }
+            else
+            {
+                if (dto.SortType == "desc")
+                {
+                    result.Data = query.Select(s => new MemberDetailListDto
+                    {
+                        Id = s.Id,
+                        Name = s.Name,
+                        Email = s.Email,
+                        College = s.College,
+                        IsActive = s.IsActive,
+                        CreatedAt = s.CreatedAt,
+                        CreatedSource = s.CreatedSource
+                    })
+                        .ToPaged(result.Paging.Page, result.Paging.Size)
+                        .ToList()
+                        .Select(s => new
+                        {
+                            s.Id,
+                            s.Name,
+                            s.Email,
+                            s.College,
+                            s.CreatedAt,
+                            s.CreatedSource,
+                            CreatedSourceName = Enum.GetName(typeof(MemberCreatedSource), s.CreatedSource).Humanize(LetterCasing.Title),
+                            TotalExam = _memberResultRepository.AsNoTracking.Count(w => w.MemberId == s.Id)
+                        }).OrderByDescending(o => o.TotalExam);
+                }
+                else
+                {
+                    result.Data = query.Select(s => new MemberDetailListDto
+                    {
+                        Id = s.Id,
+                        Name = s.Name,
+                        Email = s.Email,
+                        College = s.College,
+                        IsActive = s.IsActive,
+                        CreatedAt = s.CreatedAt,
+                        CreatedSource = s.CreatedSource
+                    })
+                        .ToPaged(result.Paging.Page, result.Paging.Size)
+                        .ToList()
+                        .Select(s => new
+                        {
+                            s.Id,
+                            s.Name,
+                            s.Email,
+                            s.College,
+                            s.CreatedAt,
+                            s.CreatedSource,
+                            CreatedSourceName = Enum.GetName(typeof(MemberCreatedSource), s.CreatedSource).Humanize(LetterCasing.Title),
+                            TotalExam = _memberResultRepository.AsNoTracking.Count(w => w.MemberId == s.Id)
+                        }).OrderBy(o => o.TotalExam);
+                }
+            }
             return result;
-
         }
 
         public Result GetMemberDashboard(int memberId)

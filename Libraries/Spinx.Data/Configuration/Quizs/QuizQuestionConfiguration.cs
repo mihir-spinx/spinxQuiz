@@ -11,8 +11,9 @@ namespace Spinx.Data.Configuration.QuizQuestions
              .IsRequired();
 
             Property(t => t.Question)
-                .IsRequired()
-                .HasMaxLength(240);
+                .IsRequired();
+
+
         }
     }
 }

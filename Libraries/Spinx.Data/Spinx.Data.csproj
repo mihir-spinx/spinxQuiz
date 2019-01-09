@@ -115,6 +115,10 @@
     <Compile Include="Migrations\201812250604086_MemberQuizAnswerUpdate.Designer.cs">
       <DependentUpon>201812250604086_MemberQuizAnswerUpdate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201901031304392_Remove-Length-in-Question-table.cs" />
+    <Compile Include="Migrations\201901031304392_Remove-Length-in-Question-table.Designer.cs">
+      <DependentUpon>201901031304392_Remove-Length-in-Question-table.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\SeedData\AdminUsersSeed.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -168,6 +172,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201812250604086_MemberQuizAnswerUpdate.resx">
       <DependentUpon>201812250604086_MemberQuizAnswerUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901031304392_Remove-Length-in-Question-table.resx">
+      <DependentUpon>201901031304392_Remove-Length-in-Question-table.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
