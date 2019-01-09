@@ -9,6 +9,12 @@ namespace Spinx.Web.Areas.Admin
         public override void RegisterArea(AreaRegistrationContext context)
         {
             context.MapRoute(
+                "Admin_default",
+                "admin/{controller}/{action}",
+                new { area = "Admin", controller = "Home", action = "Index" },
+                new[] { "Spinx.Web.Areas.Admin.Controllers" }
+            );
+            context.MapRoute(
                 "Admin_member",
                 "admin/{controller}/{action}",
                 new { area = "Admin", controller = "Members", action = "Index" },
@@ -19,6 +25,13 @@ namespace Spinx.Web.Areas.Admin
                 "Admin_memberresult",
                 "admin/{controller}/{action}/{id}",
                 new { area = "Admin", controller = "Members", action = "Result", id = UrlParameter.Optional },
+                new[] { "Spinx.Web.Areas.Admin.Controllers" }
+            );
+
+            context.MapRoute(
+                "Admin_quizresult",
+                "admin/{controller}/{action}/{id}",
+                new { area = "Admin", controller = "Quizs", action = "Result", id = UrlParameter.Optional },
                 new[] { "Spinx.Web.Areas.Admin.Controllers" }
             );
 
@@ -38,12 +51,7 @@ namespace Spinx.Web.Areas.Admin
                new[] { "Spinx.Web.Areas.Admin.Controllers" }
            );
 
-            context.MapRoute(
-                "Admin_default",
-                "admin/{controller}/{action}",
-                new { area = "Admin", controller = "Home", action = "Index" },
-                new[] { "Spinx.Web.Areas.Admin.Controllers" }
-            );
+
         }
     }
 }

@@ -1477,7 +1477,6 @@
     <Content Include="bower_components\jQuery\build\tasks\qunit_fixture.js" />
     <Content Include="bower_components\jQuery\build\tasks\sourcemap.js" />
     <Content Include="bower_components\jQuery\build\tasks\testswarm.js" />
-    <Content Include="bower_components\jQuery\dist\core.js" />
     <Content Include="bower_components\jQuery\dist\jquery.js" />
     <Content Include="bower_components\jQuery\dist\jquery.min.js" />
     <Content Include="bower_components\jQuery\dist\jquery.slim.js" />
@@ -2987,7 +2986,6 @@
     <Content Include="Content\images\facebook.png" />
     <Content Include="Content\images\findteacher.svg" />
     <Content Include="Content\images\footer-bg.jpg" />
-    <Content Include="Content\images\footer-logo.svg" />
     <Content Include="Content\images\forum-banner.jpg" />
     <Content Include="Content\images\forum-forum.svg" />
     <Content Include="Content\images\forum-global.svg" />
@@ -3340,8 +3338,6 @@
     <Content Include="Content\js\jquery.reveal.js" />
     <Content Include="Content\js\jquery.tablesorter.js" />
     <Content Include="favicon.ico" />
-    <Content Include="Files\files\.gitignore" />
-    <Content Include="Files\images\.gitignore" />
     <Content Include="Files\images\AdvertisementBanners\160x600.jpg" />
     <Content Include="Files\images\AdvertisementBanners\636632717827867805.jpg" />
     <Content Include="Files\images\AdvertisementBanners\636632752903959203.jpg" />
@@ -3751,7 +3747,6 @@
     <Content Include="bower_components\jQuery\.npmignore" />
     <Content Include="bower_components\jQuery\.npmrc" />
     <Content Include="bower_components\jQuery\.travis.yml" />
-    <Content Include="bower_components\jQuery\bower.json" />
     <Content Include="bower_components\jQuery\CODE_OF_CONDUCT.md" />
     <Content Include="bower_components\jQuery\CONTRIBUTING.md" />
     <Content Include="bower_components\jQuery\dist\.eslintrc.json" />
@@ -3862,10 +3857,12 @@
     <Content Include="Areas\Admin\Views\SeoPages\Index.cshtml" />
     <Content Include="connections.config" />
     <Content Include="Areas\Admin\Views\Members\Result.cshtml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
     <Content Include="bower_components\angular-ui-sortable\.bower.json" />
     <Content Include="bower_components\angular-ui-sortable\.travis.yml" />
     <Content Include="bower_components\angular-ui-sortable\bower.json" />
+    <None Include="Properties\PublishProfiles\QuizProfile.pubxml" />
     <None Include="Scripts\jquery-1.8.3.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -4001,7 +3998,6 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
-    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

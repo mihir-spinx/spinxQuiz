@@ -7,21 +7,28 @@ namespace Spinx.Web.Areas.Admin.Controllers
     [AuthorizeAdminUser]
     public class QuizsController : BaseAdminController
     {
-        [AuthorizeAdminUser(permissions: new [] {"Quizs"})]
+        [AuthorizeAdminUser(permissions: new[] { "Quizs" })]
         public ActionResult Index()
         {
             return View();
         }
 
-        [AuthorizeAdminUser(permissions: new [] {"Quizs.Create"})]
+        [AuthorizeAdminUser(permissions: new[] { "Quizs.Create" })]
         public ActionResult Create()
         {
             return View();
         }
 
-        [AuthorizeAdminUser(permissions: new [] {"Quizs.Edit"})]
+        [AuthorizeAdminUser(permissions: new[] { "Quizs.Edit" })]
         public ActionResult Edit(int id)
         {
+            return View();
+        }
+
+        [AuthorizeAdminUser(permissions: new[] { "Quizs.Result" })]
+        public ActionResult Result(int? id)
+        {
+            ViewBag.QuizId = id;
             return View();
         }
     }

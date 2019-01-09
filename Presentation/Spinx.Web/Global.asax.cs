@@ -7,7 +7,6 @@ using Spinx.Web.Core.ViewEngine;
 using System;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
-using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -21,6 +20,8 @@ namespace Spinx.Web
     {
         protected void Application_Start()
         {
+
+
             // Force https for release mode site
             if (!HttpContext.Current.IsDebuggingEnabled)
                 GlobalFilters.Filters.Add(new RequireHttpsAttribute());
@@ -109,16 +110,20 @@ namespace Spinx.Web
 
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
-            var currenUrl = Request.Url.AbsoluteUri;
-            if (currenUrl.EndsWith("/") && Request.HttpMethod!="POST" && Request.HttpMethod != "PUT" && !currenUrl.Contains("admin") && !currenUrl.Contains("Content")
-                && !currenUrl.Contains("favicon") && !currenUrl.Contains("bower_components") && !currenUrl.Contains("Upload")
-                && !currenUrl.Contains("Files") && !currenUrl.Contains("Upload") && !currenUrl.Contains("ckfinder")
-                && !currenUrl.Contains("api") && !currenUrl.Contains("?"))
-            {
-                Response.Status = "301 Moved Permanently";
-                Response.AddHeader("Location", Request.Url.AbsoluteUri.TrimEnd('/'));
-                Response.End();
-            }
+            //HttpContext.Current.Response.Write(HttpContext.Current.Request.Url);
+            //HttpContext.Current.Response.Write(Request.Url.AbsoluteUri);
+            //HttpContext.Current.Response.End();
+
+            //var currenUrl = Request.Url.AbsoluteUri;
+            //if (currenUrl.EndsWith("/") && Request.HttpMethod != "POST" && Request.HttpMethod != "PUT" && !currenUrl.Contains("admin") && !currenUrl.Contains("Content")
+            //    && !currenUrl.Contains("favicon") && !currenUrl.Contains("bower_components") && !currenUrl.Contains("Upload")
+            //    && !currenUrl.Contains("Files") && !currenUrl.Contains("Upload") && !currenUrl.Contains("ckfinder")
+            //    && !currenUrl.Contains("api") && !currenUrl.Contains("?"))
+            //{
+            //    Response.Status = "301 Moved Permanently";
+            //    Response.AddHeader("Location", Request.Url.AbsoluteUri.TrimEnd('/'));
+            //    Response.End();
+            //}
 
             ////You don't want to redirect on posts, or images/css/js
             //var isGet = HttpContext.Current.Request.RequestType.ToLowerInvariant().Contains("get");

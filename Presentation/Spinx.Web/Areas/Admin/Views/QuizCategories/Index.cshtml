@@ -27,7 +27,7 @@
                 <tr ng-repeat="item in list.data">
                     <td cell-checkbox-id model="list" item="item"></td>
                     <td>{{ item.name }}</td>
-                    <td align="center">{{item.quizCount}}</td>
+                    <td align="center"><a href="admin/quizs/result/{{item.id}}">{{item.quizCount}}</a></td>
                     <td cell-status item="item"></td>
                     <td cell align="center">
                         <action-edit url="admin/quizcategories/edit/{{ item.id }}" model="list" 
@@ -48,7 +48,8 @@
                 "$scope", "$http", "spinxList", function ($scope, $http, spinxList) {
                     var searchApiUrl = 'api/admin/quizcategories';
                     $scope.list = new spinxList(searchApiUrl);
-                    $scope.list.actions = ['Delete','Active','Inactive'];
+                    $scope.list.actions = ['Delete', 'Active', 'Inactive'];
+              
                 }
             ]);
     </script>

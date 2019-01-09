@@ -16,7 +16,7 @@ namespace Spinx.Web
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.LowercaseUrls = true;
             // CMS Pages
-            routes.MapRoute(name: "Privacy", url: "privacy", defaults: new { controller = "Pages", action = "Index", slug = "privacy"}, namespaces: FrontNamespaces);
+            routes.MapRoute(name: "Privacy", url: "privacy", defaults: new { controller = "Pages", action = "Index", slug = "privacy" }, namespaces: FrontNamespaces);
             routes.MapRoute(name: "Terms", url: "terms", defaults: new { controller = "Pages", action = "Index", slug = "terms" }, namespaces: FrontNamespaces);
             routes.MapRoute(name: "Error", url: "Error", defaults: new { controller = "Error", action = "PageNotFound" }, namespaces: FrontNamespaces);
 
@@ -30,20 +30,7 @@ namespace Spinx.Web
             routes.MapRoute(name: "ResumeAccessPurchaseList", url: "resume-access-purchase-list", defaults: new { controller = "DashBoards", action = "ResumeAccessPurchaseList" }, namespaces: FrontNamespaces);
 
             // Job a post 
-            routes.MapRoute(name: "jobboards", url: "jobs/{Slug}", defaults: new { controller = "PostAJobs", action = "Index" }, namespaces: FrontNamespaces);            
-            routes.MapRoute(name: "jobcenter", url: "job-center", defaults: new { controller = "JobCenters", action = "Index" }, namespaces: FrontNamespaces);
-            routes.MapRoute(name: "postajob", url: "post-a-job", defaults: new { controller = "PostAJobs", action = "Create" }, namespaces: FrontNamespaces);
-            routes.MapRoute(name: "post-a-job-detail", url: "postajob-detail/{slug}", defaults: new { controller = "PostAJobs", action = "detail", slug = "" }, namespaces: FrontNamespaces);
-            routes.MapRoute(name: "post-a-job-edit", url: "postajob-edit/{slug}", defaults: new { controller = "PostAJobs", action = "Edit", slug = "" }, namespaces: FrontNamespaces);
-            routes.MapRoute(name: "postajobdashboard", url: "postajob-dashboard", defaults: new { controller = "DashBoards", action = "PostAJobDashBoard", slug = "" }, namespaces: FrontNamespaces);
-            routes.MapRoute(name: "post-a-job-renew", url: "postajob-renew/{slug}", defaults: new { controller = "PostAJobs", action = "Renew", slug = "" }, namespaces: FrontNamespaces);            
-            routes.MapRoute(name: "PaymentHistory", url: "payment-history", defaults: new { controller = "DashBoards", action = "PaymentHistory", slug = "" }, namespaces: FrontNamespaces);
-            routes.MapRoute(name: "postajobmember", url: "post-a-job-member", defaults: new { controller = "PostAJobs", action = "PastUserCreate" }, namespaces: FrontNamespaces);
             routes.MapRoute(name: "thankyoumember", url: "thank-you-member", defaults: new { controller = "PostAJobs", action = "thank-you-member" }, namespaces: FrontNamespaces);
-
-            routes.MapRoute(name: "jobboards2", url: "jobs2/{Slug}", defaults: new { controller = "PostAJobs", action = "Index-Iframe" }, namespaces: FrontNamespaces);
-            routes.MapRoute(name: "post-a-job-detail2", url: "postajob-detail2/{slug}", defaults: new { controller = "PostAJobs", action = "detail-iframe", slug = "" }, namespaces: FrontNamespaces);
-
 
             //Grammar Lessons
             routes.MapRoute(name: "grammar-lessons-categories", url: "resources/grammar-lessons", defaults: new { controller = "GrammarLessons", action = "Index" }, namespaces: FrontNamespaces);
@@ -83,14 +70,6 @@ namespace Spinx.Web
             routes.MapRoute(name: "edit-profile", url: "edit-profile", defaults: new { controller = "Member", action = "EditProfile" }, namespaces: FrontNamespaces);
             routes.MapRoute(name: "change-password", url: "change-password", defaults: new { controller = "Member", action = "ChangePassword" }, namespaces: FrontNamespaces);
 
-            //Advertisement
-            routes.MapRoute(name: "advertisements", url: "advertisements/{Slug}", defaults: new { controller = "Advertisements", action = "Index" }, namespaces: FrontNamespaces);
-            routes.MapRoute(name: "advertisementsurl", url: "advertisements", defaults: new { controller = "Advertisements", action = "Index" }, namespaces: FrontNamespaces);
-            routes.MapRoute(name: "bannersurl", url: "banners", defaults: new { controller = "Advertisements", action = "Banners" }, namespaces: FrontNamespaces);
-
-            //Post Advertisement
-            routes.MapRoute(name: "postadvertisements", url: "postadvertisements/{Code}", defaults: new { controller = "PostAdvertisements", action = "Index" }, namespaces: FrontNamespaces);
-            routes.MapRoute(name: "advertisementdashboard", url: "advertisement-dashboard", defaults: new { controller = "DashBoards", action = "AdvertisementDashBoard", slug = "" }, namespaces: FrontNamespaces);
 
             routes.MapRoute(
                 name: "Default",
