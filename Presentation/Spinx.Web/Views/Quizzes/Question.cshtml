@@ -129,6 +129,7 @@
                             if (--timer < 0) {
                                 //timer = duration;
                                 clearInterval(setTimeInterval);
+                                submitQuizFunction();
                                 alert('Time out');
 
                             }
@@ -170,20 +171,27 @@
                         });
                     };
 
+                    var submitQuizFunction = function() {
+                        $http.post('api/quiz/submitquiz/', { 'memberResultId': $scope.filters.memberResultId })
+                            .then(function(resp) {
+                                $scope.submitResult = resp.data;
+                                if ($scope.submitResult.success) {
+                                    if ($scope.submitResult.isRedirect)
+                                        window.location.href = $scope.submitResult.redirect;
+                                }
+
+                            });
+                    }
+
                     $scope.submitQuiz = function() {
 
                         if (confirm('Are you sure submit quiz !')) {
-                            $http.post('api/quiz/submitquiz/', { 'memberResultId': $scope.filters.memberResultId })
-                                .then(function(resp) {
-                                    $scope.submitResult = resp.data;
-                                    if ($scope.submitResult.success) {
-                                        if ($scope.submitResult.isRedirect)
-                                            window.location.href = $scope.submitResult.redirect;
-                                    }
-
-                                });
+                            submitQuizFunction();
                         }
                     }
+
+                   
+
                 }
             ]);
 

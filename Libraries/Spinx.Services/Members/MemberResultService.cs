@@ -43,7 +43,7 @@ namespace Spinx.Services.Members
             if (!result.Success)
                 return result;
 
-            var query = _memberResultRepository.AsNoTracking;
+            var query = _memberResultRepository.AsNoTracking.Where(w=>w.EndTime != null);
 
             query = query.Include(i => i.Member);
             query = query.Include(i => i.Quiz);
@@ -111,7 +111,7 @@ namespace Spinx.Services.Members
                     AttempedQues = s.AttempedQues,
                     StartTime = s.StartTime,
                     EndTime = s.EndTime,
-                    QuizQuestions = s.Quiz.QuizQuestions.Count,
+                    QuizQuestions = s.MemberQuizAnswer.Count,
                     QuizTitle = s.Quiz.Title,
                     QuizCategoryName = s.Quiz.QuizCategory.Name
                 })
