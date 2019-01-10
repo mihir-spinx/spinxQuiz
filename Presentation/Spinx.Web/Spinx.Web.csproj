@@ -293,6 +293,7 @@
     <Compile Include="Areas\Admin\Controllers\AdminPermissionsController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminRolesController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\GeneralSettingsController.cs" />
     <Compile Include="Areas\Admin\Controllers\SeoPagesController.cs" />
     <Compile Include="Areas\Admin\Controllers\QuizAnswersController.cs" />
     <Compile Include="Controllers\DashBoardsController.cs" />
@@ -3857,6 +3858,9 @@
     <Content Include="Areas\Admin\Views\SeoPages\Index.cshtml" />
     <Content Include="connections.config" />
     <Content Include="Areas\Admin\Views\Members\Result.cshtml" />
+    <Content Include="Areas\Admin\Views\GeneralSettings\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\GeneralSettings\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\GeneralSettings\Index.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
     <Content Include="bower_components\angular-ui-sortable\.bower.json" />

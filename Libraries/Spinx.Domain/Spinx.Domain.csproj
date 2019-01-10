@@ -41,8 +41,10 @@
     <Compile Include="AdminUsers\AdminUser.cs" />
     <Compile Include="ContactUsInquiries\ContactUsInquiry.cs" />
     <Compile Include="EmailTemplates\EmailTemplate.cs" />
+    <Compile Include="GeneralSettings\GeneralSetting.cs" />
     <Compile Include="Members\Member.cs" />
     <Compile Include="Members\MemberCreatedSource.cs" />
+    <Compile Include="Members\MemberQuizAnswerOptions.cs" />
     <Compile Include="Members\MemberQuizAnswer.cs" />
     <Compile Include="Members\MemberResult.cs" />
     <Compile Include="Pages\Page.cs" />

@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Admin\MembersResultController.cs" />
+    <Compile Include="Admin\GeneralSettingsController.cs" />
     <Compile Include="Admin\SeoPagesController.cs" />
     <Compile Include="Admin\QuizAnswersController.cs" />
     <Compile Include="Admin\QuizAnswerSequenceController.cs" />

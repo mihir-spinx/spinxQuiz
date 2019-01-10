@@ -82,6 +82,7 @@
         var sortOrder = @(ViewBag.SortOrder);
         var memberResultId = @(ViewBag.MemberResultId);
         var totelQuestion = @(ViewBag.totelQuestion);
+        var totalTimeMinute = @(ViewBag.TotalTimeMinute);
         myApp = angular.module('myApp', ["ngCookies"]);
 
         myApp.controller("ctrlList",
@@ -101,7 +102,6 @@
                     $scope.answerFilters.memberResultId = $scope.filters.memberResultId;
                     $scope.data = [];
                     $scope.isLoadComplete = false;
-                    var totalTimeMinute = 60;
                     var fiveMinutes = (60 * totalTimeMinute) - $scope.diffInSeconds,
                         display = document.querySelector('#time');
                     startTimer(fiveMinutes, display);

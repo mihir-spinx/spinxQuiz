@@ -1,0 +1,48 @@
+﻿<layout-header icon="pencil-square-o" breadcrumb="['System', 'General Settings']">
+    @*<button-add url="admin/generalsettings/create">General Settings</button-add>*@
+</layout-header>
+
+<div ng-controller="ctrlList" ng-init="list.filters.sortColumn='name';list.filters.sortType='asc';">
+    <grid>
+        <message message="list.message" type="list.messageType"></message>
+        @*<toolbar model="list"></toolbar>*@
+        <table class="table table-bordered table-striped dataTable table-hover">
+            <thead>
+                <tr>
+                    <th th-search name="name" model="list"></th>
+                    <th  th-search name="value" model="list"></th>
+                    <th></th>
+                </tr>
+                <tr>
+                    <th th-sort name="name" model="list">Name</th>
+                    <th th-sort name="value" model="list">Value</th>
+                    <th th-sort-action></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in list.data">
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.value }}</td>
+                    <td cell align="center">
+                        <action-edit url="admin/generalsettings/edit/{{ item.id }}" model="list" item="item" title="Edit">
+                        </action-edit>
+                    </td>
+                </tr>
+                <tr row-no-records model="list"></tr>
+            </tbody>
+        </table>
+    </grid>
+</div>
+
+@section scripts {
+    <script>
+        myApp.controller("ctrlList",
+            [
+                "$scope", "$http", "spinxList", function ($scope, $http, spinxList) {
+                    var searchApiUrl = 'api/admin/generalsettings';
+                    $scope.list = new spinxList(searchApiUrl);
+                    $scope.list.actions = ['Delete'];
+                }
+            ]);
+    </script>
+}

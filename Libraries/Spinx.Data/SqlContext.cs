@@ -26,6 +26,8 @@ using System;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Linq;
+using Spinx.Data.Configuration.GeneralSettings;
+using Spinx.Domain.GeneralSettings;
 
 namespace Spinx.Data
 {
@@ -52,6 +54,7 @@ namespace Spinx.Data
         public DbSet<MemberResult> MemberResult { get; set; }
 
         public DbSet<SeoPage> SeoPage { get; set; }
+        public DbSet<GeneralSetting> GeneralSetting { get; set; }
 
         public virtual void Commit()
         {
@@ -98,6 +101,7 @@ namespace Spinx.Data
             modelBuilder.Configurations.Add(new MemberResultConfiguration());
 
             modelBuilder.Configurations.Add(new SeoPageConfiguration());
+            modelBuilder.Configurations.Add(new GeneralSettingConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }

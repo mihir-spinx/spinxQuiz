@@ -1,0 +1,48 @@
+﻿<layout-header icon="pencil-square-o" breadcrumb="['System', 'General Settings']">
+    <button-back url="admin/generalsettings"></button-back>
+</layout-header>
+
+<section class="" ng-controller="ctrlForm">    
+    <div class="clearfix"></div>
+    <section class="well">
+        <form class="form-horizontal" autocomplete="off" novalidate>
+            <fieldset>
+                <legend>Basic Information</legend>
+                <message message="form.message" type="form.messageType" model="form"></message>
+                <textbox name="name" maxlength="100" required model="form"></textbox>
+                <textbox name="value" maxlength="100" required model="form"></textbox>
+            </fieldset>
+            <form-actions>
+                <save click="form.submit()"></save>
+            </form-actions>
+        </form>
+    </section>
+</section>
+
+@section scripts{
+    <script>
+        var Id = @Url.RequestContext.RouteData.Values["Id"];       
+        myApp.controller('ctrlForm',
+            [
+                '$scope', '$http', 'spinxForm', function($scope, $http, spinxForm) {
+                    $scope.Id = Id;
+                    var apiUrl = 'api/admin/generalsettings/'+ Id ;
+                    var url = 'admin/generalsettings';
+                    $scope.form = new spinxForm(url, apiUrl, $scope.Id);
+                    var defaultEntity = $scope.form.entity;
+                    var loadEntity = function() {
+                        $http.get(apiUrl).then(function(resp) {
+                                $scope.form.entity = resp.data;
+                            },
+                            function(resp) {
+                                if (resp.status === 404) {
+                                    $scope.form.entity = defaultEntity;
+                                    $scope.form.entity.isActive = true;
+                                }
+                            });
+                    };
+                    loadEntity();                  
+                }
+            ]);
+    </script>
+}

@@ -3,6 +3,7 @@ using Spinx.Domain.QuizAnswers;
 using Spinx.Domain.QuizQuestions;
 using Spinx.Domain.Quizs;
 using System;
+using System.Collections.Generic;
 
 namespace Spinx.Domain.Members
 {
@@ -26,5 +27,7 @@ namespace Spinx.Domain.Members
 
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
+
+        public ICollection<MemberQuizAnswerOptions> MemberQuizAnswerOptions { get; set; }
     }
 }

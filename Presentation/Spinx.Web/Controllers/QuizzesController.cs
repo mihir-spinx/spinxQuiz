@@ -9,6 +9,7 @@ using Spinx.Web.Infrastructure;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using Spinx.Core;
+using Spinx.Services.GeneralSettings;
 using Spinx.Web.Core.Authentication;
 
 namespace Spinx.Web.Controllers
@@ -20,10 +21,13 @@ namespace Spinx.Web.Controllers
         private readonly IQuizQuestionService _quizQuestionService;
         private readonly ISeoPageService _seoPageService;
         private readonly IMemberQuizService _memberQuizService;
+        private readonly IGeneralSettingService _generalSettingService;
+
         public QuizzesController(IQuizService quizService,
             IQuizCategoryService quizCategoryService,
             IQuizQuestionService quizQuestionService,
             IMemberQuizService memberQuizService,
+            IGeneralSettingService generalSettingService,
             ISeoPageService seoPageService)
         {
             _quizService = quizService;
@@ -31,6 +35,7 @@ namespace Spinx.Web.Controllers
             _quizQuestionService = quizQuestionService;
             _seoPageService = seoPageService;
             _memberQuizService = memberQuizService;
+            _generalSettingService = generalSettingService;
         }
 
         public ActionResult Index()
@@ -78,6 +83,8 @@ namespace Spinx.Web.Controllers
             {
                 ViewBag.MemberQuizList =  JsonConvert.SerializeObject(result.MemberQuizAnswerList);
                 ViewBag.MemberResultId = result.MemberResultId;
+                var TotalTimeData =  _generalSettingService.GetGeneralSetting("total-time");
+                ViewBag.TotalTimeMinute = string.IsNullOrWhiteSpace(TotalTimeData) ? "60" : TotalTimeData;
                 ViewBag.diffInSeconds = (DateTime.Now - result.StartTime).TotalSeconds;
                 ViewBag.SortOrder = result.SortOrder;
                 ViewBag.totelQuestion = result.MemberQuizAnswerList.Count;

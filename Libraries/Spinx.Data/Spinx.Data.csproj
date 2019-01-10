@@ -67,6 +67,7 @@
     <Compile Include="Configuration\AdminRolePermissions\AdminRoleConfiguration.cs" />
     <Compile Include="Configuration\AdminUsers\AdminUserConfiguration.cs" />
     <Compile Include="Configuration\ContactUsInquiries\ContactUsInquiryConfiguration.cs" />
+    <Compile Include="Configuration\GeneralSettings\GeneralSettingConfiguration.cs" />
     <Compile Include="Configuration\Members\MemberConfiguration.cs" />
     <Compile Include="Configuration\Members\MemberQuizAnswerConfiguration.cs" />
     <Compile Include="Configuration\Members\MemberResultConfiguration.cs" />
@@ -119,6 +120,14 @@
     <Compile Include="Migrations\201901031304392_Remove-Length-in-Question-table.Designer.cs">
       <DependentUpon>201901031304392_Remove-Length-in-Question-table.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201901100519206_CreateMemberQuizAnswerOptionsTable.cs" />
+    <Compile Include="Migrations\201901100519206_CreateMemberQuizAnswerOptionsTable.Designer.cs">
+      <DependentUpon>201901100519206_CreateMemberQuizAnswerOptionsTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201901100957140_CreateGeneralSettingTable.cs" />
+    <Compile Include="Migrations\201901100957140_CreateGeneralSettingTable.Designer.cs">
+      <DependentUpon>201901100957140_CreateGeneralSettingTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\SeedData\AdminUsersSeed.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -127,6 +136,8 @@
     <Compile Include="Repository\AdminUsers\AdminUserRepository.cs" />
     <Compile Include="Repository\ContactUsInquiries\ContactUsInquiryRepository.cs" />
     <Compile Include="Repository\EmailTemplates\EmailTemplateRepository.cs" />
+    <Compile Include="Repository\GeneralSettings\GeneralSettingRepository.cs" />
+    <Compile Include="Repository\Member\MemberQuizAnswerOptionsRepository.cs" />
     <Compile Include="Repository\Member\MemberQuizAnswerRepository.cs" />
     <Compile Include="Repository\Member\MemberResultRepository.cs" />
     <Compile Include="Repository\Member\MemberRepository.cs" />
@@ -176,6 +187,13 @@
     <EmbeddedResource Include="Migrations\201901031304392_Remove-Length-in-Question-table.resx">
       <DependentUpon>201901031304392_Remove-Length-in-Question-table.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901100519206_CreateMemberQuizAnswerOptionsTable.resx">
+      <DependentUpon>201901100519206_CreateMemberQuizAnswerOptionsTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901100957140_CreateGeneralSettingTable.resx">
+      <DependentUpon>201901100957140_CreateGeneralSettingTable.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

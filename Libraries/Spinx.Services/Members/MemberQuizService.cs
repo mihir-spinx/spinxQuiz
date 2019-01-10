@@ -14,6 +14,8 @@ using Spinx.Services.QuizCategories.DTOs;
 using System;
 using System.Data.Entity;
 using System.Linq;
+using Spinx.Data.Repository.GeneralSettings;
+using Spinx.Services.GeneralSettings;
 
 namespace Spinx.Services.Members
 {
@@ -24,20 +26,24 @@ namespace Spinx.Services.Members
         Result GetQuestionByMemberResult(int memberResultId, int sortOrder, int lastSortOrder);
         Result SaveAnswerByMember(MemberQuizAnswerDto dto);
         Result SubmitQuiz(int memberId, int memberResultId);
+        
     }
 
     public class MemberQuizService : IMemberQuizService
     {
         private readonly IMemberRepository _memberRepository;
         private readonly IQuizRepository _quizRepository;
+        private readonly IMemberQuizAnswerOptionsRepository _memberQuizAnswerOptionsRepository;
+        private readonly IGeneralSettingService _generalSettingService;
         private readonly IQuizAnswerRepository _quizAnswerRepository;        
         private readonly IMemberResultRepository _memberResultRepository;
         private readonly IMemberQuizAnswerRepository _memberQuizAnswerRepository;
         private readonly IQuizQuestionRepository _quizQuestionRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly MemberEditProfileValidator _memberEditProfileValidator;
+        
 
-        public MemberQuizService(
+    public MemberQuizService(
             IMemberRepository memberRepository,
             IMemberResultRepository memberResultRepository,
             IMemberQuizAnswerRepository memberQuizAnswerRepository,
@@ -45,17 +51,22 @@ namespace Spinx.Services.Members
             IQuizAnswerRepository quizAnswerRepository,
             IUnitOfWork unitOfWork,
             IQuizRepository quizRepository,
+            IMemberQuizAnswerOptionsRepository memberQuizAnswerOptionsRepository,
+            IGeneralSettingService generalSettingService,
             MemberEditProfileValidator memberEditProfileValidator)
         {
             _memberRepository = memberRepository;
             _quizRepository = quizRepository;
+            _memberQuizAnswerOptionsRepository = memberQuizAnswerOptionsRepository;
+            _generalSettingService = generalSettingService;
             _memberQuizAnswerRepository = memberQuizAnswerRepository;
             _memberResultRepository = memberResultRepository;
             _quizQuestionRepository = quizQuestionRepository;
             _quizAnswerRepository = quizAnswerRepository;
             _unitOfWork = unitOfWork;
             _memberEditProfileValidator = memberEditProfileValidator;
-        }
+           
+    }
 
        
 
@@ -85,7 +96,12 @@ namespace Spinx.Services.Members
                 _memberResultRepository.Insert(entity);
                 _unitOfWork.Commit();
 
-                var questionList = _quizQuestionRepository.AsNoTracking.Where(x => x.QuizId == entity.QuizId).Select(s => s.Id).OrderBy(o => Guid.NewGuid());
+                var totalNumberQuestionData = _generalSettingService.GetGeneralSetting("total-question-display");
+                var totalNumberQuestion = string.IsNullOrWhiteSpace(totalNumberQuestionData)
+                    ? 30
+                    : Convert.ToInt32(totalNumberQuestionData);
+
+                var questionList = _quizQuestionRepository.AsNoTracking.Where(x => x.QuizId == entity.QuizId).OrderBy(o => Guid.NewGuid()).Select(s => s.Id).Skip(0).Take(totalNumberQuestion).ToList();
                 var i = 1;
                 foreach (var questionId in questionList)
                 {
@@ -98,9 +114,29 @@ namespace Spinx.Services.Members
                     };
 
                     _memberQuizAnswerRepository.Insert(memberQuizEntity);
+                    _unitOfWork.Commit();
+
+                    var quizAnswerList = _quizAnswerRepository.AsNoTracking
+                        .Where(w => w.QuizQuestionId == memberQuizEntity.QuizQuestionId)
+                        .OrderBy(o => Guid.NewGuid()).Select(s => new {s.Id}).ToList();
+
+                    var j = 1;
+                    foreach (var quizAnswer in quizAnswerList)
+                    {
+                        var memberQuizAnswerOptions = new MemberQuizAnswerOptions()
+                        {
+                            MemberQuizAnswerId = memberQuizEntity.Id,
+                            QuizAnswerId = quizAnswer.Id,
+                            SortOrder = j
+                        };
+                        _memberQuizAnswerOptionsRepository.Insert(memberQuizAnswerOptions);
+                        j++;
+                    }
+                    _unitOfWork.Commit();
+
                     i++;
                 }
-                _unitOfWork.Commit();              
+                             
 
             }
 
@@ -149,9 +185,9 @@ namespace Spinx.Services.Members
                 question = s.QuizQestion.Question,
                 sortOrder = s.SortOrder,
                quizAnswerId = s.QuizAnswerId,
-               quizAnswer = s.QuizQestion.QuizAnswer.Select(q=> new { q.Id,q.Answer})
+               quizAnswer = s.MemberQuizAnswerOptions.Select(q=> new { q.QuizAnswer.Id, q.QuizAnswer.Answer})
 
-            }).FirstOrDefault();
+           }).FirstOrDefault();
             return result;
         }
 
@@ -192,6 +228,7 @@ namespace Spinx.Services.Members
             entity.EndTime = DateTime.Now;
             entity.AttempedQues = memberQuizAnswer.Where(x=> x.QuizAnswerId != null).Count();
             entity.Percentage = (totalRightAnswer * 100) / totalquestion;
+            entity.Score = totalRightAnswer;
             _memberResultRepository.Update(entity);
             _unitOfWork.Commit();
 
