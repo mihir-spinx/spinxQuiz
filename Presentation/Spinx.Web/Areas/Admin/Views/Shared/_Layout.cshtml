@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <base href="@Url.Content("~/")">
-    <title>@ViewBag.Title Spinx Quiz: Admin</title>
+    <title>@ViewBag.Title Spinx Assessment Test: Admin</title>
 
     <!-- Styles -->
     @Styles.Render("~/Content/Admin/css/bundle")
@@ -90,7 +90,7 @@
                         <a href="@Url.Action("Index", "Home")" title="Dashboard"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Dashboard</span></a>
                     </li>
                 }
-                @if (Context.GetAdminUser().HasPermission("Content"))
+                @*@if (Context.GetAdminUser().HasPermission("Content"))
                 {
                     <li>
                         <a href="javascript:;">
@@ -102,7 +102,7 @@
                             @Html.BkndMenuItem("SeoPages", label: "SEO Pages")
                         </ul>
                     </li>
-                }
+                }*@
 
                 <li>
                     <a href="javascript:;"><i class="fa fa fa-book"></i> <span class="menu-item-parent">Quiz</span></a>
@@ -117,7 +117,7 @@
                     <a href="javascript:;"><i class="fa fa-lg fa-fw fa-user"></i> <span class="menu-item-parent"> Candidates </span></a>
                     <ul>
                         @Html.BkndMenuItem("Members", label: "Candidates")
-                        @*@Html.BkndMenuItem("ContactUsInquiries", label: "Contact Us Inquiries")*@
+                        
                     </ul>
                 </li>
 
@@ -126,7 +126,7 @@
                     <li>
                         <a href="javascript:;"><i class="fa fa-lg fa-fw fa-cog"></i> <span class="menu-item-parent">System</span></a>
                         <ul>
-                            @if (Context.GetAdminUser().HasPermission("account"))
+                            @*@if (Context.GetAdminUser().HasPermission("account"))
                             {
                                 <li>
                                     <a href="javascript:;">My Account</a>
@@ -136,7 +136,7 @@
                                     </ul>
                                 </li>
                             }
-                            @*@if (Context.GetAdminUser().HasPermission("permission"))
+                            @if (Context.GetAdminUser().HasPermission("permission"))
                                 {
                                     <li>
                                         <a href="javascript:;">Permission</a>
@@ -147,8 +147,11 @@
                                         </ul>
                                     </li>
                                 }*@
-                            @Html.BkndMenuItem("EmailTemplates")
+
+                            @*@Html.BkndMenuItem("EmailTemplates")*@
+
                             @Html.BkndMenuItem("GeneralSettings")
+
                             @*@if (Context.GetAdminUser().HasPermission("clearcache"))
                                 {
                                     <li><hr class="menu-item" /></li>

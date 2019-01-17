@@ -1048,7 +1048,7 @@ var secretKey = 'sh4x@ulY;ZD"XiUFZJ(T3@elB@eOStu6Zq)vms$J,1a03wX@m=8PY7CZro{+f9Z
 
 //var bytes  = CryptoJS.AES.decrypt(ciphertext.toString(), secretKey);
 //var plaintext = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-// $.inArray("adminusers.create", access.permissions)
+//$.inArray("adminusers.create", access.permissions);
 
 //var adminMenu = {
 //    dashboard: {

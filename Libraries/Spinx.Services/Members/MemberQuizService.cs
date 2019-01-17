@@ -1,21 +1,17 @@
-﻿using Omu.ValueInjecter;
-using Spinx.Core;
+﻿using Spinx.Core;
 using Spinx.Data.Infrastructure;
 using Spinx.Data.Repository.Member;
 using Spinx.Data.Repository.QuizAnswers;
 using Spinx.Data.Repository.QuizQuestions;
 using Spinx.Data.Repository.Quizs;
 using Spinx.Domain.Members;
-using Spinx.Services.AdminUsers.DTOs;
 using Spinx.Services.Content;
-using Spinx.Services.Infrastructure;
+using Spinx.Services.GeneralSettings;
 using Spinx.Services.Members.Validators;
 using Spinx.Services.QuizCategories.DTOs;
 using System;
 using System.Data.Entity;
 using System.Linq;
-using Spinx.Data.Repository.GeneralSettings;
-using Spinx.Services.GeneralSettings;
 
 namespace Spinx.Services.Members
 {
@@ -26,7 +22,7 @@ namespace Spinx.Services.Members
         Result GetQuestionByMemberResult(int memberResultId, int sortOrder, int lastSortOrder);
         Result SaveAnswerByMember(MemberQuizAnswerDto dto);
         Result SubmitQuiz(int memberId, int memberResultId);
-        
+
     }
 
     public class MemberQuizService : IMemberQuizService
@@ -35,25 +31,25 @@ namespace Spinx.Services.Members
         private readonly IQuizRepository _quizRepository;
         private readonly IMemberQuizAnswerOptionsRepository _memberQuizAnswerOptionsRepository;
         private readonly IGeneralSettingService _generalSettingService;
-        private readonly IQuizAnswerRepository _quizAnswerRepository;        
+        private readonly IQuizAnswerRepository _quizAnswerRepository;
         private readonly IMemberResultRepository _memberResultRepository;
         private readonly IMemberQuizAnswerRepository _memberQuizAnswerRepository;
         private readonly IQuizQuestionRepository _quizQuestionRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly MemberEditProfileValidator _memberEditProfileValidator;
-        
 
-    public MemberQuizService(
-            IMemberRepository memberRepository,
-            IMemberResultRepository memberResultRepository,
-            IMemberQuizAnswerRepository memberQuizAnswerRepository,
-            IQuizQuestionRepository quizQuestionRepository,
-            IQuizAnswerRepository quizAnswerRepository,
-            IUnitOfWork unitOfWork,
-            IQuizRepository quizRepository,
-            IMemberQuizAnswerOptionsRepository memberQuizAnswerOptionsRepository,
-            IGeneralSettingService generalSettingService,
-            MemberEditProfileValidator memberEditProfileValidator)
+
+        public MemberQuizService(
+                IMemberRepository memberRepository,
+                IMemberResultRepository memberResultRepository,
+                IMemberQuizAnswerRepository memberQuizAnswerRepository,
+                IQuizQuestionRepository quizQuestionRepository,
+                IQuizAnswerRepository quizAnswerRepository,
+                IUnitOfWork unitOfWork,
+                IQuizRepository quizRepository,
+                IMemberQuizAnswerOptionsRepository memberQuizAnswerOptionsRepository,
+                IGeneralSettingService generalSettingService,
+                MemberEditProfileValidator memberEditProfileValidator)
         {
             _memberRepository = memberRepository;
             _quizRepository = quizRepository;
@@ -65,23 +61,23 @@ namespace Spinx.Services.Members
             _quizAnswerRepository = quizAnswerRepository;
             _unitOfWork = unitOfWork;
             _memberEditProfileValidator = memberEditProfileValidator;
-           
-    }
 
-       
+        }
+
+
 
         public MemberQuizListDto SaveMemberQuizInit(int memberId, string slug)
         {
             var result = new MemberQuizListDto();
 
-           var quiz = _quizRepository.AsNoTracking.FirstOrDefault(w => w.Slug == slug && w.IsActive);
+            var quiz = _quizRepository.AsNoTracking.FirstOrDefault(w => w.Slug == slug && w.IsActive);
             if (quiz == null)
             {
                 result.Success = false;
-                result.Message = "Quiz not found.";
+                result.Message = "Test not found.";
                 return result;
             }
-                
+
 
             if (!_memberResultRepository.AsNoTracking.Any(a => a.MemberId == memberId && a.QuizId == quiz.Id && a.EndTime == null))
             {
@@ -118,7 +114,7 @@ namespace Spinx.Services.Members
 
                     var quizAnswerList = _quizAnswerRepository.AsNoTracking
                         .Where(w => w.QuizQuestionId == memberQuizEntity.QuizQuestionId)
-                        .OrderBy(o => Guid.NewGuid()).Select(s => new {s.Id}).ToList();
+                        .OrderBy(o => Guid.NewGuid()).Select(s => new { s.Id }).ToList();
 
                     var j = 1;
                     foreach (var quizAnswer in quizAnswerList)
@@ -136,7 +132,7 @@ namespace Spinx.Services.Members
 
                     i++;
                 }
-                             
+
 
             }
 
@@ -177,15 +173,15 @@ namespace Spinx.Services.Members
                 }
             }
 
-            result.Data =  _memberQuizAnswerRepository.AsNoTracking.Where(w => w.MemberResultId == memberResultId && w.SortOrder == sortOrder)
+            result.Data = _memberQuizAnswerRepository.AsNoTracking.Where(w => w.MemberResultId == memberResultId && w.SortOrder == sortOrder)
            .Select(s => new
-            {
-                questionId = s.QuizQestion.Id,
-                memberQuizAnswerId = s.QuizAnswerId,
-                question = s.QuizQestion.Question,
-                sortOrder = s.SortOrder,
+           {
+               questionId = s.QuizQestion.Id,
+               memberQuizAnswerId = s.QuizAnswerId,
+               question = s.QuizQestion.Question,
+               sortOrder = s.SortOrder,
                quizAnswerId = s.QuizAnswerId,
-               quizAnswer = s.MemberQuizAnswerOptions.Select(q=> new { q.QuizAnswer.Id, q.QuizAnswer.Answer})
+               quizAnswer = s.MemberQuizAnswerOptions.Select(q => new { q.QuizAnswer.Id, q.QuizAnswer.Answer })
 
            }).FirstOrDefault();
             return result;
@@ -197,24 +193,24 @@ namespace Spinx.Services.Members
             var entity = _memberQuizAnswerRepository.AsNoTracking.FirstOrDefault(x => x.MemberResultId == dto.MemberResultId && x.QuizQuestionId == dto.QuizQuestionId);
 
             if (entity == null)
-              return result.SetError("Something wrong.");
+                return result.SetError("Something wrong.");
 
-            if(dto.QuizAnswerId == null || dto.QuizAnswerId== 0)
+            if (dto.QuizAnswerId == null || dto.QuizAnswerId == 0)
                 return result.SetError("Answer is Blank");
 
             entity.QuizAnswerId = dto.QuizAnswerId;
             entity.UpdatedAt = DateTime.Now;
             entity.IsAttempt = true;
-            entity.IsRight = _quizAnswerRepository.AsNoTracking.FirstOrDefault(x => x.Id == entity.QuizAnswerId).IsCorrectAnswer;            
+            entity.IsRight = _quizAnswerRepository.AsNoTracking.FirstOrDefault(x => x.Id == entity.QuizAnswerId).IsCorrectAnswer;
 
             _memberQuizAnswerRepository.Update(entity);
 
-            _unitOfWork.Commit();            
+            _unitOfWork.Commit();
 
-            return result.SetSuccess(Messages.RecordSaved);           
+            return result.SetSuccess(Messages.RecordSaved);
         }
 
-        public  Result SubmitQuiz(int memberId,int memberResultId)
+        public Result SubmitQuiz(int memberId, int memberResultId)
         {
             var result = new Result();
             var entity = _memberResultRepository.AsNoTracking.FirstOrDefault(a => a.MemberId == memberId && a.Id == memberResultId && a.EndTime == null);
@@ -226,13 +222,13 @@ namespace Spinx.Services.Members
             var totalRightAnswer = memberQuizAnswer.Where(x => x.IsRight).Count();
             entity.UpdatedAt = DateTime.Now;
             entity.EndTime = DateTime.Now;
-            entity.AttempedQues = memberQuizAnswer.Where(x=> x.QuizAnswerId != null).Count();
+            entity.AttempedQues = memberQuizAnswer.Where(x => x.QuizAnswerId != null).Count();
             entity.Percentage = (totalRightAnswer * 100) / totalquestion;
             entity.Score = totalRightAnswer;
             _memberResultRepository.Update(entity);
             _unitOfWork.Commit();
 
-            result.SetSuccess(Messages.RecordSaved);            
+            result.SetSuccess(Messages.RecordSaved);
             return result;
         }
 

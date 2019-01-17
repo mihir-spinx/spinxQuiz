@@ -13,9 +13,10 @@ namespace Spinx.Web
                 ));
 
             bundles.Add(new StyleBundle("~/Content/css/bundles").Include(
-                "~/Content/css/reset.css",                
+                "~/Content/css/fontawesome.min.css",
+                "~/Content/css/reset.css",
                 "~/Content/css/style.css",
-                "~/Content/css/media.css"                
+                "~/Content/css/media.css"
                 ));
         }
     }
