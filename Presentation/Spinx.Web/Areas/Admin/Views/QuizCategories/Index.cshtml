@@ -1,5 +1,5 @@
-﻿<layout-header icon="book" breadcrumb="['Quizzes','Categories']">
-    <button-add url="admin/quizcategories/create">Quiz Category</button-add>
+﻿<layout-header icon="book" breadcrumb="['Assessment Test','Categories']">
+    <button-add url="admin/quizcategories/create">Assessment Test Category</button-add>
 </layout-header>
 
 <div ng-controller="ctrlList" ng-init="list.filters.sortColumn='name';list.filters.sortType='asc';">
@@ -18,7 +18,7 @@
                 <tr>
                     <th th-sort-select-all model="list"></th>
                     <th th-sort name="name" model="list">Name</th>
-                    <th width="100" align="center" th-sort model="list">No of Quiz</th>
+                    <th width="100" align="center" th-sort model="list">No of Test</th>
                     <th th-sort-status model="list"></th>
                     <th th-sort-action></th>
                 </tr>

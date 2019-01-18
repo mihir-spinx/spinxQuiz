@@ -49,8 +49,7 @@
                         </action-view>
                     </td>
                     <td cell>
-                        {{ item.name }} <br />
-                        {{ item.email }}
+                        <a href="admin/members/edit/{{ item.id }}" target="_blank"> {{ item.name }} <br />{{ item.email }}</a>
                     </td>
                     <td cell>
                         {{item.college}}
@@ -59,7 +58,7 @@
                         {{item.createdSourceName}}
                     </td>
                     <td cell align="center">
-                        {{item.totalExam}}
+                        <a href="admin/members/result/{{ item.id }}" target="_blank"> {{item.totalExam}}</a>
                     </td>
                 </tr>
                 <tr row-no-records model="list"></tr>

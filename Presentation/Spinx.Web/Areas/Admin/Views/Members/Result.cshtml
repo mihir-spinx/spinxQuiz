@@ -22,80 +22,85 @@ else
         <toolbar model="list"></toolbar>
         <table class="table table-bordered table-striped dataTable table-hover">
             <thead>
-                <tr>
-                    <th class='hasinput' style='vertical-align: middle;'>
-                        <input type='text' class='form-control' placeholder='Name' name='name' ng-model="list.filters['name']"
-                               model="list" ng-blur="list.load(true)" enter-Key="list.load(true)" style="margin-bottom: 5px;">
-                        <input type='text' class='form-control' placeholder='Email' name='email' model="list"
-                               ng-model="list.filters['email']" ng-blur="list.load(true)" enter-Key="list.load(true)">
-                    </th>
-                    <th th-search name="college" model="list"></th>
-                    <th class='hasinput' style='vertical-align: middle;'>
-                        <select class="form-control" autocomplete="off" ng-model="list.filters['createdSource']"
-                                ng-change="list.load(true)">
-                            <option value="" selected>[{{ 'Soruce Type' | humanize }}]</option>
-                            @foreach (var item in Enumeration.GetAll<MemberCreatedSource>().OrderBy(x => x.Key))
-                            {
-                                <option value="@item.Key">@item.Value.Humanize(LetterCasing.Title)</option>
-                            }
-                        </select>
-                    </th>
-                    <th th-search name="quizCategoryName" model="list" label="Test Category"></th>
-                    <th th-search name="quizTitle" model="list" label="Test Name"></th>
-                    <th class='hasinput' style='vertical-align: middle;'>
-                        <div class="input-group mgb-5">
-                            <input type="text" ng-model="list.filters['FromAttempedQues']" placeholder="From AttempedQues" ng-change="list.load(true)" class="form-control">
-                        </div>
-                        <div class="input-group">
-                            <input type="text" ng-model="list.filters['ToAttempedQues']" placeholder="To AttempedQues" ng-change="list.load(true)" class="form-control">
-                        </div>
-                    </th>
-                    <th class='hasinput' style='vertical-align: middle;'>
-                        <div class="input-group mgb-5">
-                            <input type="text" ng-model="list.filters['FromScore']" placeholder="From Score" ng-change="list.load(true)" class="form-control">
-                        </div>
-                        <div class="input-group">
-                            <input type="text" ng-model="list.filters['ToScore']" placeholder="To Score" ng-change="list.load(true)" class="form-control">
-                        </div>
-                    </th>
-                    <th class='hasinput' style='vertical-align: middle;'>
-                        <div class="input-group mgb-5">
-                            <input type="text" ng-model="list.filters['FromPercentage']" placeholder="From Percentage" ng-change="list.load(true)" class="form-control">
-                        </div>
-                        <div class="input-group">
-                            <input type="text" ng-model="list.filters['ToPercentage']" placeholder="To Percentage" ng-change="list.load(true)" class="form-control">
-                        </div>
-                    </th>
+            <tr>
+                <th ng-if="list.filters.memberid === ''"></th>
+                <th class='hasinput' style='vertical-align: middle;'>
+                    <input type='text' class='form-control' placeholder='Name' name='name' ng-model="list.filters['name']"
+                           model="list" ng-blur="list.load(true)" enter-Key="list.load(true)" style="margin-bottom: 5px;">
+                    <input type='text' class='form-control' placeholder='Email' name='email' model="list"
+                           ng-model="list.filters['email']" ng-blur="list.load(true)" enter-Key="list.load(true)">
+                </th>
+                <th th-search name="college" model="list"></th>
+                <th class='hasinput' style='vertical-align: middle;'>
+                    <select class="form-control" autocomplete="off" ng-model="list.filters['createdSource']"
+                            ng-change="list.load(true)">
+                        <option value="" selected>[{{ 'Soruce Type' | humanize }}]</option>
+                        @foreach (var item in Enumeration.GetAll<MemberCreatedSource>().OrderBy(x => x.Key))
+                        {
+                            <option value="@item.Key">@item.Value.Humanize(LetterCasing.Title)</option>
+                        }
+                    </select>
+                </th>
+                <th th-search name="quizCategoryName" model="list" label="Test Category"></th>
+                <th th-search name="quizTitle" model="list" label="Test Name"></th>
+                <th class='hasinput' style='vertical-align: middle;'>
+                    <div class="input-group mgb-5">
+                        <input type="text" ng-model="list.filters['FromAttempedQues']" placeholder="From AttempedQues" ng-change="list.load(true)" class="form-control">
+                    </div>
+                    <div class="input-group">
+                        <input type="text" ng-model="list.filters['ToAttempedQues']" placeholder="To AttempedQues" ng-change="list.load(true)" class="form-control">
+                    </div>
+                </th>
+                <th class='hasinput' style='vertical-align: middle;'>
+                    <div class="input-group mgb-5">
+                        <input type="text" ng-model="list.filters['FromScore']" placeholder="From Score" ng-change="list.load(true)" class="form-control">
+                    </div>
+                    <div class="input-group">
+                        <input type="text" ng-model="list.filters['ToScore']" placeholder="To Score" ng-change="list.load(true)" class="form-control">
+                    </div>
+                </th>
+                <th class='hasinput' style='vertical-align: middle;'>
+                    <div class="input-group mgb-5">
+                        <input type="text" ng-model="list.filters['FromPercentage']" placeholder="From Percentage" ng-change="list.load(true)" class="form-control">
+                    </div>
+                    <div class="input-group">
+                        <input type="text" ng-model="list.filters['ToPercentage']" placeholder="To Percentage" ng-change="list.load(true)" class="form-control">
+                    </div>
+                </th>
 
-                    <th name="startTime" model="list"></th>
-                    <th name="endTime" model="list"></th>
-                    <th name="timeDuration" model="list"></th>
-                </tr>
+                <th name="startTime" model="list"></th>
+                <th name="endTime" model="list"></th>
+                <th name="timeDuration" model="list"></th>
+            </tr>
 
-                <tr>
-                    <th th-sort name="name" model="list"> Candidate </th>
-                    <th th-sort width="200" name="college" model="list"> College </th>
-                    <th th-sort width="110" name="createdSource"> Created Source</th>
-                    <th th-sort width="100" name="quizCategoryName" model="list"> Test Category</th>
-                    <th th-sort width="100" name="quizTitle" model="list"> Test Name</th>
-                    <th th-sort width="100" align="center" name="attempedQues" model="list"> Attempted Questions </th>
-                    <th th-sort width="100" align="center" name="score" model="list"> Score </th>
-                    <th th-sort width="100" align="center" name="percentage" model="list"> Percentage </th>
-                    <th th-sort width="100" align="center" name="startTime" model="list"> Start Time</th>
-                    <th th-sort width="100" align="center" name="endTime" model="list"> End Time </th>
-                    <th th-sort width="100" align="center" name="timeDuration" model="list">Time Interval </th>
-                </tr>
+            <tr>
+                <th ng-if="list.filters.memberid === ''" style='vertical-align: middle;text-align:center' width="50">Action</th>
+                <th th-sort name="name" model="list"> Candidate </th>
+                <th th-sort width="200" name="college" model="list"> College </th>
+                <th th-sort width="110" name="createdSource"> Created Source</th>
+                <th th-sort width="100" name="quizCategoryName" model="list"> Test Category</th>
+                <th th-sort width="100" name="quizTitle" model="list"> Test Name</th>
+                <th th-sort width="100" align="center" name="attempedQues" model="list"> Attempted Questions </th>
+                <th th-sort width="100" align="center" name="score" model="list"> Score </th>
+                <th th-sort width="100" align="center" name="percentage" model="list"> Percentage </th>
+                <th th-sort width="100" align="center" name="startTime" model="list"> Start Time</th>
+                <th th-sort width="100" align="center" name="endTime" model="list"> End Time </th>
+                <th th-sort width="100" align="center" name="timeDuration" model="list">Time Interval </th>
+            </tr>
             </thead>
             <tbody>
 
             <tr ng-repeat="item in list.data">
+                <td ng-if="list.filters.memberid === ''" cell align="center">
+                    <action-view url="admin/members/result/{{ item.memberId }}" model="list" item="item" title="More Result">
+                    </action-view>
+                </td>
                 <td ng-if="list.filters.memberid === ''">
-                    {{ item.name }} <br/>
-                    <a href="admin/members/result/{{ item.memberId }}">{{ item.email }}</a>
+                    <a href="admin/members/edit/{{ item.memberId }}">{{ item.name }} <br/>{{ item.email }}</a>
                 </td>
                 <td ng-if="list.filters.memberid !== ''">
                     {{ item.name }} <br/>
-                   {{ item.email }}
+                    {{ item.email }}
                 </td>
                 <td>
                     {{item.college}}
