@@ -55,6 +55,18 @@ namespace Spinx.Services.Members
             {
                 query = query.Where(w => w.MemberId == dto.MemberId);
             }
+            else
+            {
+                var memberResultLatestRecords = from p in _memberResultRepository.AsNoTracking
+                    group p by p.MemberId
+                    into grp
+                    select grp.OrderByDescending(g => g.EndTime).FirstOrDefault();
+
+                var memberResultId = memberResultLatestRecords.Select(s => s.Id).ToList();
+
+                if (memberResultId != null)
+                    query = query.Where(w => memberResultId.Contains(w.Id));
+            }
 
             if (dto.FromScore != null && dto.FromScore != 0)
             {
@@ -101,6 +113,7 @@ namespace Spinx.Services.Members
             {
                 result.Data = query.Select(s => new MemberResultListDto
                 {
+                    MemberId = s.Member.Id,
                     Name = s.Member.Name,
                     Email = s.Member.Email,
                     College = s.Member.College,
@@ -119,6 +132,7 @@ namespace Spinx.Services.Members
                     .ToList()
                     .Select(s => new
                     {
+                        s.MemberId,
                         s.Name,
                         s.Email,
                         s.College,

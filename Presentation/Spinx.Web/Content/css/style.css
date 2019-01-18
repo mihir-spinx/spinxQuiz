@@ -548,7 +548,10 @@ section.privacy-policy h1{margin-bottom:25px;}
 .quiz-detail{margin:0px;padding-left:65px;max-width:890px;display:inline-block;}
 .quiz-detail h2{margin:0px;font-weight:800;font-size:26px;line-height:36px;color:#2A2D34;letter-spacing:-0.23px;position:relative;display:inline-block;}
 .quiz-detail h2 img{display:block;position:absolute;top:0px;left:-50px;}
-.short-desc{display:inline-block;margin:0;padding:7px 20px;font-size:14px;line-height:20px;float:right;background:#F26330;color:#ffffff;min-width:145px;text-align:center;}
+.short-desc{display:inline-block;margin:0;padding:10px 20px;font-size:14px;line-height:20px;float:right;background:green;color:#ffffff;min-width:145px;text-align:center;border-radius: 22px;
+-webkit-border-radius: 22px; min-height: 40px;}
+.short-desc.orange{background:#F26330;}
+
 .short-desc *{font-weight:600;}
 .short-desc h3{margin:0px 0px 14px;font-weight:800;font-size:20px;line-height:26px;color:#6760A8;letter-spacing:-0.18px;}
 .short-desc p{margin:0px 0px 10px;}
@@ -568,8 +571,12 @@ section.privacy-policy h1{margin-bottom:25px;}
 .short-quiz .form-group.btn-action{margin:0px;padding:10px 0px 0px;}
 .short-quiz .form-group.btn-action .btn-primary{margin-right:5px;padding:11px 25px;border-radius:22px;-webkit-border-radius:22px;-moz-border-radius:22px;-ms-border-radius:22px;-o-border-radius:22px;}
 .final-result{clear:both;display:block;padding:12px 50px;font-size:18px;line-height:28px;font-weight:800;background:#FFCC01;color:#2A2D34;border-radius:4px;-webkit-border-radius:4px;-moz-border-radius:4px;-o-border-radius:4px;-ms-border-radius:4px;}
+.btn-highlight { background:#F26330;}
+.btn-highlight:hover { background:#F26330;}
 /*** Banner Sponsored Ad page Style here ***/
-.banner-sponsored-ad{padding:45px 0px;}
+.banner-sponsored-ad {
+    padding: 45px 0px;
+}
 .banner-sponsored-ad .left-content{width:66%;}
 .banner-sponsored-ad .sponsor-bar{width:238px;}
 .banner-sponsored-ad .data-table table td a{display:inline-block;font-weight:600;}
@@ -731,18 +738,39 @@ section.privacy-policy h1{margin-bottom:25px;}
 .quiz-detail .left-content{width:100%;}
 .quiz-detail .top-content{border-bottom:1px solid #DEE7E9;margin-bottom:30px;padding-bottom:10px;}
 .quiz-detail .left-content ul li:before{content:normal;}
-.quiz-detail .left-content ul li{padding:0;display:inline-block;width:25px;height:25px;text-align:center;line-height:25px;background:#FFCC01;margin-right:10px;margin-bottom: 10px;}
+.quiz-detail .left-content ul li{padding:0;display:inline-block;width:30px;height:30px;text-align:center;line-height:30px; border-radius: 100%; background:#FFCC01;margin-right:10px;margin-bottom: 10px;}
 .quiz-detail .left-content ul li a{color:#ffffff;text-decoration:none;display:block;}
 .quiz-detail .left-content ul li.blue{background:#0b89d3;}
 .quiz-detail .left-content ul li.green{background:green;}
 .quiz-detail .left-content ul li.active{background:#000000;}
 .right-comment .divlast{margin-bottom:10px;line-height:23px;font-size:14px;}
-.right-comment .divlast .spnabox{width:20px;height:20px;display:inline-block;margin-right:5px;}
+.right-comment .divlast .spnabox{width:25px;height:25px;display:inline-block;margin-right:5px;border-radius: 100%;}
 .right-comment{display:inline-block;vertical-align:top;float:right;}
-.Instructions-block {margin: 30px 0;}
-.Instructions-block h3 {margin-bottom: 5px;}
-.Instructions-block p {font-size: 15px;}
+.Instructions-block {margin: 30px 0;box-shadow:0 2px 10px 0 rgba(0,0,0,0.5); padding: 20px 30px;}
+.Instructions-block h3 {margin-bottom: 20px; font-size: 24px;}
+.Instructions-block ul li {font-size: 15px;margin-bottom: 15px; font-weight: 500;}
+.Instructions-block-comment{ float: none;}
+.Instructions-block-comment .divlast{ float: left; margin-right: 20px; font-size: 13px;}
+.Instructions-detail h6 { margin-bottom: 20px;}
+
+
 /*#ulQuestionNumber li{float:left}
 #ulQuestionNumber li.green a{color:green}
 #ulQuestionNumber li.blue a{color:blue}
 */
+/***Revel Slider Start***/
+.reveal-modal-bg {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    background: #000;
+    background: rgba(0,0,0,.8);
+    z-index: 9999;
+    display: none;
+    top: 0;
+    left: 0;
+}
+.reveal-modal { display: none; top: 100px; left: 0; right: 0; margin: 0 auto; width: 400px; padding: 30px; background: #fff; position: absolute; z-index: 99999; }
+.reveal-modal h2 { padding-bottom: 20px; border-bottom: 1px solid #000; font-size: 26px;}
+.reveal-modal .close-reveal-modal { font-size: 22px; line-height: .5; position: absolute; top: 8px; right: 11px; color: #aaa; font-weight: bold; cursor: pointer; text-decoration: none;}
+.btn-timeout-ok{display: block;min-width: 100px;max-width: 120px; margin: auto;}

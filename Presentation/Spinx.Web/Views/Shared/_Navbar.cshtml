@@ -5,7 +5,7 @@
         <ul class="cmn-list" id="topbar">
             @if (UserAuth.IsLogedIn())
             {
-                <li class="w-message">Welcome</li>
+                <li class="w-message">Welcome @UserAuth.User.Name</li>
                 <li><a href="@Url.Action("Logout", "Member")" onclick="return confirm('Are you sure want to logout !')" >Logout</a></li>
             }
             else

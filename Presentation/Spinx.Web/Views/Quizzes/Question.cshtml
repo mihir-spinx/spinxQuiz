@@ -26,7 +26,7 @@
                 <div class="top-content">
                     <h2><img src="@Model.QuizCategory.CategoryIcon" width="24" alt="title-icon"/><span class="quiz-title-test">@Model.Title</span></h2>
                     <div class="short-desc">
-                        <div><span id="time"></span> minutes</div>
+                        <div><span id="time"></span></div>
                     </div>
                 </div>
                 <div class="left-content">
@@ -48,32 +48,42 @@
                         </div>
                     </div>
                     <a class="btn-primary btn-continue" ng-disabled="filters.sortOrder == 1" ng-class="filters.sortOrder == 1 ? 'submit-disabled' : ''" ng-click="goToQuestion(filters.sortOrder - 1)">Prev</a>
-                    <a class="btn-primary btn-continue" ng-disabled="filters.sortOrder == totelQuestion" ng-class="filters.sortOrder == totelQuestion ? 'submit-disabled' : ''" ng-click="goToQuestion(filters.sortOrder + 1)">Next</a>
-                    <a ng-click="submitQuiz()" class="btn-primary btn-continue">Finish</a>
+                    <a class="btn-primary btn-continue" ng-hide="filters.sortOrder == totelQuestion" ng-class="filters.sortOrder == totelQuestion ? 'submit-disabled' : ''" ng-click="goToQuestion(filters.sortOrder + 1)">Next</a>
+                    <a  ng-class="filters.sortOrder == totelQuestion ? 'btn-highlight' : ''" ng-click="submitQuiz()" class="btn-primary btn-continue">Finish</a>
+                    <div id="divLoader" ng-show="loading">
+                        <img src="Content/images/ajax-loader.gif" class="ajax-loader" width="30" height="30" alt="loader icon" />
+                    </div>
 
                 </div>
 
             </div>
             <div class="right-comment">
                 <div class="divlast">
-                    <span class="spnabox" style="background-color:#0B89D3;">&nbsp;&nbsp;&nbsp;</span> Not submited 
+                    <span class="spnabox" style="background-color:#0B89D3;">&nbsp;&nbsp;&nbsp;</span> Question Not submited
                 </div>
                 <div class="divlast">
-                    <span class="spnabox" style="background-color:#FFCC01;">&nbsp;&nbsp;&nbsp;</span> Not Viewed  
+                    <span class="spnabox" style="background-color:#FFCC01;">&nbsp;&nbsp;&nbsp;</span> Question Not Viewed
                 </div>
                 <div class="divlast">
-                    <span class="spnabox" style="background-color:green;">&nbsp;&nbsp;&nbsp;</span> Submited 
+                    <span class="spnabox" style="background-color:green;">&nbsp;&nbsp;&nbsp;</span> Question Submited
                 </div>
                 <div class="divlast">
-                    <span class="spnabox" style="background-color:#000000;">&nbsp;&nbsp;&nbsp;</span> Active
+                    <span class="spnabox" style="background-color:#000000;">&nbsp;&nbsp;&nbsp;</span> Active Question
                 </div>
             </div>
         </div>
 
     </div>
 </section>
+<div id="timeOutModal" class="reveal-modal">
+    <h2>Timeout.</h2>
+    <p class="lead">Assessment test time is finished.</p>
+    <a class="btn-primary btn-timeout-ok" href="@Url.RouteUrl("quizthankyou")">Ok</a>
+    <a class="close-reveal-modal">×</a>
+</div>
 
 @section scripts{
+    <script src="~/Content/js/jquery.reveal.js"></script>
     <script>
         $(document).ready(function() {
 
@@ -99,9 +109,12 @@
                     $scope.filters.sortOrder = sortOrder;
                     $scope.filters.lastSortOrder = sortOrder;
                     $scope.filters.memberResultId = memberResultId;
+                    $scope.quizTimeOut = false;
+                    $scope.loading = false;
                     $scope.answerFilters.memberResultId = $scope.filters.memberResultId;
                     $scope.data = [];
                     $scope.isLoadComplete = false;
+                    var setTimeInterval = null;
                     var fiveMinutes = (60 * totalTimeMinute) - $scope.diffInSeconds,
                         display = document.querySelector('#time');
                     startTimer(fiveMinutes, display);
@@ -118,19 +131,25 @@
 
                     function startTimer(duration, display) {
                         var timer = duration, minutes, seconds;
-                        var setTimeInterval =   setInterval(function () {
+                         setTimeInterval =   setInterval(function () {
                             minutes = parseInt(timer / 60, 10);
                             seconds = parseInt(timer % 60, 10);
 
                             minutes = minutes < 10 ? "0" + minutes : minutes;
                             seconds = seconds < 10 ? "0" + seconds : seconds;
-
-                            display.textContent = minutes + ":" + seconds;
+                             if (minutes <= 0) {
+                                 display.textContent = seconds + " seconds";
+                                 $(display).closest('div.short-desc').addClass('orange');
+                             } else {
+                                 display.textContent = minutes + ":" + seconds + " minutes";
+                             }
+                                
                             if (--timer < 0) {
                                 //timer = duration;
-                                clearInterval(setTimeInterval);
+                                $scope.quizTimeOut = true;
                                 submitQuizFunction();
-                                alert('Time out');
+                               // alert('Time out');
+                                $('#timeOutModal').reveal();
 
                             }
                         }, 1000);
@@ -140,9 +159,14 @@
                        
                     };
 
-                    $scope.goToQuestion = function(questionNumber) {
-                        if (questionNumber > 0 && questionNumber <= $scope.totelQuestion) {
+                    $scope.goToQuestion = function (questionNumber) {
+
+                        if ($scope.quizTimeOut) {
+                            window.location.href = '@(Url.RouteUrl("quizthankyou"))';
+                            return;
+                        }
                             
+                        if (questionNumber > 0 && questionNumber <= $scope.totelQuestion) {
                             //update member question numbers
                             if ($scope.list.quizAnswerId === null) {
                                 angular.forEach($scope.memberQuizList,
@@ -172,13 +196,22 @@
                         });
                     };
 
-                    var submitQuizFunction = function() {
+                    var submitQuizFunction = function () {
+                        $scope.loading = true;
+                        clearInterval(setTimeInterval);
                         $http.post('api/quiz/submitquiz/', { 'memberResultId': $scope.filters.memberResultId })
-                            .then(function(resp) {
+                            .then(function (resp) {
+                                $scope.loading = false;
                                 $scope.submitResult = resp.data;
                                 if ($scope.submitResult.success) {
-                                    if ($scope.submitResult.isRedirect)
-                                        window.location.href = $scope.submitResult.redirect;
+                                    if ($scope.submitResult.isRedirect) {
+                                        if ($scope.quizTimeOut)
+                                            setTimeout(function () { window.location.href = $scope.submitResult.redirect; }, 5000);
+                                        else
+                                            window.location.href = $scope.submitResult.redirect;
+                                    }
+                                        
+                                        
                                 }
 
                             });

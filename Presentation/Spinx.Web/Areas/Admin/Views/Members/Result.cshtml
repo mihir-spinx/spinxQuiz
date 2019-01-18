@@ -1,11 +1,20 @@
 ﻿@using Humanizer
 @using Spinx.Domain.Members
 @using System;
-<layout-header icon="user" breadcrumb="['Candidates', 'Results']">
-    <a class="btn bg-color-blueLight txt-color-white" href="admin/members">
-        <i class="fa fa-long-arrow-left"></i> Back to Candidate List
-    </a>
-</layout-header>
+@if (string.IsNullOrWhiteSpace(Convert.ToString(ViewBag.MemberId)))
+{
+    <layout-header icon="user" breadcrumb="['Results']">
+    </layout-header>
+}
+else
+{
+    <layout-header icon="user" breadcrumb="['Candidates', 'Results']">
+        <a class="btn bg-color-blueLight txt-color-white" href="admin/members">
+            <i class="fa fa-long-arrow-left"></i> Back to Candidate List
+        </a>
+    </layout-header>
+}
+
 
 <div ng-controller="ctrlList" ng-init="list.filters.sortColumn='createdAt';list.filters.sortType='desc'">
     <grid>
@@ -35,6 +44,14 @@
                     <th th-search name="quizTitle" model="list" label="Test Name"></th>
                     <th class='hasinput' style='vertical-align: middle;'>
                         <div class="input-group mgb-5">
+                            <input type="text" ng-model="list.filters['FromAttempedQues']" placeholder="From AttempedQues" ng-change="list.load(true)" class="form-control">
+                        </div>
+                        <div class="input-group">
+                            <input type="text" ng-model="list.filters['ToAttempedQues']" placeholder="To AttempedQues" ng-change="list.load(true)" class="form-control">
+                        </div>
+                    </th>
+                    <th class='hasinput' style='vertical-align: middle;'>
+                        <div class="input-group mgb-5">
                             <input type="text" ng-model="list.filters['FromScore']" placeholder="From Score" ng-change="list.load(true)" class="form-control">
                         </div>
                         <div class="input-group">
@@ -49,14 +66,7 @@
                             <input type="text" ng-model="list.filters['ToPercentage']" placeholder="To Percentage" ng-change="list.load(true)" class="form-control">
                         </div>
                     </th>
-                    <th class='hasinput' style='vertical-align: middle;'>
-                        <div class="input-group mgb-5">
-                            <input type="text" ng-model="list.filters['FromAttempedQues']" placeholder="From AttempedQues" ng-change="list.load(true)" class="form-control">
-                        </div>
-                        <div class="input-group">
-                            <input type="text" ng-model="list.filters['ToAttempedQues']" placeholder="To AttempedQues" ng-change="list.load(true)" class="form-control">
-                        </div>
-                    </th>
+
                     <th name="startTime" model="list"></th>
                     <th name="endTime" model="list"></th>
                     <th name="timeDuration" model="list"></th>
@@ -68,9 +78,9 @@
                     <th th-sort width="110" name="createdSource"> Created Source</th>
                     <th th-sort width="100" name="quizCategoryName" model="list"> Test Category</th>
                     <th th-sort width="100" name="quizTitle" model="list"> Test Name</th>
+                    <th th-sort width="100" align="center" name="attempedQues" model="list"> Attempted Questions </th>
                     <th th-sort width="100" align="center" name="score" model="list"> Score </th>
                     <th th-sort width="100" align="center" name="percentage" model="list"> Percentage </th>
-                    <th th-sort width="100" align="center" name="attempedQues" model="list"> Attempted Questions </th>
                     <th th-sort width="100" align="center" name="startTime" model="list"> Start Time</th>
                     <th th-sort width="100" align="center" name="endTime" model="list"> End Time </th>
                     <th th-sort width="100" align="center" name="timeDuration" model="list">Time Interval </th>
@@ -79,9 +89,13 @@
             <tbody>
 
             <tr ng-repeat="item in list.data">
-                <td>
+                <td ng-if="list.filters.memberid === ''">
                     {{ item.name }} <br/>
-                    {{ item.email }}
+                    <a href="admin/members/result/{{ item.memberId }}">{{ item.email }}</a>
+                </td>
+                <td ng-if="list.filters.memberid !== ''">
+                    {{ item.name }} <br/>
+                   {{ item.email }}
                 </td>
                 <td>
                     {{item.college}}
@@ -91,9 +105,9 @@
                 </td>
                 <td>{{ item.quizCategoryName}}</td>
                 <td>{{ item.quizTitle}}</td>
+                <td cell align="center">{{ item.attempedQues == 0.00 ? '- ' : item.attempedQues}} {{ item.quizQuestions == 0 ? ' ' : '/' + item.quizQuestions}}</td>
                 <td cell align="center">{{ item.score == 0 ? '-' : item.score }}</td>
                 <td cell align="center">{{ item.percentage == 0 ? '-' : item.percentage }}</td>
-                <td cell align="center">{{ item.attempedQues == 0.00 ? '- ' : item.attempedQues}} {{ item.quizQuestions == 0 ? ' ' : '/' + item.quizQuestions}}</td>
                 <td cell align="center">{{ item.startTimeDisplay == '' ? '-' : item.startTimeDisplay}}</td>
                 <td cell align="center">{{ item.endTimeDisplay == '' ? '-' : item.endTimeDisplay}}</td>
                 <td cell align="center">{{ item.timeDuration}}</td>

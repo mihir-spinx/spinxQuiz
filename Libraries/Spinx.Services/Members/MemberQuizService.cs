@@ -216,12 +216,18 @@ namespace Spinx.Services.Members
             var entity = _memberResultRepository.AsNoTracking.FirstOrDefault(a => a.MemberId == memberId && a.Id == memberResultId && a.EndTime == null);
             if (entity == null)
                 return result.SetError("Something wrong.");
+            var TotalTimeMinute= _generalSettingService.GetGeneralSetting("total-time");
 
             var memberQuizAnswer = _memberQuizAnswerRepository.AsNoTracking.Where(x => x.MemberResultId == entity.Id);
             var totalquestion = memberQuizAnswer.Count();
             var totalRightAnswer = memberQuizAnswer.Where(x => x.IsRight).Count();
             entity.UpdatedAt = DateTime.Now;
             entity.EndTime = DateTime.Now;
+            var startTime = entity.StartTime.AddMinutes(Convert.ToDouble(TotalTimeMinute));
+            int res = DateTime.Compare(startTime, DateTime.Now);
+            if (res < 0)
+                entity.EndTime = startTime;
+            
             entity.AttempedQues = memberQuizAnswer.Where(x => x.QuizAnswerId != null).Count();
             entity.Percentage = (totalRightAnswer * 100) / totalquestion;
             entity.Score = totalRightAnswer;
