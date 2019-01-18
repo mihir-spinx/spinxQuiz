@@ -548,7 +548,7 @@ section.privacy-policy h1{margin-bottom:25px;}
 .quiz-detail{margin:0px;padding-left:65px;max-width:890px;display:inline-block;}
 .quiz-detail h2{margin:0px;font-weight:800;font-size:26px;line-height:36px;color:#2A2D34;letter-spacing:-0.23px;position:relative;display:inline-block;}
 .quiz-detail h2 img{display:block;position:absolute;top:0px;left:-50px;}
-.short-desc{display:inline-block;margin:0;padding:10px 20px;font-size:14px;line-height:20px;float:right;background:green;color:#ffffff;min-width:145px;text-align:center;border-radius: 22px;
+.short-desc{display:inline-block;margin:0;padding:10px 20px;font-size:14px;line-height:20px;float:right;background:green;color:#ffffff;min-width:170px;text-align:center;border-radius: 22px;
 -webkit-border-radius: 22px; min-height: 40px;}
 .short-desc.orange{background:#F26330;}
 

@@ -23,7 +23,7 @@
                 <div class="top-content">
                     <h2><span class="quiz-title-test">@Model.Title</span></h2>
                     <div class="short-desc">
-                        <div><span id="time"></span></div>
+                        <div><span id="time"></span> </div>
                     </div>
                 </div>
                 <div class="left-content">
@@ -44,7 +44,7 @@
                             </label>
                         </div>
                     </div>
-                    <a class="btn-primary btn-continue" ng-disabled="filters.sortOrder == 1" ng-class="filters.sortOrder == 1 ? 'submit-disabled' : ''" ng-click="goToQuestion(filters.sortOrder - 1)">Prev</a>
+                    <a class="btn-primary btn-continue" ng-disabled="filters.sortOrder == 1" ng-class="filters.sortOrder == 1 ? 'submit-disabled' : ''" ng-click="goToQuestion(filters.sortOrder - 1)">Previous</a>
                     <a class="btn-primary btn-continue" ng-hide="filters.sortOrder == totelQuestion" ng-class="filters.sortOrder == totelQuestion ? 'submit-disabled' : ''" ng-click="goToQuestion(filters.sortOrder + 1)">Next</a>
                     <a  ng-class="filters.sortOrder == totelQuestion ? 'btn-highlight' : ''" ng-click="submitQuiz()" class="btn-primary btn-continue">Finish</a>
                     <div id="divLoader" ng-show="loading">
@@ -56,13 +56,13 @@
             </div>
             <div class="right-comment">
                 <div class="divlast">
-                    <span class="spnabox" style="background-color:#0B89D3;">&nbsp;&nbsp;&nbsp;</span> Question Not submited
+                    <span class="spnabox" style="background-color:#0B89D3;">&nbsp;&nbsp;&nbsp;</span> Question Not Submitted
                 </div>
                 <div class="divlast">
                     <span class="spnabox" style="background-color:#FFCC01;">&nbsp;&nbsp;&nbsp;</span> Question Not Viewed
                 </div>
                 <div class="divlast">
-                    <span class="spnabox" style="background-color:green;">&nbsp;&nbsp;&nbsp;</span> Question Submited
+                    <span class="spnabox" style="background-color:green;">&nbsp;&nbsp;&nbsp;</span> Question Submitted
                 </div>
                 <div class="divlast">
                     <span class="spnabox" style="background-color:#000000;">&nbsp;&nbsp;&nbsp;</span> Active Question
@@ -135,10 +135,10 @@
                             minutes = minutes < 10 ? "0" + minutes : minutes;
                             seconds = seconds < 10 ? "0" + seconds : seconds;
                              if (minutes <= 0) {
-                                 display.textContent = seconds + " seconds";
+                                 display.textContent = seconds + " seconds left";
                                  $(display).closest('div.short-desc').addClass('orange');
                              } else {
-                                 display.textContent = minutes + ":" + seconds + " minutes";
+                                 display.textContent = minutes + ":" + seconds + " minutes left";
                              }
                                 
                             if (--timer < 0) {

@@ -31,10 +31,10 @@
             </div>
 
             <div class="quiz-detail">
-                <h2><img src="@Model.QuizCategory.CategoryIcon" width="24" alt="title-icon"/><span>@Model.Title</span></h2>
+                <h2>@*<img src="@Model.QuizCategory.CategoryIcon" width="24" alt="title-icon"/>*@<span>@Model.Title</span></h2>
                 <div class="Instructions-block">
                     <h3>Special Instructions:</h3>
-                    @*<p>@Model.ShortDescription</p>*@
+
                     <ul>
                         <li>Click on start button to start your assessment test</li>
                         <li>You have to answer of 30 questions in 60 minutes. After 60 minutes your assessment test auto close and you will logged out.</li>
@@ -46,13 +46,13 @@
                         <h6>Legends</h6>
                         <div class="right-comment Instructions-block-comment">
                             <div class="divlast">
-                                <span class="spnabox" style="background-color: #0B89D3;">&nbsp;&nbsp;&nbsp;</span> Question Not submited
+                                <span class="spnabox" style="background-color: #0B89D3;">&nbsp;&nbsp;&nbsp;</span> Question Not Submitted
                             </div>
                             <div class="divlast">
                                 <span class="spnabox" style="background-color: #FFCC01;">&nbsp;&nbsp;&nbsp;</span> Question Not Viewed
                             </div>
                             <div class="divlast">
-                                <span class="spnabox" style="background-color: green;">&nbsp;&nbsp;&nbsp;</span> Question Submited
+                                <span class="spnabox" style="background-color: green;">&nbsp;&nbsp;&nbsp;</span> Question Submitted
                             </div>
                             <div class="divlast">
                                 <span class="spnabox" style="background-color: #000000;">&nbsp;&nbsp;&nbsp;</span> Active Question
@@ -63,7 +63,7 @@
 
                 <div class="short-quiz">
                     <a href="resources/question/@(ViewBag.slug)" class="btn-primary btn-continue">Start</a>
-                    <a href="" class="btn-primary btn-continue">Cancel</a>                  
+                    <a href="quiz" class="btn-primary btn-continue">Cancel</a>                  
                 </div>
 
             </div>

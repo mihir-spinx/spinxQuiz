@@ -27,7 +27,7 @@
                 <div id="Quizzes" class="left-column">
                     <div class="gutter-sizer"></div>
                     <div class="box" ng-repeat="item in list">
-                        <h2>{{item.name}} <img src="{{item.categoryIcon}}" alt="icon {{item.name}}" class="icon-left"></h2>
+                        <h2>{{item.name}} @*<img src="{{item.categoryIcon}}" alt="icon {{item.name}}" class="icon-left">*@</h2>
 
                         <ul class="cmn-list">
                             <li ng-repeat="qitem in item.quizs"><a href="resources/quiz/{{qitem.slug}}">{{qitem.title}}</a></li>
