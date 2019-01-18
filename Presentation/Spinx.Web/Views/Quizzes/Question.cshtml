@@ -1,23 +1,17 @@
 ﻿@model Spinx.Domain.Quizs.Quiz
 @using Spinx.Domain.Members;
-@*@{
-        ViewBag.Title = Model.MetaTitle ?? Model.Title;
-        ViewBag.MetaDescription = Model.MetaDescription ?? Model.ShortDescription;
-    }*@
 
 <!-- Job Board: Page Banner Title -->
 <section class="cmn-banner page-title-banner">
     <div class="imgDiv" style="background-image: url(Content/images/header.jpg);"></div>
     <div class="banner-title">
-        @*<h1>Resources</h1>*@
+        
     </div>
 </section>
-
 
 <section class="quiz-detail-wrap" ng-controller="ctrlList">
     <div class="clearfix fix-wrap">
         <div class="left-content">
-            
 
             <div class="quiz-detail">
                 <div class="top-content">
@@ -39,14 +33,14 @@
                         <div class="quiz-title">
                             <h3 ng-bind="list.question"></h3>
                             <label class="custom-radio" ng-repeat="item in list.quizAnswer">
-                                <input ng-model="list.quizAnswerId" ng-value="item.id" type="radio" name="questionOption" ng-click="memberAnswer(item.id,list.questionId,list.sortOrder)"/>
+                                <input ng-model="list.quizAnswerId" ng-value="item.id" type="radio" name="questionOption" ng-click="memberAnswer(item.id,list.questionId,list.sortOrder)" />
                                 <div class="checkmark" ng-bind="item.answer"></div>
                             </label>
                         </div>
                     </div>
-                    <a class="btn-primary btn-continue" ng-disabled="filters.sortOrder == 1" ng-class="filters.sortOrder == 1 ? 'submit-disabled' : ''" ng-click="goToQuestion(filters.sortOrder - 1)">Previous</a>
+                    <a class="btn-primary btn-continue" ng-hide="filters.sortOrder == 1" ng-class="filters.sortOrder == 1 ? 'submit-disabled' : ''" ng-click="goToQuestion(filters.sortOrder - 1)">Previous</a>
                     <a class="btn-primary btn-continue" ng-hide="filters.sortOrder == totelQuestion" ng-class="filters.sortOrder == totelQuestion ? 'submit-disabled' : ''" ng-click="goToQuestion(filters.sortOrder + 1)">Next</a>
-                    <a  ng-class="filters.sortOrder == totelQuestion ? 'btn-highlight' : ''" ng-click="submitQuiz()" class="btn-primary btn-continue">Finish</a>
+                    <a ng-class="filters.sortOrder == totelQuestion ? 'btn-highlight' : ''" ng-click="submitQuiz()" class="btn-primary btn-continue">Finish</a>
                     <div id="divLoader" ng-show="loading">
                         <img src="Content/images/ajax-loader.gif" class="ajax-loader" width="30" height="30" alt="loader icon" />
                     </div>
@@ -85,7 +79,28 @@
         $(document).ready(function() {
 
             $("#liQuizzes").addClass("active");
+
+            document.addEventListener('contextmenu', event => event.preventDefault());
+
+            $(document).keydown(function (event) {
+                if (event.keyCode == 123) { // Prevent F12
+                    return false;
+                } else if (event.ctrlKey && event.shiftKey && event.keyCode == 73) { // Prevent Ctrl+Shift+I        
+                    return false;
+                }
+                else             
+                    if (event.ctrlKey && event.keyCode == 85) { // "U" key
+                        return false;
+                }
+            });
+
+            window.onbeforeunload = popup;
+
+            function popup() {
+                return 'We see you are leaving the site';
+            }
         });
+
         var sortOrder = @(ViewBag.SortOrder);
         var memberResultId = @(ViewBag.MemberResultId);
         var totelQuestion = @(ViewBag.totelQuestion);
@@ -140,7 +155,7 @@
                              } else {
                                  display.textContent = minutes + ":" + seconds + " minutes left";
                              }
-                                
+
                             if (--timer < 0) {
                                 //timer = duration;
                                 $scope.quizTimeOut = true;
@@ -152,17 +167,13 @@
                         }, 1000);
                     }
 
-                    window.onload = function () {
-                       
-                    };
-
                     $scope.goToQuestion = function (questionNumber) {
 
                         if ($scope.quizTimeOut) {
                             window.location.href = '@(Url.RouteUrl("quizthankyou"))';
                             return;
                         }
-                            
+
                         if (questionNumber > 0 && questionNumber <= $scope.totelQuestion) {
                             //update member question numbers
                             if ($scope.list.quizAnswerId === null) {
@@ -207,10 +218,7 @@
                                         else
                                             window.location.href = $scope.submitResult.redirect;
                                     }
-                                        
-                                        
                                 }
-
                             });
                     }
 
