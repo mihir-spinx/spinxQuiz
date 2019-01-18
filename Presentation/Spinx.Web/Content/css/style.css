@@ -89,7 +89,7 @@ footer section{position:relative;z-index:3;}
 .f-logo{display:block;margin:0px 0px 25px;width:100%;float:left;}
 .f-logo a{display:inline-block;float:left;}
 .f-logo img{display:block;max-width:176px;}
-.copyright{padding:25px 0px 30px;font-size:12px;line-height:14px;border-top:1px solid rgba(255,255,255,0.2);}
+.copyright{padding:25px 0px 30px;font-size:12px;line-height:14px;}
 .copyright .f-left span{display:inline-block;margin-right:10px;}
 .copyright .f-left a{padding:0px 10px;}
 .copyright a{display:inline-block;color:#FFFFFF;text-decoration:none;}
