@@ -14,13 +14,13 @@
 
 <!-- Job Board: Two column section  -->
 @*<section class="cmn-banner-links">
-    <div class="clearfix fix-wrap">
-        <a href="javascript:void(0);" class="toggle-link">Filter</a>
-        <span class="welcome"></span>
+        <div class="clearfix fix-wrap">
+            <a href="javascript:void(0);" class="toggle-link">Filter</a>
+            <span class="welcome"></span>
 
-        @Html.Partial("_ResourcesMenu")
-    </div>
-</section>*@
+            @Html.Partial("_ResourcesMenu")
+        </div>
+    </section>*@
 
 <section class="quiz-detail-wrap">
     <div class="clearfix fix-wrap">
@@ -63,7 +63,7 @@
 
                 <div class="short-quiz">
                     <a href="resources/question/@(ViewBag.slug)" class="btn-primary btn-continue">Start</a>
-                    <a href="quiz" class="btn-primary btn-continue">Cancel</a>                  
+                    <a href="quiz" class="btn-primary btn-continue">Cancel</a>
                 </div>
 
             </div>
@@ -77,19 +77,82 @@
         $(document).ready(function () {
             filterLinks();
             $("#liQuizzes").addClass("active");
+
+            //document.addEventListener('contextmenu', event => event.preventDefault());
+
+            $(document).keydown(function (event) {
+                if (event.keyCode == 123) { // Prevent F12
+                    return false;
+                }
+                else if (event.ctrlKey && event.shiftKey && event.keyCode == 73) { // Prevent Ctrl+Shift+I
+                    return false;
+                }
+                else if (event.ctrlKey && event.keyCode == 85) { // "U" key
+                    return false;
+                }
+                else if (event.ctrlKey && event.keyCode == 83) { // "S" key
+                    return false;
+                }
+                else if (event.ctrlKey && event.keyCode == 78) { // "N" key
+                    return false;
+                }
+                else if (event.altKey && event.keyCode == 18) { // Prevent Alt
+                    return false;
+                }
+                else if (event.ctrlKey && event.keyCode == 17) { // Prevent ctrl
+                    return false;
+                }
+                else if (event.shiftKey && event.keyCode == 16) { // Prevent shift
+                    return false;
+                }
+                else if (event.ctrlKey && event.keyCode == 65) { // "A" key
+                    return false;
+                }
+                else if (event.ctrlKey && event.keyCode == 67) { // "A" key
+                    return false;
+                }
+                else if (event.ctrlKey && event.keyCode == 86) { // "A" key
+                    return false;
+                }
+
+            });
+
+            //document.addEventListener("visibilitychange", function () {
+            //    if (document.hidden) {
+            //        popup();
+            //    } else {
+            //        alert("Browser tab is visible");
+            //    }
+            //});
+
+            //$(window).blur(function (e) {
+            //    confirm("We see you are leaving the site.\nAre you sure want to leave?");
+            //});
+
+
+            //document.addEventListener('visibilitychange', function(e) {
+            //    alert(document.hidden);
+            //});
+
+            //window.onbeforeunload = popup;
+            // window.blur = popup;
+
+            //function popup() {
+            //    return 'We see you are leaving the site';
+            //}
         });
 
         function CalculateResult(TotalQuestion) {
             var TotalCorrectAnswers = 0;
 
             for (var i = 1; i <= TotalQuestion; i++) {
-                if ($("input:radio[name='" + i + "']:checked").val() == $("#hdnAns" + i).val() && $("#hdnAns" + i).val() != "" && typeof($("#hdnAns" + i).val()) !="undefined") {
+                if ($("input:radio[name='" + i + "']:checked").val() == $("#hdnAns" + i).val() && $("#hdnAns" + i).val() != "" && typeof ($("#hdnAns" + i).val()) != "undefined") {
                     $("#imgRightAns" + $("#hdnAns" + i).data("qid") + $("#hdnAns" + i).val()).show();
                     TotalCorrectAnswers++;
                 }
                 else {
                     $("input:radio[name='" + i + "']:checked").siblings(".wrong-img").show();
-                    $("#imgRightAns" + $("#hdnAns" + i).data("qid") +  $("#hdnAns" + i).val()).show();
+                    $("#imgRightAns" + $("#hdnAns" + i).data("qid") + $("#hdnAns" + i).val()).show();
                 }
                 $("input:radio[name='" + i + "']").each(function () {
                     $(this).hide();
